@@ -101,7 +101,7 @@ function ixCard(x){
 }
 function iniCard(i, showCountry=true){
   return `<article class="ini">
-    <div class="who">${showCountry?`${flag(i.c,'sm')}<a href="${href('country/'+i.c.toLowerCase())}">${esc(cname(i.c))}</a> · `:''}<span class="theme">${esc(S.THEME[i.theme]||'')}</span><span class="y num">${esc(i.y||'')}</span></div>
+    <div class="who">${showCountry?`${flag(i.c,'sm')}<a href="${href('country/'+i.c.toLowerCase())}">${esc(cname(i.c))}</a> · `:''}<span class="theme">${esc(S.THEME[i.theme]||'')}</span><span class="y num" dir="ltr">${esc(i.y||'')}</span></div>
     <h3>${esc(L(i,'t'))}</h3><p>${esc(L(i,'d'))}</p>
     ${i.impact?`<div class="impact"><small>${S.impact}</small>${esc(L(i,'impact'))}</div>`:''}
     <a class="open" href="${esc(i.u)}" target="_blank" rel="noopener">${S.source} ${I.ext}</a></article>`;
@@ -204,7 +204,7 @@ async function shareCard(x){
 }
 
 /* ---------- pages ---------- */
-function pageHome(){
+function pageNews(){
   const d1 = lensed(recent(1)), st = LIVE.stats||{};
   const ranked = Object.entries(C).filter(([,d])=>d[3]).sort((a,b)=>a[1][3]-b[1][3]);
   const gulf = ranked.filter(([,d])=>d[4]==='gulf');
@@ -217,7 +217,8 @@ function pageHome(){
     <div class="obs-head">
       <div><span class="kicker live">${S.obsKicker} · ${LIVE.updated?S.lastFetch+' '+agoLong(LIVE.updated):'—'}</span>
         <h1>${LENS?esc(cname(LENS))+' · ':''}${S.obsTitle}</h1>
-        <p>${S.obsLede(SRC.length)}</p></div>
+        <p>${S.obsLede(SRC.length)}</p>
+        <nav class="subtabs"><a href="${href('news')}" aria-current="page">${S.wireTitle}</a><a href="${href('analysis')}">${S.nav.analysis}</a><a href="${href('live')}">${S.allWire}</a><a href="${href('sources')}">${S.nav.sources}</a></nav></div>
       <div class="counters">
         <div><b>${d1.length}</b><span>${S.cnt24}</span></div>
         <div><b>${outlets}</b><span>${S.cntOutlets}</span></div>
@@ -241,15 +242,7 @@ function pageHome(){
     <div class="panel"><h3>${S.gccTitle}</h3><p class="sub">${S.gccSub}</p>
       <div class="rank">${gulf.map(([c,d])=>`<a href="${href('country/'+c.toLowerCase())}" class="${c==='SA'?'me':''}"><span class="i">${d[3]}</span>${flag(c,'sm')}<span class="nm">${esc(cname(c))}</span><span class="bar-in"><i style="width:${(d[2]*100).toFixed(1)}%"></i></span><span class="num">${d[2].toFixed(4)}</span></a>`).join('')}</div></div>
   </div></section>
-  <section class="blk wrap"><div class="sh"><h2>${S.indicesTitle}</h2><p>${S.indicesSub}</p><a class="more" href="${href('indices')}">${S.allIndices}</a></div>
-    <div class="board">${IX.slice(0,8).map(ixCard).join('')}</div></section>
-  <section class="blk wrap"><div class="sh"><h2>${S.initTitle}</h2><p>${S.initSub}</p><a class="more" href="${href('initiatives')}">${S.allInits}</a></div>
-    <div class="inits">${['SA','AE','EE','KR','OM','FR'].map(c=>P[c]&&P[c].initiatives[0]?iniCard({...P[c].initiatives[0],c}):'').join('')}</div></section>
-  <section class="cta"><div class="wrap">
-    <div><span class="kicker">${S.labCtaK}</span><h2 style="margin-top:8px">${S.labCtaT}</h2><p>${S.labCtaP}</p>
-      <div class="acts2"><a class="btn pri" href="${href('lab/tool')}">${S.labOpen}</a><a class="btn" href="${href('lab/sim')}">${S.labSim}</a></div></div>
-    <div class="mini" aria-hidden="true">${window.CXK_LabMini?window.CXK_LabMini(LANG):''}</div>
-  </div></section>`;
+`;
   const box=$('#liveMap'); let mode='live'; drawMap(box,{mode});
   $('#mseg').addEventListener('click',e=>{ const b=e.target.closest('[data-m]'); if(!b) return; mode=b.dataset.m; $$('#mseg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); box.dataset.drawn=''; drawMap(box,{mode}); });
   const renderWire=()=>{ const l=lensed(LIVE.items).filter(x=>wfilter(tab,x)); $('#wire').innerHTML = (l.slice(0,shown).map(wireItem).join('')||`<p class="wnote">${S.noWire}</p>`) + (l.length>shown?`<div class="wmore"><button class="btn sm" type="button" id="wmore">${S.showMore(l.length-shown)}</button></div>`:'') + `<p class="wnote">${S.wireNote}</p>`; };
@@ -257,6 +250,37 @@ function pageHome(){
   $('#wtabs').addEventListener('click',e=>{ const b=e.target.closest('[data-k]'); if(!b) return; tab=b.dataset.k; shown=40; $$('#wtabs button').forEach(x=>x.setAttribute('aria-pressed',x===b)); renderWire(); });
   $('#wire').addEventListener('click',e=>{ if(e.target.id==='wmore'){ shown+=40; renderWire(); } });
   linkWireToMap($('#wire'), box);
+}
+
+function pageHome(){
+  const CT=window.CXK_Catalog?window.CXK_Catalog(LANG):null, icon=window.CXK_Icon||(()=>''), K=window.CXK_KIT||{patterns:[],principles:[]};
+  const pod=window.CXK_PatternOfDay?window.CXK_PatternOfDay(LANG):null, en=LANG==='en', li=en?1:0;
+  const needs=['tool','voc','msg','prio','survey','sim','calc','maturity'];
+  const ov=(LENS?items.filter(i=>i.c===LENS):items).slice(0,5), wl=lensed(LIVE.items).slice(0,6);
+  const inits=['EE','SG','AE','KR','DK','SA'].map(c=>P[c]&&P[c].initiatives&&P[c].initiatives[0]?{...P[c].initiatives[0],c}:null).filter(Boolean).slice(0,3);
+  const outlets=(LIVE.stats||{}).outlets_14d||new Set(LIVE.items.map(x=>x.s)).size;
+  main.innerHTML = `<div class="wrap">
+    <section class="hero">
+      <div class="hcopy"><span class="kicker">${S.homeK}</span><h1>${S.homeT}</h1><p>${S.homeP}</p>
+        <div class="acts2"><a class="btn pri" href="${href('tools/tool')}">${S.homeCta1}</a><a class="btn" href="${href('tools')}">${S.homeCta2}</a></div>
+        <dl class="hstats"><div><dt>${S.hs1}</dt><dd>8</dd></div><div><dt>${S.hs2}</dt><dd>${K.patterns.length}</dd></div><div><dt>${S.hs3}</dt><dd>193</dd></div><div><dt>${S.hs4}</dt><dd>${outlets||'—'}</dd></div></dl></div>
+      <figure class="hfig"><figcaption><b>${S.miniT}</b><span>${S.miniCap}</span></figcaption>${window.CXK_LabMini?window.CXK_LabMini(LANG):''}<a class="srcl" href="${href('tools/tool')}">${S.miniTry}</a></figure>
+    </section>
+  </div>
+  <section class="blk wrap"><div class="sh"><h2>${S.needT}</h2><p>${S.needSub}</p><a class="more" href="${href('tools')}">${S.allTools}</a></div>
+    <div class="needs">${CT?needs.map(id=>{ const it=CT.items[id]; return `<a class="need" href="${href('tools/'+id)}"><span class="ti">${icon(it[3])}</span><b>${esc(it[2])}</b><span>${esc(it[0])}</span></a>`; }).join(''):''}</div></section>
+  <section class="blk wrap"><div class="pod-row">
+    ${pod?`<article class="pod"><span class="kicker">${S.podT}</span><span class="stg">${esc((K.stages[pod.st]||[])[li]||'')}</span><h2>${esc(en?pod.n_en:pod.n)}</h2><p>${esc(en?pod.sym_en:pod.sym)}</p><div class="pfix"><b>${S.podFix}</b><p>${esc(en?pod.fix_en:pod.fix)}</p></div><a class="srcl" href="${href('learn/patterns/'+pod.id)}">${S.podMore}</a></article>`:''}
+    <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['method','patterns','principles','library','kit'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
+  </div></section>
+  <section class="blk wrap"><div class="sh"><h2>${S.worldT}</h2><p>${S.worldSub}</p><a class="more" href="${href('atlas')}">${S.allCountries2}</a></div>
+    <div class="inits">${inits.map(i=>iniCard(i)).join('')}</div>
+    <div class="board" style="margin-top:14px">${IX.slice(0,4).map(ixCard).join('')}</div>
+    <p class="morelinks"><a href="${href('initiatives')}">${S.allInits}</a><a href="${href('indices')}">${S.allIndices}</a></p></section>
+  <section class="blk wrap"><div class="sh"><h2>${S.newsT}</h2><p>${S.newsSub(outlets)}</p><a class="more" href="${href('news')}">${S.allNews}</a></div>
+    <div class="two"><div class="panel"><h3>${S.nav.analysis}</h3><div class="ovw one">${ov.map((i,n)=>`<a class="ov" href="${href('item/'+i.id)}"><span class="i">${String(n+1).padStart(2,'0')}</span><span><h3>${esc(L(i,'title'))}</h3><span class="mt"><span>${esc(i.source)}</span>${i.c&&i.c!=='WW'?`<span class="ctry">${flag(i.c,'sm')}${esc(cname(i.c))}</span>`:`<span>${S.world}</span>`}<span class="num">${dLabel(i.date)}</span></span></span></a>`).join('')}</div></div>
+      <div class="panel"><h3>${S.wireTitle}</h3><div class="wire" style="max-height:none">${wl.map(wireItem).join('')||`<p class="wnote">${S.noWire}</p>`}</div></div></div></section>`;
+  window._liveRefresh=null;
 }
 
 function pageLive(){
@@ -409,14 +433,16 @@ function pageSources(){
 }
 
 function pageAbout(){
-  const ar = `<h2>طبقتان للمحتوى</h2><ul><li><b>البث المباشر:</b> عناوين تُجلب آلياً كل 30 دقيقة من GDELT وطبعات أخبار Google والخلاصات المسجلة، وتُصنف آلياً بالدولة والموضوع والنبرة. تظهر بلغتها الأصلية مع رابط المنفذ.</li><li><b>التحليلات:</b> مواد يختارها فريق التحرير من البث، ويقرأ مصدرها الأصلي، ويكتب ملخصاً بالعربية والإنجليزية بأرقامه كما وردت.</li></ul>
-    <h2>قواعد النقل</h2><ul><li>لا ننشر رقماً لم يرد في المصدر نفسه، ولكل مادة رابط مصدرها وتاريخ نشره.</li><li>العناوين في البث ملك منافذها، ونعرضها بعنوانها ورابطها فقط.</li><li>التصنيف الآلي للدولة والموضوع والنبرة يعتمد على كلمات مفتاحية وقد يخطئ، فارجع دائماً إلى المصدر.</li></ul>
-    <h2>الخريطة</h2><p>وضع «النشاط الإعلامي» يلوّن الدول بعدد العناوين عنها. ووضع «EGDI» يلوّنها بدرجتها في مؤشر الأمم المتحدة لتطوير الحكومة الإلكترونية 2024.</p>
-    <h2>مختبر الرحلة</h2><p>مؤشر الاحتكاك في المختبر نموذج تقديري يجمع الزمن والتسليمات وتكرار البيانات وتغيير القناة والمشاعر، ويهدف إلى توجيه النقاش لا إلى إصدار حكم نهائي. الأمثلة توضيحية عامة.</p>`;
-  const en = `<h2>Two layers of content</h2><ul><li><b>Live wire:</b> headlines fetched every 30 minutes from GDELT, Google News editions and registered feeds, tagged automatically by country, topic and tone. They appear in their original language with a link to the outlet.</li><li><b>Analysis:</b> items our editors pick from the wire, read at the original source and summarise in Arabic and English with the figures as published.</li></ul>
-    <h2>Rules</h2><ul><li>We never publish a number that is not in the source itself; every item links to its source and date.</li><li>Wire headlines belong to their outlets; we show only the headline and link.</li><li>Automatic tagging of country, topic and tone is keyword-based and can be wrong; always check the source.</li></ul>
-    <h2>The map</h2><p>"News activity" shades countries by the number of headlines about them. "EGDI" shades them by their 2024 UN E-Government Development Index score.</p>
-    <h2>Journey Lab</h2><p>The lab's friction index is an estimate that combines time, handoffs, repeated data, channel switches and emotion. It is meant to guide discussion, not to deliver a final verdict. Examples are generic.</p>`;
+  const ar = `<h2>ما هذا الموقع</h2><p>منصة عربية مستقلة لتجربة العميل والمستفيد. تجمع أدوات عملية تعمل في المتصفح، ومعرفة لتصميم الرحلات وتحسينها، ومتابعة لما تفعله الدول وما يُنشر عن تجربة العميل.</p>
+    <h2>الأدوات</h2><p>تعمل كل الأدوات داخل متصفحك، ولا تُرسل بياناتك أو نصوصك إلى أي خادم. مؤشر التعثر في أداة رسم الرحلة نموذج تقديري يجمع الزمن والتحويلات بين الجهات وتكرار البيانات وتغيير القناة والمشاعر، وهدفه توجيه النقاش لا إصدار حكم نهائي. وتصنيف ملاحظات العملاء وفحص الرسائل يعتمدان على كلمات دالة، فراجع النتائج قبل اتخاذ القرار. الأمثلة كلها عامة ولا تخص جهة بعينها.</p>
+    <h2>الأخبار</h2><ul><li><b>آخر الأخبار:</b> عناوين تُجمع آلياً كل 30 دقيقة من GDELT ونسخ Google News والمصادر المسجلة، وتُصنف آلياً بالدولة والموضوع والاتجاه. تظهر بلغتها الأصلية مع رابط مصدرها.</li><li><b>قراءات مختارة:</b> مواد يختارها فريق التحرير، ويقرأ مصدرها الأصلي، ويلخصها بالعربية والإنجليزية بأرقامها كما وردت.</li></ul>
+    <h2>قواعد النقل</h2><ul><li>لا ننشر رقماً لم يرد في المصدر نفسه، ولكل مادة رابط مصدرها وتاريخ نشره.</li><li>العناوين ملك مواقعها، ونعرض العنوان والرابط فقط.</li><li>التصنيف الآلي قد يخطئ، فارجع دائماً إلى المصدر.</li></ul>
+    <h2>الخريطة</h2><p>«حضور الدول في الأخبار» يلوّن الدول بعدد العناوين عنها. و«مؤشر الحكومة الإلكترونية» يلوّنها بدرجتها في مؤشر الأمم المتحدة لتطوير الحكومة الإلكترونية (EGDI) 2024.</p>`;
+  const en = `<h2>What this site is</h2><p>An independent platform for customer and citizen experience. It brings together practical tools that run in your browser, knowledge for designing and improving journeys, and a view of what countries are doing and what's being published about customer experience.</p>
+    <h2>Tools</h2><p>Every tool runs in your browser; your data and text are never sent to a server. The friction index in the journey tool is an estimate combining time, handoffs, repeated data, channel switches and emotion, meant to guide discussion rather than deliver a verdict. Comment tagging and message checks are keyword-based, so review results before acting on them. All examples are generic.</p>
+    <h2>News</h2><ul><li><b>Latest news:</b> headlines gathered every 30 minutes from GDELT, Google News editions and registered sources, tagged automatically by country, topic and direction. They appear in their original language with a link to the source.</li><li><b>Editor's picks:</b> items our editors select, read at the original source and summarise in Arabic and English with the figures as published.</li></ul>
+    <h2>Rules</h2><ul><li>We never publish a number that isn't in the source itself; every item links to its source and date.</li><li>Headlines belong to their publishers; we show only the headline and link.</li><li>Automatic tagging can be wrong; always check the source.</li></ul>
+    <h2>The map</h2><p>"Countries in the news" shades countries by headlines about them. "E-government index" shades them by their 2024 UN E-Government Development Index (EGDI) score.</p>`;
   main.innerHTML = `<div class="wrap"><header class="pagehead"><span class="kicker">${S.aboutK}</span><h1>${S.aboutTitle}</h1></header><div class="prose">${LANG==='en'?en:ar}</div></div>`;
 }
 
@@ -425,16 +451,16 @@ function renderChrome(){
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==='en'?'ltr':'rtl';
   $('.skip').textContent=S.skip;
   $('#brandT').textContent=S.brand; $('#brandS').textContent=S.brandSub;
-  $('#nav').innerHTML = ['home','live','atlas','analysis','indices','initiatives','lab','sources'].map(k=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${k==='home'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
+  $('#nav').innerHTML = ['home','tools','learn','atlas','indices','initiatives','news'].map(k=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${k==='news'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
   $('#lensSel').innerHTML = `<option value="">${S.lensAll}</option>` + Object.entries(C).filter(([,d])=>d[3]).sort((a,b)=>cname(a[0]).localeCompare(cname(b[0]),LANG)).map(([c])=>`<option value="${c}" ${c===LENS?'selected':''}>${esc(cname(c))}</option>`).join('');
   $('#lensSel').setAttribute('aria-label',S.lens);
   $('#langBtn').innerHTML = `<span class="tx">${S.langSwitch}</span><span aria-hidden="true" class="ab">${LANG==='en'?'ع':'EN'}</span>`; $('#langBtn').setAttribute('aria-label',S.langLabel+': '+S.langSwitch);
   $('#themeBtn').innerHTML = I[THEMEPREF==='light'?'sun':THEMEPREF==='dark'?'moon':'auto'] + `<span class="tx">${S.theme[THEMEPREF]}</span>`; $('#themeBtn').setAttribute('aria-label',S.themeLabel+': '+S.theme[THEMEPREF]);
   $('#shareBtn').setAttribute('aria-label',S.shareSite); $('#menuBtn').setAttribute('aria-label',S.menu);
-  $('#bnav').innerHTML = [['','home','<path d="M3 11 12 4l9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/>'],['live','live','<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>'],['atlas','atlas','<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>'],['lab','lab','<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 14h9"/>']].map(([p,k,svg])=>`<a href="${href(p)}" data-r="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svg}</svg>${S.navShort[k]}</a>`).join('') + `<button type="button" id="bmore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>${S.navShort.more}</button>`;
+  $('#bnav').innerHTML = [['','home','<path d="M3 11 12 4l9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/>'],['tools','tools','<path d="M14.5 6.5a4 4 0 0 0-5.3 5.2L4 17v3h3l5.3-5.2a4 4 0 0 0 5.2-5.3l-2.4 2.4-2.6-.6-.6-2.6z"/>'],['learn','learn','<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'],['news','news','<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>']].map(([p,k,svg])=>`<a href="${href(p)}" data-r="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svg}</svg>${S.navShort[k]}</a>`).join('') + `<button type="button" id="bmore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>${S.navShort.more}</button>`;
   $('#bmore').addEventListener('click',()=>{ const o=$('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded',o); });
   $('#footP').textContent=S.footP;
-  $('#footLinks').innerHTML=['live','atlas','analysis','indices','initiatives','lab','sources','about'].map(k=>`<a href="${href(k)}">${S.nav[k]}</a>`).join('');
+  $('#footLinks').innerHTML=['tools','learn','atlas','indices','initiatives','news','analysis','sources','about'].map(k=>`<a href="${href(k)}">${S.nav[k]}</a>`).join('');
   renderTicker(); footMeta(); statusBar();
 }
 function applyTheme(){
@@ -466,21 +492,23 @@ function route(keepScroll){
   if(lang!==LANG || !route.inited){ LANG=lang; S=I18N[LANG]; route.inited=true; try{ localStorage.setItem('cxk-lang',LANG); }catch(e){} renderChrome(); }
   const [a,b,c3] = parts;
   window._liveRefresh=null;
-  document.title = LANG==='en' ? 'CX Knowledge | Customer Experience Observatory' : 'CX Knowledge | مرصد تجربة العميل';
-  const navKey = a==='country'?'atlas':(a==='item'||a==='news')?'analysis':a==='journey'?'lab':(a||'home');
+  document.title = LANG==='en' ? 'CX Knowledge | Customer Experience' : 'CX Knowledge | معرفة تجربة العميل';
+  const navKey = a==='country'?'atlas':(a==='item'||a==='analysis'||a==='live'||a==='sources')?'news':(a==='lab'||a==='journey')?'tools':(a||'home');
   $$('#nav a, #bnav a').forEach(x=>{ if(x.dataset.r===navKey) x.setAttribute('aria-current','page'); else x.removeAttribute('aria-current'); });
   $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false'); $('#tip').hidden=true;
   main.classList.remove('fade'); void main.offsetWidth; main.classList.add('fade');
   if(!a) pageHome();
+  else if(a==='news') pageNews();
   else if(a==='live') pageLive();
   else if(a==='atlas') pageAtlas();
   else if(a==='country' && b) pageCountry(b);
-  else if(a==='analysis'||a==='news') pageAnalysis();
+  else if(a==='analysis') pageAnalysis();
   else if(a==='item' && b) pageAnalysis(b);
   else if(a==='indices') pageIndices();
   else if(a==='initiatives') pageInitiatives();
   else if(a==='sources') pageSources();
-  else if(a==='lab'||a==='journey') { if(window.CXK_Lab) window.CXK_Lab(main,{tab:b,arg:c3}); }
+  else if(a==='tools'||a==='learn') { if(window.CXK_Lab) window.CXK_Lab(main,{group:a,tab:b,arg:c3}); }
+  else if(a==='lab'||a==='journey') { const LG=['method','library','kit','patterns','principles']; if(window.CXK_Lab) window.CXK_Lab(main,{group:LG.includes(b)?'learn':'tools',tab:b||'tool',arg:c3}); }
   else if(a==='about') pageAbout();
   else if(a.length===2 && C[a.toUpperCase()]) pageCountry(a);
   else pageHome();

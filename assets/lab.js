@@ -9,13 +9,13 @@ const T = {
 ar:{ tabsNote:"", samples:{bank:"بنك: فتح حساب رقمي",flight:"طيران: إلغاء وإعادة حجز",telecom:"اتصالات: نقل رقم",health:"صحة: موعد ومراجعة",ecommerce:"تجارة إلكترونية: إرجاع",passport:"حكومي عام: تجديد جواز",blank:"رحلة فارغة"},
   start:"ابدأ من نموذج…", addStage:"+ مرحلة", exportPng:"تصدير صورة", saveFile:"حفظ ملف", openFile:"فتح ملف", print:"طباعة", shareLink:"رابط للمشاركة", linkCopied:"نُسخ رابط الرحلة",
   name:"اسم الرحلة", persona:"المستفيد (الشخصية الافتراضية)", stages:"المراحل", moveR:"نقل للأمام", moveL:"نقل للخلف", del:"حذف المرحلة", newStage:n=>`المرحلة ${n}`,
-  lanes:{goal:"هدف المستفيد",act:"ما يفعله المستفيد",tp:"نقاط التواصل والقنوات",sys:"الأنظمة والجهات خلف الواجهة",t:"المدة (بالساعات، مع الانتظار)",h:"عدد التسليمات بين الجهات",r:"مرات تكرار البيانات",ch:"تغيير القناة",emo:"المشاعر",pain:"نقاط الألم",opp:"الفرص",kpi:"المؤشرات"},
+  lanes:{goal:"هدف المستفيد",act:"ما يفعله المستفيد",tp:"نقاط التواصل والقنوات",sys:"الأنظمة والجهات خلف الواجهة",t:"المدة (بالساعات، مع الانتظار)",h:"مرات التحويل بين الجهات",r:"مرات تكرار البيانات",ch:"تغيير القناة",emo:"المشاعر",pain:"نقاط الألم",opp:"الفرص",kpi:"المؤشرات"},
   chYes:"نعم، ينتقل لقناة أخرى", emo:[[2,"سعيد جداً"],[1,"راضٍ"],[0,"محايد"],[-1,"منزعج"],[-2,"محبط جداً"]],
   note:"تُحفظ الرحلة تلقائياً في متصفحك فقط. «رابط للمشاركة» يضع الرحلة كاملة داخل الرابط دون رفعها لأي خادم.",
-  anTitle:"كاشف نقاط الانكسار", anSub:"يحسب المختبر مؤشر الاحتكاك لكل مرحلة من الزمن والتسليمات وتكرار البيانات وتغيير القناة والمشاعر، ويحدد المراحل التي ينكسر فيها مسار المستفيد.",
-  index:"مؤشر الاحتكاك", total:"الزمن الكلي", handoffs:"التسليمات", repeats:"تكرار البيانات", switches:"تغيير القناة", bpCount:"نقاط الانكسار",
+  anTitle:"كاشف نقاط الانكسار", anSub:"تحسب الأداة مؤشر التعثر لكل مرحلة من الزمن والتحويلات وتكرار البيانات وتغيير القناة والمشاعر، ويحدد المراحل التي ينكسر فيها مسار المستفيد.",
+  index:"مؤشر التعثر", total:"الزمن الكلي", handoffs:"التحويلات", repeats:"تكرار البيانات", switches:"تغيير القناة", bpCount:"نقاط الانكسار",
   bands:[[30,"رحلة سلسة"],[50,"رحلة مقبولة"],[70,"رحلة متعثرة"],[101,"رحلة منكسرة"]],
-  perStage:"الاحتكاك في كل مرحلة", noBp:"لا توجد نقاط انكسار واضحة. راجع المراحل الأعلى احتكاكاً لتحسينها أكثر.",
+  perStage:"التعثر في كل مرحلة", noBp:"لا توجد نقاط انكسار واضحة. راجع المراحل الأعلى تعثراً لتحسينها أكثر.",
   why:{h:n=>`ينتقل الطلب بين ${n} ${n>1?'جهات':'جهة'}`,r:n=>`يكرر المستفيد بياناته ${n} ${n>1?'مرات':'مرة'}`,ch:()=>"ينتقل المستفيد إلى قناة أخرى",t:v=>`يستغرق ${v}`,emo:()=>"انخفاض حاد في مشاعر المستفيد"},
   fix:{h:"عيّن مالكاً واحداً للحالة، وانقل سجلها كاملاً مع الطلب.",r:"طبّق مبدأ «مرة واحدة فقط»: اجلب البيانات المتاحة آلياً واملأ النماذج مسبقاً.",ch:"أكمل الرحلة في القناة نفسها، أو انقل السياق معها إن لزم التحويل.",t:"أظهر الحالة والزمن المتوقع، وأرسل إشعاراً استباقياً عند كل تغيير.",emo:"صمّم لحظة الحقيقة: رسالة واضحة وخيار حل فوري في هذه المرحلة."},
   fixT:"المعالجة المقترحة", hrs:v=>v<1?`${Math.round(v*60)} دقيقة`:v<48?`${+v.toFixed(1)} ساعة`:`${+(v/24).toFixed(1)} يوم`,
@@ -28,7 +28,7 @@ ar:{ tabsNote:"", samples:{bank:"بنك: فتح حساب رقمي",flight:"طي�
     rc:"وفورات تكرار التواصل",rcD:"التكلفة التي توفرها معالجة أسباب التواصل المتكرر.",cont:"التواصلات شهرياً",rep:"نسبة التكرار %",cost:"تكلفة التواصل الواحد",cut:"الخفض المستهدف %",rcOut:"وفورات سنوية",
     npsOut:(p,pa,d)=>`مروّجون ${p}% · محايدون ${pa}% · منتقدون ${d}%`},
   matIntro:"أجب عن 12 عبارة بصدق عن جهتك. تُحفظ الإجابات في متصفحك فقط.", matLevel:"المستوى", matRecs:"أولويات التحسين", matDone:n=>`أجبت عن ${n} من 12`,
-  intro:[["ارسم واكشف","ارسم رحلة واحصل على مؤشر الاحتكاك ونقاط الانكسار والمعالجة.","tool"],["عِش الرحلة","كن العميل في سيناريو حقيقي واتخذ قراراتك ثم شاهد أين انكسرت.","sim"],["قِس وقيّم","حاسبات المؤشرات وحجم العينة والعائد، وتقييم نضج جهتك.","calc"]],
+  intro:[["ارسم واكشف","ارسم رحلة واحصل على مؤشر التعثر ونقاط الانكسار والمعالجة.","tool"],["عِش الرحلة","كن العميل في سيناريو حقيقي واتخذ قراراتك ثم شاهد أين انكسرت.","sim"],["قِس وقيّم","حاسبات المؤشرات وحجم العينة والعائد، وتقييم نضج جهتك.","calc"]],
   templates:"قوالب جاهزة", templatesD:"ملفات CSV تفتح في Excel وGoogle Sheets.", download:"تنزيل", glossary:"المصطلحات", term:"المصطلح", termEn:"بالإنجليزية", def:"التعريف", searchTerm:"ابحث عن مصطلح", noTerm:"لا يوجد مصطلح مطابق.",
   kpiTitle:"مؤشرات قياس الرحلة", kpiSub:"اجمع بين مؤشر لرضا المستفيد ومؤشر للجهد ومؤشر للزمن ومؤشر للحل.", loaded:"تم تحميل النموذج", opened:"تم فتح الرحلة", badFile:"الملف ليس رحلة صالحة من هذه الأداة", exported:"تم تصدير الصورة", exportFail:"تعذّر تصدير الصورة؛ جرّب الطباعة", exporting:"جارٍ التصدير…", journey:"رحلة العميل" },
 en:{ samples:{bank:"Banking: digital account",flight:"Airline: cancellation & rebooking",telecom:"Telecom: number porting",health:"Health: appointment & visit",ecommerce:"E-commerce: return",passport:"Generic government: passport renewal",blank:"Blank journey"},
@@ -37,7 +37,7 @@ en:{ samples:{bank:"Banking: digital account",flight:"Airline: cancellation & re
   lanes:{goal:"Customer goal",act:"What the customer does",tp:"Touchpoints & channels",sys:"Backstage systems & teams",t:"Duration (hours, incl. waiting)",h:"Handoffs between teams",r:"Times data is repeated",ch:"Channel switch",emo:"Emotion",pain:"Pain points",opp:"Opportunities",kpi:"KPIs"},
   chYes:"Yes, moves to another channel", emo:[[2,"Delighted"],[1,"Satisfied"],[0,"Neutral"],[-1,"Annoyed"],[-2,"Frustrated"]],
   note:"Your journey is saved automatically in this browser only. \"Share link\" puts the whole journey inside the link without uploading it anywhere.",
-  anTitle:"Breakpoint detector", anSub:"The lab calculates a friction index for each stage from time, handoffs, repeated data, channel switches and emotion, and flags the stages where the customer's path breaks.",
+  anTitle:"Breakpoint detector", anSub:"The tool calculates a friction index for each stage from time, handoffs, repeated data, channel switches and emotion, and flags the stages where the customer's path breaks.",
   index:"Friction index", total:"Total time", handoffs:"Handoffs", repeats:"Repeated data", switches:"Channel switches", bpCount:"Breakpoints",
   bands:[[30,"Smooth journey"],[50,"Acceptable journey"],[70,"Struggling journey"],[101,"Broken journey"]],
   perStage:"Friction per stage", noBp:"No clear breakpoints. Review the highest-friction stages to improve further.",
@@ -132,7 +132,7 @@ function tool(host, X, arg){
   perI.addEventListener('input',()=>{ st.persona=perI.value; save(); });
   $('#jtAdd',host).addEventListener('click',()=>{ st.stages.push({n:t.newStage(st.stages.length+1),goal:'',act:'',tp:'',sys:'',pain:'',opp:'',kpi:'',t:0,h:0,r:0,ch:0,emo:0}); save(); render(); });
   $('#jtSample',host).addEventListener('change',e=>{ const v=e.target.value; if(!v) return; st=sampleState(v,X.LANG); save(); render(); e.target.value=''; X.toast(t.loaded); });
-  $('#jtLink',host).addEventListener('click',()=>{ const url=location.origin+location.pathname+X.href('lab/tool/'+b64e(st)); X.copy(url); });
+  $('#jtLink',host).addEventListener('click',()=>{ const url=location.origin+location.pathname+X.href('tools/tool/'+b64e(st)); X.copy(url); });
   $('#jtJson',host).addEventListener('click',()=>{ const blob=new Blob([JSON.stringify(st,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=(st.name||'journey').replace(/[\\/:*?"<>|]/g,'')+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); });
   $('#jtFile',host).addEventListener('change',e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const j=JSON.parse(r.result); if(!Array.isArray(j.stages)||!j.stages.length) throw 0; st=j; save(); render(); X.toast(t.opened); }catch(_){ X.toast(t.badFile); } }; r.readAsText(f); e.target.value=''; });
   $('#jtPrint',host).addEventListener('click',()=>window.print());
@@ -233,7 +233,7 @@ function method(host,X){ const t=T[X.LANG], L=X.L;
   host.innerHTML=`<div class="steps">${J.method.map((s,i)=>`<div class="step"><div class="no">${i+1}</div><div><h3>${esc(L(s,'t'))}</h3><p>${esc(L(s,'d'))}</p><div class="outs">${(X.LANG==='en'?s.out_en:s.out).map(o=>`<span>${esc(o)}</span>`).join('')}</div><p class="tp">${esc(L(s,'tip'))}</p></div></div>`).join('')}</div>
   <section class="blk" style="padding-top:20px"><div class="sh"><h2>${t.kpiTitle}</h2><p>${t.kpiSub}</p></div><div class="kpis">${J.kpis.map(k=>`<div class="kpi"><b>${esc(L(k,'n'))}</b><code>${esc(k.e)}</code><p>${esc(L(k,'d'))}</p></div>`).join('')}</div></section>`; }
 function library(host,X){ const L=X.L;
-  host.innerHTML=`<section class="blk" style="padding-top:24px"><div class="inits">${J.library.map(x=>`<article class="ini"><div class="who">${X.flag(x.c,'sm')}<a href="${X.href('country/'+x.c.toLowerCase())}">${esc(X.cname(x.c))}</a> · <span class="theme">${esc(L(x,'theme'))}</span><span class="y num">${esc(x.y)}</span></div><h3>${esc(L(x,'t'))}</h3><p>${esc(L(x,'d'))}</p><a class="open" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.o)} ${X.I.ext}</a></article>`).join('')}</div></section>`; }
+  host.innerHTML=`<section class="blk" style="padding-top:24px"><div class="inits">${J.library.map(x=>`<article class="ini"><div class="who">${X.flag(x.c,'sm')}<a href="${X.href('country/'+x.c.toLowerCase())}">${esc(X.cname(x.c))}</a> · <span class="theme">${esc(L(x,'theme'))}</span><span class="y num" dir="ltr">${esc(x.y)}</span></div><h3>${esc(L(x,'t'))}</h3><p>${esc(L(x,'d'))}</p><a class="open" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.o)} ${X.I.ext}</a></article>`).join('')}</div></section>`; }
 function kit(host,X){ const t=T[X.LANG], L=X.L, en=X.LANG==='en';
   host.innerHTML=`<section class="blk" style="padding-top:24px"><div class="sh"><h2>${t.templates}</h2><p>${t.templatesD}</p></div><div class="tpls">${J.templates.map(x=>`<div class="tpl"><b>${esc(L(x,'t'))}</b><p>${esc(L(x,'d'))}</p><a class="btn sm" href="templates/${x.f}.${en?'en':'ar'}.csv" download>${t.download}</a></div>`).join('')}</div></section>
   <section class="blk"><div class="sh"><h2>${t.glossary}</h2><label class="field"><span class="sr">${t.searchTerm}</span>${X.I.search}<input id="gq" type="search" placeholder="${t.searchTerm}" autocomplete="off"></label></div><div class="tablewrap"><table class="gloss"><thead><tr><th>${t.term}</th><th>${t.termEn}</th><th>${t.def}</th></tr></thead><tbody id="gl"></tbody></table></div></section>`;
@@ -241,16 +241,84 @@ function kit(host,X){ const t=T[X.LANG], L=X.L, en=X.LANG==='en';
   const r=q=>{ const n=norm(q); $('#gl',host).innerHTML=J.glossary.filter(g=>!n||norm(g.join(' ')).includes(n)).map(g=>`<tr><td>${esc(g[0])}</td><td>${esc(g[1])}</td><td>${esc(en?g[3]:g[2])}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">${t.noTerm}</td></tr>`; };
   r(''); $('#gq',host).addEventListener('input',e=>r(e.target.value)); }
 
-/* ---------- entry ---------- */
-window.CXK_Lab = function(main,{tab,arg}){
-  const X=window.CXK, S=X.S, t=T[X.LANG];
-  tab = tab||'tool'; if(tab==='journey') tab='tool';
-  const tabs=Object.entries(S.labTabs);
-  main.innerHTML=`<div class="wrap"><header class="pagehead"><span class="kicker">${S.labK}</span><h1>${S.labTitle}</h1><p>${S.labLede}</p></header>
-    <div class="lab-intro">${t.intro.map(([a,b,k])=>`<a href="${X.href('lab/'+k)}"><b>${a}</b><span>${b}</span></a>`).join('')}</div>
-    <nav class="jtabs" aria-label="${S.labTitle}">${tabs.map(([k,l])=>`<a href="${X.href('lab/'+k)}" ${k===tab?'aria-current="page"':''}>${l}</a>`).join('')}</nav><div id="labBody"></div></div>`;
+/* ---------- entry: الأدوات والمعرفة ---------- */
+const IC={
+ map:'<path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/>',
+ play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+ list:'<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h1M4 12h1M4 18h1"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+ grid:'<path d="M12 3v18M3 12h18"/><circle cx="7.5" cy="7.5" r="1.6"/><circle cx="16" cy="8" r="1.6"/><circle cx="8" cy="16.5" r="1.6"/>',
+ calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h2M12 18h4"/>',
+ radar:'<path d="M12 3 20 8.5 17 18H7L4 8.5z"/><path d="M12 8l4 2.5-1.5 4.5h-5L8 10.5z"/>',
+ steps:'<path d="M4 18h5v-4h5v-4h6"/><circle cx="4" cy="18" r="1"/>',
+ crack:'<path d="M4 12h5l2-4 2 8 2-4h5"/>',
+ star:'<path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.3 6L12 16.4 6.6 19.4l1.3-6L3.4 9.3l6-.7z"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>',
+ book:'<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'
+};
+const CAT={
+ ar:{
+  tools:{k:"الأدوات",t:"أدوات تجربة العميل",p:"أدوات تعمل في متصفحك مباشرة: ترسم الرحلة وتكشف تعثرها، وتحلل ملاحظات العملاء، وتفحص رسائلك، وترتب أولويات التحسين، وتصمم الاستبيان وتقيس النتائج. لا تحتاج حساباً، ولا تُرسل بياناتك إلى أي خادم.",
+   groups:[["صمّم الرحلة",["tool","sim"]],["اسمع العميل",["voc","survey"]],["تواصل بوضوح",["msg"]],["قرّر ونفّذ",["prio"]],["قِس وقيّم",["calc","maturity"]]]},
+  learn:{k:"المعرفة",t:"معرفة تجربة العميل",p:"ما تحتاجه لتصميم رحلة وتحسينها: منهجية من ثماني خطوات، وأنماط الانكسار المتكررة وعلاجها، ومبادئ التصميم، ورحلات حكومية من دول رائدة، وقوالب جاهزة ومعجم مصطلحات.",
+   groups:[["ابدأ هنا",["method"]],["افهم التعثر",["patterns","principles"]],["تعلّم من الدول",["library"]],["اعمل بها",["kit"]]]},
+  items:{
+   tool:["ارسم الرحلة","ارسم رحلة عميلك مرحلة مرحلة، وتحسب الأداة مؤشر التعثر وتحدد نقاط الانكسار وتقترح المعالجة.","أريد أن أرسم رحلة","map"],
+   sim:["جرّب الرحلة كعميل","كن العميل في سيناريو واقعي، واتخذ قراراتك، وشاهد أين انكسرت الرحلة وكيف كان ينبغي تصميمها.","أريد أن أفهم شعور العميل","play"],
+   voc:["حلّل ملاحظات العملاء","الصق الشكاوى أو التعليقات، وتصنّفها الأداة بالموضوع والنبرة وتربطها بأنماط الانكسار.","عندي ملاحظات وشكاوى كثيرة","chat"],
+   survey:["صمّم استبياناً","اختر اللحظة والمؤشر، وتكتب الأداة الأسئلة ومقاييسها ومتى ترسله.","أريد أن أقيس رأي العملاء","list"],
+   msg:["افحص رسالتك للعميل","الصق رسالة أو خطاب قرار، وتقيس الأداة وضوحه وتقترح التعديل، ومعها منشئ رسالة واضحة.","أكتب رسالة أو إشعاراً للعميل","mail"],
+   prio:["رتّب أولويات التحسين","قيّم نقاط الألم بالتكرار والأثر والجهد، وتظهر لك المكاسب السريعة والمشاريع الكبرى.","عندي مشاكل كثيرة ولا أعرف أين أبدأ","grid"],
+   calc:["حاسبات المؤشرات","صافي نقاط الترويج (NPS) ورضا العميل (CSAT) وجهده (CES)، وحجم العينة، وقيمة الاحتفاظ ووفورات تكرار التواصل.","أريد أن أحسب مؤشراتي","calc"],
+   maturity:["قيّم نضج جهتك","12 عبارة تظهر مستوى نضج تجربة العميل في جهتك وأولويات تطويرها.","أريد أن أعرف أين تقف جهتي","radar"],
+   method:["المنهجية","ثماني خطوات لتصميم رحلة العميل، من تحديد النطاق إلى القياس بعد التطبيق.","","steps"],
+   patterns:["أنماط الانكسار","16 نمطاً يتكرر فيها تعثر العملاء، ولكل نمط علامته وقياسه وعلاجه.","أريد أن أفهم لماذا تتعثر الرحلة","crack"],
+   principles:["مبادئ التصميم","عشرة مبادئ تشترك فيها الجهات الرائدة، ومع كل مبدأ سؤال لفريقك.","","star"],
+   library:["رحلات من الدول","رحلات حكومية صممتها دول رائدة حول أحداث الحياة، مع مصادرها.","","globe"],
+   kit:["القوالب والمصطلحات","قوالب CSV جاهزة للرحلة والشخصية والفجوات والمؤشرات، ومعجم مصطلحات.","","book"]
+  }},
+ en:{
+  tools:{k:"Tools",t:"Customer experience tools",p:"Tools that run right in your browser: map a journey and find where it breaks, analyse customer comments, check your messages, rank improvements, design a survey and measure the results. No account needed, and your data isn't sent to any server.",
+   groups:[["Design the journey",["tool","sim"]],["Listen to customers",["voc","survey"]],["Communicate clearly",["msg"]],["Decide and act",["prio"]],["Measure and assess",["calc","maturity"]]]},
+  learn:{k:"Knowledge",t:"Customer experience knowledge",p:"What you need to design and improve a journey: an eight-step method, recurring breakpoint patterns and their fixes, design principles, government journeys from leading countries, ready templates and a glossary.",
+   groups:[["Start here",["method"]],["Understand where journeys break",["patterns","principles"]],["Learn from other countries",["library"]],["Put it to work",["kit"]]]},
+  items:{
+   tool:["Map a journey","Map your customer journey stage by stage; the tool calculates a friction index, finds the breakpoints and suggests fixes.","I want to map a journey","map"],
+   sim:["Live the journey","Be the customer in a realistic scenario, make choices, and see where the journey broke and how it should have been designed.","I want to feel what customers feel","play"],
+   voc:["Analyse customer comments","Paste complaints or comments; the tool tags them by theme and tone and links them to breakpoint patterns.","I have lots of comments and complaints","chat"],
+   survey:["Design a survey","Pick the moment and the metric; the tool writes the questions, scales and when to send it.","I want to measure what customers think","list"],
+   msg:["Check your customer message","Paste a message or decision letter; the tool scores its clarity and suggests edits, with a clear-message builder.","I'm writing a message or notice","mail"],
+   prio:["Rank improvements","Rate pain points by frequency, impact and effort to see quick wins and major projects.","I have many problems and don't know where to start","grid"],
+   calc:["Metric calculators","NPS, CSAT and CES, sample size, retention value and repeat-contact savings.","I want to calculate my metrics","calc"],
+   maturity:["Maturity check","12 statements that show your organisation's CX maturity and what to develop first.","I want to know where my organisation stands","radar"],
+   method:["Method","Eight steps to design a customer journey, from scoping to measuring after launch.","","steps"],
+   patterns:["Breakpoint patterns","16 patterns where customers get stuck, each with its symptom, measure and fix.","I want to understand why journeys break","crack"],
+   principles:["Design principles","Ten principles shared by leading organisations, each with a question for your team.","","star"],
+   library:["Journeys from other countries","Government journeys designed by leading countries around life events, with sources.","","globe"],
+   kit:["Templates & glossary","Ready CSV templates for journeys, personas, gaps and KPIs, and a glossary.","","book"]
+  }}
+};
+const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]||''}</svg>`;
+window.CXK_Catalog = lang => CAT[lang]||CAT.ar;
+window.CXK_Icon = icon;
+window.CXK_Friction = friction;
+window.CXK_Lab = function(main,{group,tab,arg}){
+  const X=window.CXK, C=CAT[X.LANG], TL=window.CXK_TOOLS||{};
+  group = group||'tools'; if(tab==='journey') tab='tool';
+  const G=C[group], ids=G.groups.flatMap(g=>g[1]);
+  if(!tab || !ids.includes(tab)){
+    main.innerHTML=`<div class="wrap"><header class="pagehead"><span class="kicker">${G.k}</span><h1>${G.t}</h1><p>${G.p}</p></header>
+      ${G.groups.map(([gn,list])=>`<section class="tgroup"><h2>${gn}</h2><div class="tcards">${list.map(id=>{ const it=C.items[id]; return `<a class="tcard" href="${X.href(group+'/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${it[0]}</b><span>${it[1]}</span></span></a>`; }).join('')}</div></section>`).join('')}</div>`;
+    return;
+  }
+  const it=C.items[tab], gname=(G.groups.find(g=>g[1].includes(tab))||[''])[0];
+  main.innerHTML=`<div class="wrap"><header class="pagehead tight"><a class="crumb" href="${X.href(group)}">${G.k}</a><span class="kicker">${gname}</span><h1>${it[0]}</h1><p>${it[1]}</p></header>
+    <nav class="jtabs" aria-label="${G.t}">${ids.map(k=>`<a href="${X.href(group+'/'+k)}" ${k===tab?'aria-current="page"':''}>${C.items[k][0]}</a>`).join('')}</nav><div id="labBody"></div></div>`;
   const b=$('#labBody');
-  ({tool:()=>tool(b,X,arg),sim:()=>sim(b,X),calc:()=>calc(b,X),maturity:()=>maturity(b,X),method:()=>method(b,X),library:()=>library(b,X),kit:()=>kit(b,X)}[tab]||(()=>tool(b,X,arg)))();
+  const run={tool:()=>tool(b,X,arg),sim:()=>sim(b,X),calc:()=>calc(b,X),maturity:()=>maturity(b,X),method:()=>method(b,X),library:()=>library(b,X),kit:()=>kit(b,X),
+    voc:()=>TL.voc&&TL.voc(b,X),msg:()=>TL.msg&&TL.msg(b,X),prio:()=>TL.prio&&TL.prio(b,X),survey:()=>TL.survey&&TL.survey(b,X),patterns:()=>TL.patterns&&TL.patterns(b,X,arg),principles:()=>TL.principles&&TL.principles(b,X)}[tab];
+  run();
 };
 window.CXK_LabMini = function(lang){
   const s=sampleState('flight',lang), F=s.stages.map(friction), W=520, rowH=30;
