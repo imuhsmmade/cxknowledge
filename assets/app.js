@@ -263,7 +263,7 @@ function pageHome(){
     <section class="hero">
       <div class="hcopy"><span class="kicker">${S.homeK}</span><h1>${S.homeT}</h1><p>${S.homeP}</p>
         <div class="acts2"><a class="btn pri" href="${href('tools/tool')}">${S.homeCta1}</a><a class="btn" href="${href('tools')}">${S.homeCta2}</a></div>
-        <dl class="hstats"><div><dt>${S.hs1}</dt><dd>8</dd></div><div><dt>${S.hs2}</dt><dd>${K.patterns.length}</dd></div><div><dt>${S.hs3}</dt><dd>193</dd></div><div><dt>${S.hs4}</dt><dd>${outlets||'—'}</dd></div></dl></div>
+        <dl class="hstats"><div><dt>${S.hs1}</dt><dd>8</dd></div><div><dt>${S.hs5}</dt><dd>${(window.CXK_REF||{articles:[]}).articles.length}</dd></div><div><dt>${S.hs6}</dt><dd>${(window.CXK_REF||{metrics:[]}).metrics.length}</dd></div><div><dt>${S.hs2}</dt><dd>${K.patterns.length}</dd></div><div><dt>${S.hs3}</dt><dd>193</dd></div></dl></div>
       <figure class="hfig"><figcaption><b>${S.miniT}</b><span>${S.miniCap}</span></figcaption>${window.CXK_LabMini?window.CXK_LabMini(LANG):''}<a class="srcl" href="${href('tools/tool')}">${S.miniTry}</a></figure>
     </section>
   </div>
@@ -271,7 +271,7 @@ function pageHome(){
     <div class="needs">${CT?needs.map(id=>{ const it=CT.items[id]; return `<a class="need" href="${href('tools/'+id)}"><span class="ti">${icon(it[3])}</span><b>${esc(it[2])}</b><span>${esc(it[0])}</span></a>`; }).join(''):''}</div></section>
   <section class="blk wrap"><div class="pod-row">
     ${pod?`<article class="pod"><span class="kicker">${S.podT}</span><span class="stg">${esc((K.stages[pod.st]||[])[li]||'')}</span><h2>${esc(en?pod.n_en:pod.n)}</h2><p>${esc(en?pod.sym_en:pod.sym)}</p><div class="pfix"><b>${S.podFix}</b><p>${esc(en?pod.fix_en:pod.fix)}</p></div><a class="srcl" href="${href('learn/patterns/'+pod.id)}">${S.podMore}</a></article>`:''}
-    <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['method','patterns','principles','library','kit'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
+    <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['path','encyclopedia','metrics','patterns','standards'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
   </div></section>
   <section class="blk wrap"><div class="sh"><h2>${S.worldT}</h2><p>${S.worldSub}</p><a class="more" href="${href('atlas')}">${S.allCountries2}</a></div>
     <div class="inits">${inits.map(i=>iniCard(i)).join('')}</div>
@@ -456,7 +456,7 @@ function renderChrome(){
   $('#lensSel').setAttribute('aria-label',S.lens);
   $('#langBtn').innerHTML = `<span class="tx">${S.langSwitch}</span><span aria-hidden="true" class="ab">${LANG==='en'?'ع':'EN'}</span>`; $('#langBtn').setAttribute('aria-label',S.langLabel+': '+S.langSwitch);
   $('#themeBtn').innerHTML = I[THEMEPREF==='light'?'sun':THEMEPREF==='dark'?'moon':'auto'] + `<span class="tx">${S.theme[THEMEPREF]}</span>`; $('#themeBtn').setAttribute('aria-label',S.themeLabel+': '+S.theme[THEMEPREF]);
-  $('#shareBtn').setAttribute('aria-label',S.shareSite); $('#menuBtn').setAttribute('aria-label',S.menu);
+  $('#shareBtn').setAttribute('aria-label',S.shareSite); $('#searchBtn').setAttribute('aria-label',S.searchSite); $('#searchTx').textContent=S.searchShort; $('#menuBtn').setAttribute('aria-label',S.menu);
   $('#bnav').innerHTML = [['','home','<path d="M3 11 12 4l9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/>'],['tools','tools','<path d="M14.5 6.5a4 4 0 0 0-5.3 5.2L4 17v3h3l5.3-5.2a4 4 0 0 0 5.2-5.3l-2.4 2.4-2.6-.6-.6-2.6z"/>'],['learn','learn','<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'],['news','news','<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>']].map(([p,k,svg])=>`<a href="${href(p)}" data-r="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svg}</svg>${S.navShort[k]}</a>`).join('') + `<button type="button" id="bmore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>${S.navShort.more}</button>`;
   $('#bmore').addEventListener('click',()=>{ const o=$('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded',o); });
   $('#footP').textContent=S.footP;
@@ -535,6 +535,8 @@ $('#menuBtn').addEventListener('click',()=>{ const o=$('#nav').classList.toggle(
 $('#langBtn').addEventListener('click',()=>{ const h=location.hash.replace(/^#\/?/,'').split('/').filter(Boolean); if(h[0]==='en') h.shift(); else h.unshift('en'); location.hash='#/'+h.join('/'); });
 $('#themeBtn').addEventListener('click',()=>{ THEMEPREF = THEMEPREF==='auto'?'light':THEMEPREF==='light'?'dark':'auto'; try{ localStorage.setItem('cxk-theme2',THEMEPREF); }catch(e){} applyTheme(); renderChrome(); $$('.mapbox').forEach(box=>{ box.dataset.drawn=''; drawMap(box,{mode:box.dataset.mode||'live',region:box.dataset.region||''}); }); });
 $('#lensSel').addEventListener('change',e=>setLens(e.target.value));
+$('#searchBtn').addEventListener('click',()=>window.CXK_OpenSearch&&window.CXK_OpenSearch());
+document.addEventListener('keydown',e=>{ const tg=e.target, typing=tg&&(/INPUT|TEXTAREA|SELECT/.test(tg.tagName)||tg.isContentEditable); if(((e.key==='k'||e.key==='K')&&(e.metaKey||e.ctrlKey)) || (e.key==='/'&&!typing)){ e.preventDefault(); window.CXK_OpenSearch&&window.CXK_OpenSearch(); } });
 let pop=null;
 $('#shareBtn').addEventListener('click',e=>{
   e.stopPropagation(); if(pop){pop.remove();pop=null;return;}

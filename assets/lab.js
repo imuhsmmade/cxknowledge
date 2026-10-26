@@ -238,7 +238,7 @@ function kit(host,X){ const t=T[X.LANG], L=X.L, en=X.LANG==='en';
   host.innerHTML=`<section class="blk" style="padding-top:24px"><div class="sh"><h2>${t.templates}</h2><p>${t.templatesD}</p></div><div class="tpls">${J.templates.map(x=>`<div class="tpl"><b>${esc(L(x,'t'))}</b><p>${esc(L(x,'d'))}</p><a class="btn sm" href="templates/${x.f}.${en?'en':'ar'}.csv" download>${t.download}</a></div>`).join('')}</div></section>
   <section class="blk"><div class="sh"><h2>${t.glossary}</h2><label class="field"><span class="sr">${t.searchTerm}</span>${X.I.search}<input id="gq" type="search" placeholder="${t.searchTerm}" autocomplete="off"></label></div><div class="tablewrap"><table class="gloss"><thead><tr><th>${t.term}</th><th>${t.termEn}</th><th>${t.def}</th></tr></thead><tbody id="gl"></tbody></table></div></section>`;
   const norm=s=>String(s).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
-  const r=q=>{ const n=norm(q); $('#gl',host).innerHTML=J.glossary.filter(g=>!n||norm(g.join(' ')).includes(n)).map(g=>`<tr><td>${esc(g[0])}</td><td>${esc(g[1])}</td><td>${esc(en?g[3]:g[2])}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">${t.noTerm}</td></tr>`; };
+  const r=q=>{ const n=norm(q); $('#gl',host).innerHTML=J.glossary.concat((window.CXK_REF||{}).glossary||[]).filter(g=>!n||norm(g.join(' ')).includes(n)).map(g=>`<tr><td>${esc(g[0])}</td><td>${esc(g[1])}</td><td>${esc(en?g[3]:g[2])}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">${t.noTerm}</td></tr>`; };
   r(''); $('#gq',host).addEventListener('input',e=>r(e.target.value)); }
 
 /* ---------- entry: الأدوات والمعرفة ---------- */
@@ -255,14 +255,20 @@ const IC={
  crack:'<path d="M4 12h5l2-4 2 8 2-4h5"/>',
  star:'<path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.3 6L12 16.4 6.6 19.4l1.3-6L3.4 9.3l6-.7z"/>',
  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>',
- book:'<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'
+ book:'<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>',
+ enc:'<path d="M5 3h11l3 3v15H5z"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+ gauge:'<path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 4-5"/><path d="M4 20h16"/>',
+ layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+ badge:'<circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/>',
+ books:'<path d="M4 4h4v16H4zM10 4h4v16h-4z"/><path d="m16 5 3.5-1 2.5 15.5-3.5 1z"/>',
+ route:'<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/>'
 };
 const CAT={
  ar:{
   tools:{k:"الأدوات",t:"أدوات تجربة العميل",p:"أدوات تعمل في متصفحك مباشرة: ترسم الرحلة وتكشف تعثرها، وتحلل ملاحظات العملاء، وتفحص رسائلك، وترتب أولويات التحسين، وتصمم الاستبيان وتقيس النتائج. لا تحتاج حساباً، ولا تُرسل بياناتك إلى أي خادم.",
    groups:[["صمّم الرحلة",["tool","sim"]],["اسمع العميل",["voc","survey"]],["تواصل بوضوح",["msg"]],["قرّر ونفّذ",["prio"]],["قِس وقيّم",["calc","maturity"]]]},
-  learn:{k:"المعرفة",t:"معرفة تجربة العميل",p:"ما تحتاجه لتصميم رحلة وتحسينها: منهجية من ثماني خطوات، وأنماط الانكسار المتكررة وعلاجها، ومبادئ التصميم، ورحلات حكومية من دول رائدة، وقوالب جاهزة ومعجم مصطلحات.",
-   groups:[["ابدأ هنا",["method"]],["افهم التعثر",["patterns","principles"]],["تعلّم من الدول",["library"]],["اعمل بها",["kit"]]]},
+  learn:{k:"المعرفة",t:"مرجع تجربة العميل",p:"كل ما تحتاجه في تجربة العميل في مكان واحد: موسوعة مقالات عملية، ودليل المؤشرات بمعادلاتها، والنماذج والأطر، والمعايير الدولية والشهادات، وأنماط الانكسار، ومبادئ التصميم، ورحلات من دول رائدة، وكتب مرجعية، ومعجم مصطلحات، ومسار تعلم من الأساس إلى القيادة.",
+   groups:[["ابدأ هنا",["path","method"]],["المفاهيم والنماذج",["encyclopedia","frameworks","principles"]],["القياس",["metrics"]],["افهم التعثر",["patterns"]],["المعايير والتجارب الدولية",["standards","library"]],["مكتبتك",["books","kit"]]]},
   items:{
    tool:["ارسم الرحلة","ارسم رحلة عميلك مرحلة مرحلة، وتحسب الأداة مؤشر التعثر وتحدد نقاط الانكسار وتقترح المعالجة.","أريد أن أرسم رحلة","map"],
    sim:["جرّب الرحلة كعميل","كن العميل في سيناريو واقعي، واتخذ قراراتك، وشاهد أين انكسرت الرحلة وكيف كان ينبغي تصميمها.","أريد أن أفهم شعور العميل","play"],
@@ -276,13 +282,19 @@ const CAT={
    patterns:["أنماط الانكسار","16 نمطاً يتكرر فيها تعثر العملاء، ولكل نمط علامته وقياسه وعلاجه.","أريد أن أفهم لماذا تتعثر الرحلة","crack"],
    principles:["مبادئ التصميم","عشرة مبادئ تشترك فيها الجهات الرائدة، ومع كل مبدأ سؤال لفريقك.","","star"],
    library:["رحلات من الدول","رحلات حكومية صممتها دول رائدة حول أحداث الحياة، مع مصادرها.","","globe"],
-   kit:["القوالب والمصطلحات","قوالب CSV جاهزة للرحلة والشخصية والفجوات والمؤشرات، ومعجم مصطلحات.","","book"]
+   kit:["القوالب والمصطلحات","قوالب CSV جاهزة للرحلة والشخصية والفجوات والمؤشرات، ومعجم يضم أكثر من 60 مصطلحاً.","","book"],
+   encyclopedia:["موسوعة تجربة العميل","مقالات عملية في خمسة محاور: الأساسيات، وفهم العميل، والتصميم، والقياس، والقيادة. لكل مقال لماذا يهم، وكيف تطبقه، وكيف تقيسه، وأخطاؤه الشائعة.","أريد أن أفهم مفهوماً","enc"],
+   metrics:["دليل المؤشرات","22 مؤشراً لتجربة العميل بمعادلاتها ومقاييسها، ومتى تستخدم كل مؤشر وما الذي ينبغي الانتباه إليه.","أريد أن أعرف كيف يُحسب مؤشر","gauge"],
+   frameworks:["النماذج والأطر","نماذج مرجعية مثل كانو وسيرفكوال وسلسلة الخدمة والربح وقاعدة الذروة والنهاية، وكيف تستخدم كلاً منها.","","layers"],
+   standards:["المعايير والشهادات","معايير ISO لإدارة الشكاوى وقياس الرضا والتميز في الخدمة ومراكز الاتصال، ومعايير الإتاحة والخدمة الحكومية، والشهادات المهنية.","","badge"],
+   books:["كتب مرجعية","أهم الكتب في تجربة العميل وتصميم الخدمة، مع ما يقدمه كل كتاب.","","books"],
+   path:["مسار التعلم","أربع مراحل من الأساسيات إلى القيادة، كل خطوة فيها رابط إلى مقال أو أداة.","من أين أبدأ؟","route"]
   }},
  en:{
   tools:{k:"Tools",t:"Customer experience tools",p:"Tools that run right in your browser: map a journey and find where it breaks, analyse customer comments, check your messages, rank improvements, design a survey and measure the results. No account needed, and your data isn't sent to any server.",
    groups:[["Design the journey",["tool","sim"]],["Listen to customers",["voc","survey"]],["Communicate clearly",["msg"]],["Decide and act",["prio"]],["Measure and assess",["calc","maturity"]]]},
-  learn:{k:"Knowledge",t:"Customer experience knowledge",p:"What you need to design and improve a journey: an eight-step method, recurring breakpoint patterns and their fixes, design principles, government journeys from leading countries, ready templates and a glossary.",
-   groups:[["Start here",["method"]],["Understand where journeys break",["patterns","principles"]],["Learn from other countries",["library"]],["Put it to work",["kit"]]]},
+  learn:{k:"Knowledge",t:"The customer experience reference",p:"Everything you need on customer experience in one place: a practical encyclopedia, a metrics guide with formulas, models and frameworks, international standards and certifications, breakpoint patterns, design principles, journeys from leading countries, key books, a glossary, and a learning path from basics to leadership.",
+   groups:[["Start here",["path","method"]],["Concepts and models",["encyclopedia","frameworks","principles"]],["Measurement",["metrics"]],["Understand where journeys break",["patterns"]],["Standards and international practice",["standards","library"]],["Your library",["books","kit"]]]},
   items:{
    tool:["Map a journey","Map your customer journey stage by stage; the tool calculates a friction index, finds the breakpoints and suggests fixes.","I want to map a journey","map"],
    sim:["Live the journey","Be the customer in a realistic scenario, make choices, and see where the journey broke and how it should have been designed.","I want to feel what customers feel","play"],
@@ -296,7 +308,13 @@ const CAT={
    patterns:["Breakpoint patterns","16 patterns where customers get stuck, each with its symptom, measure and fix.","I want to understand why journeys break","crack"],
    principles:["Design principles","Ten principles shared by leading organisations, each with a question for your team.","","star"],
    library:["Journeys from other countries","Government journeys designed by leading countries around life events, with sources.","","globe"],
-   kit:["Templates & glossary","Ready CSV templates for journeys, personas, gaps and KPIs, and a glossary.","","book"]
+   kit:["Templates & glossary","Ready CSV templates for journeys, personas, gaps and KPIs, and a glossary of 60+ terms.","","book"],
+   encyclopedia:["CX encyclopedia","Practical articles in five areas: fundamentals, understanding customers, design, measurement and leadership. Each covers why it matters, how to apply it, how to measure it and common mistakes.","I want to understand a concept","enc"],
+   metrics:["Metrics guide","22 customer experience metrics with formulas and scales, when to use each and what to watch out for.","I want to know how a metric is calculated","gauge"],
+   frameworks:["Models & frameworks","Reference models such as Kano, SERVQUAL, the service-profit chain and the peak–end rule, and how to use each.","","layers"],
+   standards:["Standards & certifications","ISO standards for complaints, satisfaction measurement, service excellence and contact centres, accessibility and government service standards, and professional certifications.","","badge"],
+   books:["Key books","The essential books on customer experience and service design, and what each offers.","","books"],
+   path:["Learning path","Four stages from basics to leadership; every step links to an article or tool.","Where do I start?","route"]
   }}
 };
 const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]||''}</svg>`;
@@ -317,7 +335,7 @@ window.CXK_Lab = function(main,{group,tab,arg}){
     <nav class="jtabs" aria-label="${G.t}">${ids.map(k=>`<a href="${X.href(group+'/'+k)}" ${k===tab?'aria-current="page"':''}>${C.items[k][0]}</a>`).join('')}</nav><div id="labBody"></div></div>`;
   const b=$('#labBody');
   const run={tool:()=>tool(b,X,arg),sim:()=>sim(b,X),calc:()=>calc(b,X),maturity:()=>maturity(b,X),method:()=>method(b,X),library:()=>library(b,X),kit:()=>kit(b,X),
-    voc:()=>TL.voc&&TL.voc(b,X),msg:()=>TL.msg&&TL.msg(b,X),prio:()=>TL.prio&&TL.prio(b,X),survey:()=>TL.survey&&TL.survey(b,X),patterns:()=>TL.patterns&&TL.patterns(b,X,arg),principles:()=>TL.principles&&TL.principles(b,X)}[tab];
+    voc:()=>TL.voc&&TL.voc(b,X),msg:()=>TL.msg&&TL.msg(b,X),prio:()=>TL.prio&&TL.prio(b,X),survey:()=>TL.survey&&TL.survey(b,X),patterns:()=>TL.patterns&&TL.patterns(b,X,arg),principles:()=>TL.principles&&TL.principles(b,X)}[tab] || (()=>{ const RP=window.CXK_REFPAGES||{}; RP[tab]&&RP[tab](b,X,arg); });
   run();
 };
 window.CXK_LabMini = function(lang){
