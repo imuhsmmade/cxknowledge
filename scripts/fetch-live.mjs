@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = path.join(ROOT, 'data');
-const KEEP_DAYS = 14, MAX_ITEMS = 600, TIMEOUT = 15000, CONC = 6;
+const KEEP_DAYS = 14, MAX_ITEMS = 2500, TIMEOUT = 15000, CONC = 6;
 
 const ctx = { window: {} }; vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(DATA, 'countries.js'), 'utf8'), ctx);
@@ -79,6 +79,13 @@ const CATS = {
   digital: /digital|\bapp\b|platform|online|portal|mobile|رقمي|منصه|تطبيق|الكتروني|بوابه/
 };
 export const cats = title => { const t = norm(title); return Object.keys(CATS).filter(k => CATS[k].test(t)); };
+const TONE_NEG = /outage|complain|\bfine[sd]?\b|penalt|breach|lawsuit|\bsued\b|delay|backlog|strike|crash|\bfail|scam|fraud|frustrat|worst|declin|\bdrops?\b|\bfalls?\b|layoff|criticis|angry|\bpoor\b|outrage|شكو|شكاو|غرام|عطل|اعطال|تاخ|تراجع|انخفاض|احتيال|اختراق|انقطاع|ازدحام|سوء|ضعف|مخالف|استياء|غضب|معانا/;
+const TONE_POS = /award|\bwins?\b|winner|launch|improv|record high|\btops?\b|rank(s|ed)? first|\bbest\b|\brises?\b|growth|faster|easier|upgrade|expand|milestone|جائز|يفوز|تفوز|اطلاق|تطلق|يطلق|تحسين|تحسن|الاول|ارتفاع|نمو|يرتفع|ترتفع|تتصدر|يتصدر|افضل|توسع|تطوير|يحقق|تحقق|انجاز/;
+export const tone = title => { const t = norm(title), n = TONE_NEG.test(t), p = TONE_POS.test(t); return n && !p ? -1 : p && !n ? 1 : 0; };
+const LANGS = { english:'en', arabic:'ar', french:'fr', spanish:'es', german:'de', portuguese:'pt', italian:'it', turkish:'tr', russian:'ru', chinese:'zh', japanese:'ja', korean:'ko', indonesian:'id', malay:'ms', dutch:'nl', polish:'pl', hindi:'hi', urdu:'ur', persian:'fa', hebrew:'he', swedish:'sv', vietnamese:'vi', thai:'th' };
+const CNAMES = Object.fromEntries(Object.entries(COUNTRIES).map(([c, d]) => [String(d[1]).toLowerCase(), c]));
+Object.assign(CNAMES, { 'united states': 'US', 'united kingdom': 'GB', 'south korea': 'KR', 'russia': 'RU', 'turkey': 'TR', 'vietnam': 'VN', 'iran': 'IR', 'syria': 'SY', 'czech republic': 'CZ', 'taiwan': 'TW', 'hong kong': 'HK' });
+const outletCountry = n => n ? (CNAMES[String(n).toLowerCase()] || (String(n).length === 2 ? String(n).toUpperCase() : '')) : '';
 const RELEVANT = /customer|citizen|service design|experience|\bcx\b|satisf|contact cent|call cent|journey|user research|usability|public service|تجربه|رضا|خدم|مستفيد|متعامل/;
 const SPAM = /رقم (خدمه|هاتف|واتس)|واتساب|خدمه عملاء [^ ]+ (رقم|الموحد)|customer (service|care) (number|phone)|phone number|toll.?free|horoscope|casino|betting|كوبون|خصم \d+/;
 const hash = s => { let h = 5381; for (const ch of s) h = ((h << 5) + h + ch.codePointAt(0)) >>> 0; return h.toString(36); };
@@ -93,25 +100,58 @@ async function get(url) {
     return await r.text();
   } finally { clearTimeout(tm); }
 }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function makeItem(f, title, link, src, date, lang, oc) {
+  const nt = norm(title);
+  if (!title || !link || SPAM.test(nt)) return null;
+  const d = new Date(date); if (isNaN(d)) return null;
+  const l = lang || (AR.test(title) ? 'ar' : 'en');
+  if ((f.filter || f.type === 'gnews') && (l === 'ar' || l === 'en') && !RELEVANT.test(nt)) return null;
+  const it = { id: hash(key(title)), t: title, u: link, s: src || f.name, d: d.toISOString(), l, c: country(title, f.dc), k: cats(title), tn: tone(title), f: f.id };
+  if (oc) it.oc = oc;
+  return it;
+}
+export async function runFeedForTest(f) { return runFeed(f); }
 async function runFeed(f) {
   try {
-    const xml = await get(f.url); const raw = parseFeed(xml); const items = [];
-    for (const it of raw) {
-      let title = it.title, src = it.source || f.name;
-      if (f.type === 'gnews' && it.source && title.endsWith(' - ' + it.source)) title = title.slice(0, -(it.source.length + 3)).trim();
-      const nt = norm(title);
-      if (SPAM.test(nt)) continue;
-      if ((f.filter || f.type === 'gnews') && !RELEVANT.test(nt)) continue;
-      const d = new Date(it.date); if (isNaN(d)) continue;
-      items.push({ id: hash(key(title)), t: title, u: it.link, s: src, d: d.toISOString(), l: AR.test(title) ? 'ar' : 'en', c: country(title, f.dc), k: cats(title), f: f.id });
+    const items = [];
+    if (f.type === 'gdelt') {
+      const r = await fetch(f.url, { headers: { 'User-Agent': 'CXKnowledgeBot/1.0' } });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const txt = await r.text(); let j; try { j = JSON.parse(txt); } catch { throw new Error('non-JSON (rate limited?)'); }
+      for (const a of (j.articles || [])) {
+        const sd = String(a.seendate || '').replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/, '$1-$2-$3T$4:$5:$6Z');
+        const it = makeItem(f, (a.title || '').trim(), a.url, a.domain, sd, LANGS[String(a.language || '').toLowerCase()] || String(a.language || 'xx').slice(0, 2).toLowerCase(), outletCountry(a.sourcecountry));
+        if (it) items.push(it);
+      }
+    } else if (f.type === 'newscatcher') {
+      const keyEnv = process.env.NEWSCATCHER_API_KEY;
+      if (!keyEnv) return { id: f.id, name: f.name, ok: false, n: 0, err: 'no API key (optional)', items: [] };
+      const r = await fetch(f.url, { method: 'POST', headers: { 'x-api-token': keyEnv, 'Content-Type': 'application/json' }, body: JSON.stringify({ q: f.q, lang: f.lang, page_size: 100, sort_by: 'date' }) });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      for (const a of (j.articles || [])) {
+        const it = makeItem(f, (a.title || '').trim(), a.link, a.name_source || a.domain_url, a.published_date, a.language, outletCountry(a.country));
+        if (it) items.push(it);
+      }
+    } else {
+      const xml = await get(f.url);
+      for (const x of parseFeed(xml)) {
+        let title = x.title; const src = x.source || f.name;
+        if (f.type === 'gnews' && x.source && title.endsWith(' - ' + x.source)) title = title.slice(0, -(x.source.length + 3)).trim();
+        const it = makeItem(f, title, x.link, src, x.date, null, f.type === 'gnews' ? '' : '');
+        if (it) items.push(it);
+      }
     }
-    return { id: f.id, name: f.name, ok: true, n: items.length, items };
-  } catch (e) { return { id: f.id, name: f.name, ok: false, n: 0, err: String(e.message || e).slice(0, 120), items: [] }; }
+    return { id: f.id, name: f.name, type: f.type, ok: true, n: items.length, items };
+  } catch (e) { return { id: f.id, name: f.name, type: f.type, ok: false, n: 0, err: String(e.message || e).slice(0, 120), items: [] }; }
 }
 
 async function main() {
-  const results = []; let i = 0;
-  await Promise.all(Array.from({ length: CONC }, async () => { while (i < feeds.length) { const f = feeds[i++]; results.push(await runFeed(f)); } }));
+  const results = []; const normal = feeds.filter(f => f.type !== 'gdelt'), slow = feeds.filter(f => f.type === 'gdelt'); let i = 0;
+  const gd = (async () => { for (const f of slow) { results.push(await runFeed(f)); await sleep(6000); } })();
+  await Promise.all(Array.from({ length: CONC }, async () => { while (i < normal.length) { const f = normal[i++]; results.push(await runFeed(f)); await sleep(300); } }));
+  await gd;
   const now = Date.now(), cutoff = now - KEEP_DAYS * 864e5;
   const byId = new Map(), byKey = new Set();
   for (const it of [...results.flatMap(r => r.items), ...(prev.items || [])]
@@ -129,7 +169,10 @@ async function main() {
       feeds_ok: results.filter(r => r.ok).length, feeds_total: feeds.length,
       items_24h: items.filter(x => Date.parse(x.d) >= day).length,
       outlets_7d: new Set(items.filter(x => Date.parse(x.d) >= week).map(x => x.s)).size,
-      countries_7d: new Set(items.filter(x => Date.parse(x.d) >= week && x.c !== 'WW').map(x => x.c)).size
+      countries_7d: new Set(items.filter(x => Date.parse(x.d) >= week && x.c !== 'WW').map(x => x.c)).size,
+      outlets_14d: new Set(items.map(x => x.s)).size,
+      outlet_countries: new Set(items.map(x => x.oc).filter(Boolean)).size,
+      languages: new Set(items.map(x => x.l)).size
     },
     items
   };

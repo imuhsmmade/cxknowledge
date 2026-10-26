@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { parseFeed, country, cats, decode } from './fetch-live.mjs';
+import { parseFeed, country, cats, decode, tone } from './fetch-live.mjs';
 const rss = `<?xml version="1.0"?><rss><channel><item><title>Saudi Arabia tops index - Arab News</title><link>https://news.google.com/rss/articles/abc</link><pubDate>Mon, 26 Oct 2026 10:00:00 GMT</pubDate><source url="https://arabnews.com">Arab News</source></item>
 <item><title><![CDATA[هيئة الحكومة الرقمية تعلن نتائج مؤشر نضج التجربة الرقمية &amp; أبشر الأول]]></title><link>https://x.sa/1</link><pubDate>Mon, 26 Oct 2026 09:00:00 +0300</pubDate></item></channel></rss>`;
 const atom = `<feed><entry><title>GOV.UK app adds AI chat</title><link href="https://gds.blog.gov.uk/x"/><updated>2026-10-20T10:00:00Z</updated></entry></feed>`;
@@ -15,4 +15,7 @@ assert.equal(country('وزارة الداخلية الكويتية تطلق خد
 assert.deepEqual(cats('Gartner survey: AI agents in contact centers'), ['ai','index','cc']);
 assert.ok(cats('مؤشر رضا المستفيدين عن الخدمات الحكومية').includes('index'));
 assert.equal(decode('A &#8211; B &amp; C'), 'A – B & C');
+assert.equal(tone('Telecom outage sparks complaints'), -1);
+assert.equal(tone('هيئة تتصدر المؤشر وتحقق المركز الأول'), 1);
+assert.equal(tone('Gartner survey on contact centers'), 0);
 console.log('tests ok');

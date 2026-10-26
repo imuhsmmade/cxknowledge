@@ -1,5 +1,5 @@
 {
- "note": "خلاصات البث المباشر. يقرؤها scripts/fetch-live.mjs كل 30 دقيقة عبر GitHub Actions.",
+ "note": "خلاصات البث المباشر — يقرؤها scripts/fetch-live.mjs كل 30 دقيقة. gnews: طبعات أخبار Google · gdelt: مشروع GDELT (65 لغة) · newscatcher: اختياري ويحتاج مفتاح NEWSCATCHER_API_KEY في أسرار المستودع.",
  "feeds": [
   {
    "id": "gn-ar-cx",
@@ -260,6 +260,473 @@
    "lang": "en",
    "filter": true,
    "url": "https://martech.org/feed/"
+  },
+  {
+   "id": "gn-ed-us-cx",
+   "name": "Google News US · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-ed-us-gov",
+   "name": "Google News US · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-ed-gb-cx",
+   "name": "Google News GB · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-GB&gl=GB&ceid=GB%3Aen"
+  },
+  {
+   "id": "gn-ed-gb-gov",
+   "name": "Google News GB · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-GB&gl=GB&ceid=GB%3Aen"
+  },
+  {
+   "id": "gn-ed-ca-cx",
+   "name": "Google News CA · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-CA&gl=CA&ceid=CA%3Aen"
+  },
+  {
+   "id": "gn-ed-ca-gov",
+   "name": "Google News CA · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-CA&gl=CA&ceid=CA%3Aen"
+  },
+  {
+   "id": "gn-ed-au-cx",
+   "name": "Google News AU · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-AU&gl=AU&ceid=AU%3Aen"
+  },
+  {
+   "id": "gn-ed-au-gov",
+   "name": "Google News AU · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-AU&gl=AU&ceid=AU%3Aen"
+  },
+  {
+   "id": "gn-ed-in-cx",
+   "name": "Google News IN · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-IN&gl=IN&ceid=IN%3Aen"
+  },
+  {
+   "id": "gn-ed-in-gov",
+   "name": "Google News IN · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-IN&gl=IN&ceid=IN%3Aen"
+  },
+  {
+   "id": "gn-ed-sg-cx",
+   "name": "Google News SG · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-SG&gl=SG&ceid=SG%3Aen"
+  },
+  {
+   "id": "gn-ed-sg-gov",
+   "name": "Google News SG · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-SG&gl=SG&ceid=SG%3Aen"
+  },
+  {
+   "id": "gn-ed-nz-cx",
+   "name": "Google News NZ · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-NZ&gl=NZ&ceid=NZ%3Aen"
+  },
+  {
+   "id": "gn-ed-nz-gov",
+   "name": "Google News NZ · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-NZ&gl=NZ&ceid=NZ%3Aen"
+  },
+  {
+   "id": "gn-ed-ie-cx",
+   "name": "Google News IE · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-IE&gl=IE&ceid=IE%3Aen"
+  },
+  {
+   "id": "gn-ed-ie-gov",
+   "name": "Google News IE · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-IE&gl=IE&ceid=IE%3Aen"
+  },
+  {
+   "id": "gn-ed-za-cx",
+   "name": "Google News ZA · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-ZA&gl=ZA&ceid=ZA%3Aen"
+  },
+  {
+   "id": "gn-ed-za-gov",
+   "name": "Google News ZA · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-ZA&gl=ZA&ceid=ZA%3Aen"
+  },
+  {
+   "id": "gn-ed-ng-cx",
+   "name": "Google News NG · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-NG&gl=NG&ceid=NG%3Aen"
+  },
+  {
+   "id": "gn-ed-ng-gov",
+   "name": "Google News NG · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-NG&gl=NG&ceid=NG%3Aen"
+  },
+  {
+   "id": "gn-ed-ke-cx",
+   "name": "Google News KE · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-KE&gl=KE&ceid=KE%3Aen"
+  },
+  {
+   "id": "gn-ed-ke-gov",
+   "name": "Google News KE · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-KE&gl=KE&ceid=KE%3Aen"
+  },
+  {
+   "id": "gn-ed-ph-cx",
+   "name": "Google News PH · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-PH&gl=PH&ceid=PH%3Aen"
+  },
+  {
+   "id": "gn-ed-ph-gov",
+   "name": "Google News PH · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-PH&gl=PH&ceid=PH%3Aen"
+  },
+  {
+   "id": "gn-ed-my-cx",
+   "name": "Google News MY · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-MY&gl=MY&ceid=MY%3Aen"
+  },
+  {
+   "id": "gn-ed-my-gov",
+   "name": "Google News MY · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-MY&gl=MY&ceid=MY%3Aen"
+  },
+  {
+   "id": "gn-ed-pk-cx",
+   "name": "Google News PK · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-PK&gl=PK&ceid=PK%3Aen"
+  },
+  {
+   "id": "gn-ed-pk-gov",
+   "name": "Google News PK · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-PK&gl=PK&ceid=PK%3Aen"
+  },
+  {
+   "id": "gn-ed-ae-cx",
+   "name": "Google News AE · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=AE&ceid=AE%3Aen"
+  },
+  {
+   "id": "gn-ed-ae-gov",
+   "name": "Google News AE · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=AE&ceid=AE%3Aen"
+  },
+  {
+   "id": "gn-ed-sa-cx",
+   "name": "Google News SA · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=SA&ceid=SA%3Aen"
+  },
+  {
+   "id": "gn-ed-sa-gov",
+   "name": "Google News SA · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=SA&ceid=SA%3Aen"
+  },
+  {
+   "id": "gn-ed-qa-cx",
+   "name": "Google News QA · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=QA&ceid=QA%3Aen"
+  },
+  {
+   "id": "gn-ed-qa-gov",
+   "name": "Google News QA · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=QA&ceid=QA%3Aen"
+  },
+  {
+   "id": "gn-ed-eg-cx",
+   "name": "Google News EG · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=EG&ceid=EG%3Aen"
+  },
+  {
+   "id": "gn-ed-eg-gov",
+   "name": "Google News EG · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=EG&ceid=EG%3Aen"
+  },
+  {
+   "id": "gn-ed-bh-cx",
+   "name": "Google News BH · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=BH&ceid=BH%3Aen"
+  },
+  {
+   "id": "gn-ed-bh-gov",
+   "name": "Google News BH · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=BH&ceid=BH%3Aen"
+  },
+  {
+   "id": "gn-ed-kw-cx",
+   "name": "Google News KW · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=KW&ceid=KW%3Aen"
+  },
+  {
+   "id": "gn-ed-kw-gov",
+   "name": "Google News KW · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=KW&ceid=KW%3Aen"
+  },
+  {
+   "id": "gn-ed-om-cx",
+   "name": "Google News OM · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=OM&ceid=OM%3Aen"
+  },
+  {
+   "id": "gn-ed-om-gov",
+   "name": "Google News OM · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=OM&ceid=OM%3Aen"
+  },
+  {
+   "id": "gn-ed-jo-cx",
+   "name": "Google News JO · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en&gl=JO&ceid=JO%3Aen"
+  },
+  {
+   "id": "gn-ed-jo-gov",
+   "name": "Google News JO · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en&gl=JO&ceid=JO%3Aen"
+  },
+  {
+   "id": "gn-ed-hk-cx",
+   "name": "Google News HK · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-HK&gl=HK&ceid=HK%3Aen"
+  },
+  {
+   "id": "gn-ed-hk-gov",
+   "name": "Google News HK · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-HK&gl=HK&ceid=HK%3Aen"
+  },
+  {
+   "id": "gn-ed-gh-cx",
+   "name": "Google News GH · CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+service%22+when%3A3d&hl=en-GH&gl=GH&ceid=GH%3Aen"
+  },
+  {
+   "id": "gn-ed-gh-gov",
+   "name": "Google News GH · Satisfaction & e-gov",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+OR+%22digital+government%22+OR+%22citizen+experience%22+when%3A7d&hl=en-GH&gl=GH&ceid=GH%3Aen"
+  },
+  {
+   "id": "gn-ar-ed-sa",
+   "name": "أخبار Google SA · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-ae",
+   "name": "أخبار Google AE · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=AE&ceid=AE%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-eg",
+   "name": "أخبار Google EG · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=EG&ceid=EG%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-lb",
+   "name": "أخبار Google LB · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=LB&ceid=LB%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-ma",
+   "name": "أخبار Google MA · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=MA&ceid=MA%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-kw",
+   "name": "أخبار Google KW · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=KW&ceid=KW%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-qa",
+   "name": "أخبار Google QA · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=QA&ceid=QA%3Aar"
+  },
+  {
+   "id": "gn-ar-ed-jo",
+   "name": "أخبار Google JO · تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+OR+%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=JO&ceid=JO%3Aar"
+  },
+  {
+   "id": "gdelt-cx",
+   "name": "GDELT · customer experience",
+   "type": "gdelt",
+   "lang": "multi",
+   "q": "\"customer experience\"",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22customer+experience%22&mode=artlist&maxrecords=250&format=json&timespan=3d&sort=datedesc"
+  },
+  {
+   "id": "gdelt-csat",
+   "name": "GDELT · customer satisfaction",
+   "type": "gdelt",
+   "lang": "multi",
+   "q": "\"customer satisfaction\"",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22customer+satisfaction%22&mode=artlist&maxrecords=250&format=json&timespan=3d&sort=datedesc"
+  },
+  {
+   "id": "gdelt-cs",
+   "name": "GDELT · customer service",
+   "type": "gdelt",
+   "lang": "multi",
+   "q": "\"customer service\" (complaint OR complaints OR outage OR delay)",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22customer+service%22+%28complaint+OR+complaints+OR+outage+OR+delay%29&mode=artlist&maxrecords=250&format=json&timespan=3d&sort=datedesc"
+  },
+  {
+   "id": "gdelt-gov",
+   "name": "GDELT · digital government",
+   "type": "gdelt",
+   "lang": "multi",
+   "q": "(\"digital government\" OR \"e-government\" OR \"public services\" OR \"citizen experience\")",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22digital+government%22+OR+%22e-government%22+OR+%22public+services%22+OR+%22citizen+experience%22%29&mode=artlist&maxrecords=250&format=json&timespan=3d&sort=datedesc"
+  },
+  {
+   "id": "gdelt-cc",
+   "name": "GDELT · contact center",
+   "type": "gdelt",
+   "lang": "multi",
+   "q": "(\"contact center\" OR \"call center\" OR \"call centre\")",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22contact+center%22+OR+%22call+center%22+OR+%22call+centre%22%29&mode=artlist&maxrecords=250&format=json&timespan=3d&sort=datedesc"
+  },
+  {
+   "id": "gdelt-ar",
+   "name": "GDELT · customer experience",
+   "type": "gdelt",
+   "lang": "multi",
+   "q": "\"customer experience\" sourcelang:arabic",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22customer+experience%22+sourcelang%3Aarabic&mode=artlist&maxrecords=250&format=json&timespan=3d&sort=datedesc"
+  },
+  {
+   "id": "nc-cx-en",
+   "name": "NewsCatcher · customer experience",
+   "type": "newscatcher",
+   "lang": "en",
+   "q": "\"customer experience\" OR \"customer satisfaction\"",
+   "optional": true,
+   "url": "https://v3-api.newscatcherapi.com/api/search"
+  },
+  {
+   "id": "nc-cx-ar",
+   "name": "NewsCatcher · تجربة العميل",
+   "type": "newscatcher",
+   "lang": "ar",
+   "q": "\"تجربة العميل\" OR \"رضا العملاء\"",
+   "optional": true,
+   "url": "https://v3-api.newscatcherapi.com/api/search"
+  },
+  {
+   "id": "nc-gov-en",
+   "name": "NewsCatcher · digital government",
+   "type": "newscatcher",
+   "lang": "en",
+   "q": "\"digital government\" OR \"citizen experience\" OR \"public service delivery\"",
+   "optional": true,
+   "url": "https://v3-api.newscatcherapi.com/api/search"
   }
  ]
 }

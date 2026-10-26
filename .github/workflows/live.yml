@@ -30,6 +30,8 @@ jobs:
       - name: جلب العناوين من الخلاصات
         if: github.event_name != 'push'
         run: node scripts/fetch-live.mjs
+        env:
+          NEWSCATCHER_API_KEY: ${{ secrets.NEWSCATCHER_API_KEY }}
       - name: فحص البيانات
         run: node scripts/validate.js
       - name: حفظ البث في المستودع
