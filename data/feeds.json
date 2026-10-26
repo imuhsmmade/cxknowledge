@@ -178,9 +178,10 @@
   {
    "id": "cxtoday",
    "name": "CX Today",
-   "type": "rss",
+   "type": "gnews",
    "lang": "en",
-   "url": "https://www.cxtoday.com/feed/"
+   "url": "https://news.google.com/rss/search?q=site%3Acxtoday.com+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "note": "عبر Google News لأن الخلاصة المباشرة ترفض طلبات الخوادم"
   },
   {
    "id": "cxm",
@@ -231,10 +232,11 @@
   {
    "id": "meatech",
    "name": "MEA Tech Watch",
-   "type": "rss",
+   "type": "gnews",
    "lang": "en",
    "filter": true,
-   "url": "https://meatechwatch.com/feed/"
+   "url": "https://news.google.com/rss/search?q=site%3Ameatechwatch.com+customer+experience+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "note": "عبر Google News لأن الخلاصة المباشرة ترفض طلبات الخوادم"
   },
   {
    "id": "govinsider",
@@ -247,11 +249,12 @@
   {
    "id": "fedscoop",
    "name": "FedScoop",
-   "type": "rss",
+   "type": "gnews",
    "lang": "en",
    "filter": true,
-   "url": "https://fedscoop.com/feed/",
-   "dc": "US"
+   "url": "https://news.google.com/rss/search?q=site%3Afedscoop.com+customer+experience+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "dc": "US",
+   "note": "عبر Google News لأن الخلاصة المباشرة ترفض طلبات الخوادم"
   },
   {
    "id": "martech",

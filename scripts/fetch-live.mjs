@@ -116,9 +116,17 @@ async function runFeed(f) {
   try {
     const items = [];
     if (f.type === 'gdelt') {
-      const r = await fetch(f.url, { headers: { 'User-Agent': 'CXKnowledgeBot/1.0' } });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const txt = await r.text(); let j; try { j = JSON.parse(txt); } catch { throw new Error('non-JSON (rate limited?)'); }
+      let j, lastErr;
+      for (const wait of [0, 15000, 30000, 45000]) {   // GDELT يحدّ الطلبات المتقاربة؛ نعيد المحاولة بتباعد متزايد
+        if (wait) await sleep(wait);
+        const ac = new AbortController(); const tm = setTimeout(() => ac.abort(), 40000);
+        try {
+          const r = await fetch(f.url, { headers: { 'User-Agent': 'CXKnowledgeBot/1.0 (+https://github.com/imuhsmmade/cxknowledge)' }, signal: ac.signal });
+          if (!r.ok) { lastErr = new Error('HTTP ' + r.status); continue; }
+          const txt = await r.text(); try { j = JSON.parse(txt); break; } catch { lastErr = new Error('non-JSON (rate limited?)'); }
+        } catch (e) { lastErr = e; } finally { clearTimeout(tm); }
+      }
+      if (!j) throw lastErr || new Error('GDELT unavailable');
       for (const a of (j.articles || [])) {
         const sd = String(a.seendate || '').replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/, '$1-$2-$3T$4:$5:$6Z');
         const it = makeItem(f, (a.title || '').trim(), a.url, a.domain, sd, LANGS[String(a.language || '').toLowerCase()] || String(a.language || 'xx').slice(0, 2).toLowerCase(), outletCountry(a.sourcecountry));
@@ -149,7 +157,7 @@ async function runFeed(f) {
 
 async function main() {
   const results = []; const normal = feeds.filter(f => f.type !== 'gdelt'), slow = feeds.filter(f => f.type === 'gdelt'); let i = 0;
-  const gd = (async () => { for (const f of slow) { results.push(await runFeed(f)); await sleep(6000); } })();
+  const gd = (async () => { for (const f of slow) { results.push(await runFeed(f)); await sleep(10000); } })();
   await Promise.all(Array.from({ length: CONC }, async () => { while (i < normal.length) { const f = normal[i++]; results.push(await runFeed(f)); await sleep(300); } }));
   await gd;
   const now = Date.now(), cutoff = now - KEEP_DAYS * 864e5;
