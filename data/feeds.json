@@ -1,0 +1,265 @@
+{
+ "note": "خلاصات البث المباشر. يقرؤها scripts/fetch-live.mjs كل 30 دقيقة عبر GitHub Actions.",
+ "feeds": [
+  {
+   "id": "gn-ar-cx",
+   "name": "بحث: تجربة العميل",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%84%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-bx",
+   "name": "بحث: تجربة المستفيد",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-bsat",
+   "name": "بحث: رضا المستفيدين",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%D9%8A%D9%86%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-csat",
+   "name": "بحث: رضا العملاء",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%B1%D8%B6%D8%A7+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-cs",
+   "name": "بحث: خدمة العملاء",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AE%D8%AF%D9%85%D8%A9+%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22+when%3A3d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-dg",
+   "name": "بحث: الحكومة الرقمية",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9+%D8%A7%D9%84%D8%B1%D9%82%D9%85%D9%8A%D8%A9%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-dx",
+   "name": "بحث: التجربة الرقمية",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%A7%D9%84%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D8%B1%D9%82%D9%85%D9%8A%D8%A9%22+when%3A14d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-cc",
+   "name": "بحث: مراكز الاتصال",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D9%85%D8%B1%D8%A7%D9%83%D8%B2+%D8%A7%D9%84%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%22+OR+%22%D9%85%D8%B1%D9%83%D8%B2+%D8%A7%D9%84%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%22+when%3A7d&hl=ar&gl=SA&ceid=SA%3Aar"
+  },
+  {
+   "id": "gn-ar-ae",
+   "name": "بحث: تجربة المتعاملين (الإمارات)",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%B3%D8%B9%D8%A7%D8%AF%D8%A9+%D8%A7%D9%84%D9%85%D8%AA%D8%B9%D8%A7%D9%85%D9%84%D9%8A%D9%86%22+OR+%22%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9+%D8%A7%D9%84%D9%85%D8%AA%D8%B9%D8%A7%D9%85%D9%84%D9%8A%D9%86%22+when%3A7d&hl=ar&gl=AE&ceid=AE%3Aar",
+   "dc": "AE"
+  },
+  {
+   "id": "gn-ar-gs",
+   "name": "بحث: الخدمات الحكومية الرقمية",
+   "type": "gnews",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA+%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9%22+%D8%B1%D9%82%D9%85%D9%8A%D8%A9+when%3A7d&hl=ar&gl=EG&ceid=EG%3Aar"
+  },
+  {
+   "id": "gn-en-cx",
+   "name": "Search: customer experience",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+when%3A2d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-csat",
+   "name": "Search: customer satisfaction",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+satisfaction%22+index+OR+survey+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-gov",
+   "name": "Search: citizen experience",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22citizen+experience%22+OR+%22digital+government+services%22+OR+%22public+service+delivery%22+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-cc",
+   "name": "Search: contact center AI",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22contact+center%22+OR+%22contact+centre%22+AI+when%3A3d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-gartner",
+   "name": "Search: Gartner customer service",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=Gartner+%22customer+service%22+when%3A14d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-forrester",
+   "name": "Search: Forrester CX",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=Forrester+%22customer+experience%22+OR+%22CX+Index%22+when%3A14d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-consult",
+   "name": "Search: consulting studies",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=McKinsey+OR+BCG+OR+Deloitte+%22customer+experience%22+when%3A14d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-metrics",
+   "name": "Search: CX metrics",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22Net+Promoter%22+OR+%22voice+of+the+customer%22+OR+%22customer+effort%22+when%3A14d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-design",
+   "name": "Search: service design",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22service+design%22+OR+%22journey+mapping%22+government+when%3A14d&hl=en-US&gl=US&ceid=US%3Aen"
+  },
+  {
+   "id": "gn-en-acsi",
+   "name": "Search: ACSI",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22American+Customer+Satisfaction+Index%22+OR+ACSI+when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
+   "dc": "US"
+  },
+  {
+   "id": "gn-en-ukcsi",
+   "name": "Search: UKCSI",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22Institute+of+Customer+Service%22+OR+UKCSI+when%3A30d&hl=en-GB&gl=GB&ceid=GB%3Aen",
+   "dc": "GB"
+  },
+  {
+   "id": "gn-en-ae",
+   "name": "Search: CX UAE",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22customer+happiness%22+when%3A7d&hl=en-AE&gl=AE&ceid=AE%3Aen",
+   "dc": "AE"
+  },
+  {
+   "id": "gn-en-sa",
+   "name": "Search: CX Saudi",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22beneficiary%22+Saudi+when%3A7d&hl=en&gl=SA&ceid=SA%3Aen",
+   "dc": "SA"
+  },
+  {
+   "id": "gn-en-sg",
+   "name": "Search: CX Singapore",
+   "type": "gnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=%22customer+experience%22+OR+%22digital+services%22+when%3A7d&hl=en-SG&gl=SG&ceid=SG%3Aen",
+   "dc": "SG"
+  },
+  {
+   "id": "cxtoday",
+   "name": "CX Today",
+   "type": "rss",
+   "lang": "en",
+   "url": "https://www.cxtoday.com/feed/"
+  },
+  {
+   "id": "cxm",
+   "name": "Customer Experience Magazine",
+   "type": "rss",
+   "lang": "en",
+   "url": "https://cxm.world/feed/"
+  },
+  {
+   "id": "cxdive",
+   "name": "CX Dive",
+   "type": "rss",
+   "lang": "en",
+   "url": "https://www.customerexperiencedive.com/feeds/news/"
+  },
+  {
+   "id": "gds",
+   "name": "Government Digital Service",
+   "type": "rss",
+   "lang": "en",
+   "url": "https://gds.blog.gov.uk/feed/",
+   "dc": "GB"
+  },
+  {
+   "id": "ggf",
+   "name": "Global Government Forum",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "https://www.globalgovernmentforum.com/feed/"
+  },
+  {
+   "id": "mitsmr",
+   "name": "MIT Sloan Management Review",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "https://sloanreview.mit.edu/feed/"
+  },
+  {
+   "id": "hbr",
+   "name": "Harvard Business Review",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "http://feeds.hbr.org/harvardbusiness"
+  },
+  {
+   "id": "meatech",
+   "name": "MEA Tech Watch",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "https://meatechwatch.com/feed/"
+  },
+  {
+   "id": "govinsider",
+   "name": "GovInsider",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "https://govinsider.asia/feed"
+  },
+  {
+   "id": "fedscoop",
+   "name": "FedScoop",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "https://fedscoop.com/feed/",
+   "dc": "US"
+  },
+  {
+   "id": "martech",
+   "name": "MarTech",
+   "type": "rss",
+   "lang": "en",
+   "filter": true,
+   "url": "https://martech.org/feed/"
+  }
+ ]
+}

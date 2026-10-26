@@ -83,11 +83,11 @@ window.CXK_JourneyTool = function(host){
       if(!window.html2canvas){ await new Promise((ok,no)=>{ const s=document.createElement('script'); s.src='assets/vendor/html2canvas.min.js'; s.onload=ok; s.onerror=no; document.head.appendChild(s); }); }
       const wrap=document.createElement('div'); const bg=getComputedStyle(document.body).backgroundColor;
       wrap.style.cssText=`position:fixed;top:0;left:-99999px;padding:28px;background:${bg};direction:rtl;width:${LANEW+st.stages.length*COLW+60}px`;
-      wrap.innerHTML=`<div style="font:800 26px Alexandria,sans-serif;margin-bottom:4px">${esc(st.name||'رحلة العميل')}</div><div style="font:15px 'IBM Plex Sans Arabic',sans-serif;opacity:.7;margin-bottom:18px">${esc(st.persona||'')}</div>`;
-      const g=grid.cloneNode(true); g.querySelectorAll('textarea').forEach((t,i)=>{ const d=document.createElement('div'); d.textContent=grid.querySelectorAll('textarea')[i].value; d.style.cssText='font:14px/1.6 "IBM Plex Sans Arabic",sans-serif;padding:6px 8px;white-space:pre-wrap;min-height:60px'; t.replaceWith(d); });
-      g.querySelectorAll('.shead input').forEach((t,i)=>{ const d=document.createElement('div'); d.textContent=st.stages[i].n; d.style.cssText='font:700 15px Alexandria,sans-serif;padding:6px 8px'; t.replaceWith(d); });
+      wrap.innerHTML=`<div style="font:800 26px 'Thmanyah Serif Display','Thmanyah Sans','IBM Plex Sans Arabic',sans-serif;margin-bottom:4px">${esc(st.name||'رحلة العميل')}</div><div style="font:15px 'Thmanyah Sans','IBM Plex Sans Arabic',sans-serif;opacity:.7;margin-bottom:18px">${esc(st.persona||'')}</div>`;
+      const g=grid.cloneNode(true); g.querySelectorAll('textarea').forEach((t,i)=>{ const d=document.createElement('div'); d.textContent=grid.querySelectorAll('textarea')[i].value; d.style.cssText='font:14px/1.6 "Thmanyah Sans","IBM Plex Sans Arabic",sans-serif;padding:6px 8px;white-space:pre-wrap;min-height:60px'; t.replaceWith(d); });
+      g.querySelectorAll('.shead input').forEach((t,i)=>{ const d=document.createElement('div'); d.textContent=st.stages[i].n; d.style.cssText='font:700 15px "Thmanyah Serif Display","Thmanyah Sans","IBM Plex Sans Arabic",sans-serif;padding:6px 8px'; t.replaceWith(d); });
       g.querySelectorAll('.shead button').forEach(b=>b.remove());
-      g.querySelectorAll('select').forEach((s,i)=>{ const d=document.createElement('div'); d.textContent=(EMO.find(x=>x[0]===(+st.stages[i].emo||0))||[0,''])[1]; d.style.cssText='font:13px "IBM Plex Sans Arabic",sans-serif'; s.replaceWith(d); });
+      g.querySelectorAll('select').forEach((s,i)=>{ const d=document.createElement('div'); d.textContent=(EMO.find(x=>x[0]===(+st.stages[i].emo||0))||[0,''])[1]; d.style.cssText='font:13px "Thmanyah Sans","IBM Plex Sans Arabic",sans-serif'; s.replaceWith(d); });
       g.style.border='1px solid var(--line)'; wrap.appendChild(g);
       wrap.insertAdjacentHTML('beforeend',`<div style="font:12px 'IBM Plex Mono',monospace;opacity:.55;margin-top:12px;direction:ltr;text-align:left">CX Knowledge · Journey Map</div>`);
       document.body.appendChild(wrap);
