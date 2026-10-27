@@ -2,7 +2,7 @@ name: البث المباشر والنشر
 
 on:
   schedule:
-    - cron: "7,37 * * * *"      # كل 30 دقيقة
+    - cron: "3,18,33,48 * * * *"   # كل 15 دقيقة (جدولة GitHub تقريبية وقد تتأخر)
   push:
     branches: [main]
   workflow_dispatch:

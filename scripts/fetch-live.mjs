@@ -117,7 +117,7 @@ async function runFeed(f) {
     const items = [];
     if (f.type === 'gdelt') {
       let j, lastErr;
-      for (const wait of [0, 15000, 30000, 45000]) {   // GDELT يحدّ الطلبات المتقاربة؛ نعيد المحاولة بتباعد متزايد
+      for (const wait of [0, 20000]) {   // GDELT يحدّ الطلبات المتقاربة؛ نعيد المحاولة بتباعد متزايد
         if (wait) await sleep(wait);
         const ac = new AbortController(); const tm = setTimeout(() => ac.abort(), 40000);
         try {
