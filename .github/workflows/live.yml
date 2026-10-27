@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
   pages: write
   id-token: write
 
@@ -19,6 +20,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
@@ -47,3 +49,15 @@ jobs:
           path: .
       - id: deploy
         uses: actions/deploy-pages@v4
+      # جدولة GitHub تتأخر أو تُسقط تشغيلات كثيرة، فتستدعي كل دورة الدورة التالية بنفسها بعد 12 دقيقة.
+      # تعمل دورة واحدة فقط في الوقت نفسه (concurrency)، ويبقى الجدول أعلاه احتياطاً لإعادة التشغيل إن انقطعت السلسلة.
+      # لإيقاف السلسلة: أنشئ الملف .github/no-chain أو عطّل سير العمل من صفحة Actions.
+      - name: جدولة الدورة التالية
+        if: always() && github.event_name != 'push'
+        run: |
+          if [ -f .github/no-chain ]; then echo "chain disabled"; exit 0; fi
+          sleep 720
+          gh workflow run live.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
+
