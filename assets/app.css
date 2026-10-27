@@ -999,3 +999,6 @@ mark{background:var(--accent-soft);color:var(--fg);border-bottom:2px solid var(-
 .imp.i0{background:var(--down);border-color:var(--down);color:#fff}
 .imp.i1{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .imp.i2{border-color:var(--accent-line);color:var(--accent)}
+.arep>*,.ast>*{min-width:0}
+.arep .tablewrap{overflow-x:auto;max-width:100%}
+.gtab{min-width:640px}
