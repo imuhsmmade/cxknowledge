@@ -9,7 +9,7 @@ signals: {
   once:     { ar:["تلقائي","تلقائياً","آلي","آلياً","مسبقاً","ربط","تكامل","جلب البيانات","من الأنظمة","دون إدخال"], en:["automatic","automatically","pre-filled","prefilled","integration","integrated","pulled from","no need to enter"] },
   repeat:   { ar:["إعادة إدخال","اعادة ادخال","مرة أخرى","مره اخرى","تكرار","يكرر","من جديد"], en:["re-enter","again","repeat","from scratch","once more"] },
   visit:    { ar:["حضور","الحضور","زيارة","مراجعة الفرع","مراجعة المكتب","مراجعة الجهة","شخصياً","الفرع"], en:["in person","visit","branch","office visit","attend"] },
-  docs:     { ar:["مستند","مستندات","مرفق","مرفقات","أصل","صورة مصدقة","ختم","توقيع","أوراق","خطاب"], en:["document","documents","attach","attachment","original","stamp","signature","paperwork","letter"] },
+  docs:     { ar:["مستند","مستندات","مرفق","مرفقات","يرفق","إرفاق","صورة الفاتورة","أصل","صورة مصدقة","ختم","توقيع","أوراق","خطاب"], en:["document","documents","attach","attachment","original","stamp","signature","paperwork","letter"] },
   handoff:  { ar:["تحويل","يحول","يُحال","إحالة","احالة","جهة أخرى","إدارة أخرى","ادارة اخرى","قسم آخر","لجنة"], en:["transfer","transferred","refer","referred","another department","another agency","committee","handoff"] },
   wait:     { ar:["انتظار","ينتظر","أيام عمل","ايام عمل","أسبوع","أسابيع","شهر","أشهر","يوماً","يوم"], en:["wait","waiting","days","weeks","months","working days"] },
   sla:      { ar:["مدة محددة","خلال","الزمن المتوقع","مستوى الخدمة","المدة المعلنة","موعد متوقع"], en:["sla","within","expected time","service level","deadline","turnaround"] },
@@ -32,7 +32,7 @@ signals: {
   fair:     { ar:["عدالة","شفافية","الرسوم المعلنة","التكلفة الكاملة","وضوح الرسوم","حياد"], en:["fair","fairness","transparent","transparency","full cost","honest"] },
   payment:  { ar:["رسوم","دفع","سداد","غرامة"], en:["fee","fees","payment","pay","fine"] },
   continuity:{ ar:["دون إعادة","دون الحاجة إلى","ينتقل السياق","بنفس القناة","في القناة نفسها","رقمياً بالكامل","إلكترونياً بالكامل","من البداية إلى النهاية","سجل موحد"], en:["without repeating","context carried","same channel","fully digital","end to end","end-to-end","single record"] },
-  legalese:{ ar:["صياغة نظامية","لغة قانونية","نظامية طويلة","غامض","غامضة","غير واضح","غير واضحة","مصطلحات"], en:["legal wording","legalese","unclear","jargon","confusing"] },
+  legalese:{ ar:["صياغة نظامية","صياغة قانونية","لغة قانونية","نظامية طويلة","غامض","غامضة","غير واضح","غير واضحة","مصطلحات"], en:["legal wording","legalese","unclear","jargon","confusing"] },
   askstatus:{ ar:["ليسأل عن","يسأل عن حالة","يتصل ليسأل","يراجع ليسأل","للاستفسار عن حالة"], en:["call to ask","calls to ask","to ask about","chase","chasing"] },
   hiddenfee:{ ar:["لم تُذكر","لم تذكر","غير معلنة","رسوم إضافية","غرامة تأخير","مبلغ إضافي","لم يُذكر"], en:["not mentioned","extra charge","hidden fee","late fee","unexpected charge"] },
   legal:    { ar:["لائحة","اللائحة","اشتراط","اشتراطات","تشريع","تعميم","قرار وزاري","يشترط النظام","حسب الأنظمة","موافقة جهة","نظامية"], en:["regulation","regulations","legislation","by law","legal requirement","statutory"] },
@@ -132,21 +132,21 @@ scale: [["0","غير موجود","Not in place"],["1","بدائي","Initial"],["
 
 /* رحلة مثال للتجربة (عامة) */
 sample: {
- ar:{ name:"تجديد رخصة نشاط تجاري (مثال عام)", stages:[
-  ["البحث عن الخدمة","يبحث صاحب المنشأة في موقع الجهة عن طريقة التجديد. المعلومات موزعة على أكثر من صفحة، ولا تُذكر الرسوم ولا المدة المتوقعة."],
-  ["التقديم","يسجل الدخول في المنصة ويعبئ نموذجاً من 30 حقلاً، ويعيد إدخال بيانات السجل التجاري الموجودة لدى الجهات. يرفق صورة مصدقة من عقد الإيجار وشهادة الدفاع المدني."],
-  ["المراجعة","يُحال الطلب إلى إدارة الرخص ثم إلى لجنة الفحص. لا يصل إشعار، ويتصل صاحب المنشأة بمركز الاتصال ليسأل عن حالة الطلب."],
-  ["طلب النواقص","بعد 10 أيام عمل يُطلب مستند إضافي، ثم بعد أسبوع يُطلب مستند آخر. يراجع الفرع شخصياً لتسليم الأصل."],
-  ["القرار","يصل خطاب بالموافقة بصياغة نظامية طويلة، ويُطلب سداد الرسوم خلال 5 أيام. تظهر غرامة تأخير لم تُذكر سابقاً."],
-  ["بعد الخدمة","تصل رسالة استبيان بعد شهر من صدور الرخصة. لا يوجد مؤشر معلن لمدة الخدمة."]
+ ar:{ name:"استرداد مبلغ طلب ملغى من متجر إلكتروني (مثال عام)", stages:[
+  ["البحث عن طريقة الاسترداد","يبحث العميل في تطبيق المتجر عن طريقة الاسترداد. المعلومات موزعة على أكثر من صفحة، ولا تُذكر المدة المتوقعة ولا رسوم الإرجاع."],
+  ["تقديم الطلب","يعبئ نموذجاً من 20 حقلاً، ويعيد إدخال رقم الطلب وبيانات الدفع الموجودة في حسابه، ويرفق صورة الفاتورة وصورة المنتج."],
+  ["المراجعة","يُحال الطلب من خدمة العملاء إلى قسم المستودعات ثم إلى قسم المالية. لا يصل إشعار، ويتصل العميل بمركز الاتصال ليسأل عن حالة الطلب."],
+  ["طلب النواقص","بعد 10 أيام عمل يُطلب منه إثبات شحن إضافي، ثم بعد أسبوع تُطلب صورة أخرى. يُطلب منه زيارة نقطة الاستلام شخصياً لتسليم المنتج."],
+  ["القرار","تصل رسالة بالموافقة بصياغة قانونية طويلة، ويُخصم من المبلغ رسم إعادة تخزين لم يُذكر سابقاً."],
+  ["بعد الخدمة","يصل استبيان بعد شهر من الاسترداد. لا يوجد مؤشر معلن لمدة الاسترداد."]
  ]},
- en:{ name:"Renewing a business licence (generic example)", stages:[
-  ["Finding the service","The business owner searches the agency website for how to renew. Information is spread over several pages, with no fees or expected time."],
-  ["Applying","They sign in and fill a 30-field form, re-entering commercial registration data agencies already hold. They attach a certified copy of the lease and a civil defence certificate."],
-  ["Review","The request is transferred to the licensing department, then to an inspection committee. No notification arrives, and the owner calls the contact centre to ask about status."],
-  ["Missing items","After 10 working days another document is requested, then a week later another one. They visit the branch in person to hand over the original."],
-  ["Decision","An approval letter arrives in long legal wording, asking for payment within 5 days. A late fee appears that wasn't mentioned before."],
-  ["After the service","A survey arrives a month after the licence is issued. There's no published service time metric."]
+ en:{ name:"Refunding a cancelled online order (generic example)", stages:[
+  ["Finding how to get a refund","The customer searches the store's app for how to get a refund. Information is spread over several pages, with no expected time or return fee mentioned."],
+  ["Submitting the request","They fill a 20-field form, re-entering the order number and payment details already in their account, and attach a photo of the invoice and of the product."],
+  ["Review","The request is transferred from customer service to the warehouse team, then to finance. No notification arrives, and the customer calls the contact centre to ask about status."],
+  ["Missing items","After 10 working days they're asked for extra proof of shipping, then a week later for another photo. They're asked to visit a pick-up point in person to hand over the product."],
+  ["Decision","An approval message arrives in long legal wording, and a restocking fee that wasn't mentioned before is deducted."],
+  ["After the service","A survey arrives a month after the refund. There's no published refund time metric."]
  ]}
 }
 };

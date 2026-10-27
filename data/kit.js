@@ -144,9 +144,9 @@ patterns: [
    fix_en:"Analyse the top five contact reasons and remove their cause in the service itself, not only in the contact centre.",
    ex:"", ex_en:"" },
  { id:"surprise-expiry", st:"after",
-   n:"انتهاء مفاجئ لوثيقة أو رخصة", n_en:"A surprise expiry",
-   sym:"تنتهي صلاحية وثيقة أو رخصة دون تذكير، فيدفع العميل غرامة أو تتوقف خدمة يعتمد عليها.",
-   sym_en:"A document or licence expires without a reminder, and the customer pays a fine or loses a service they rely on.",
+   n:"انتهاء مفاجئ لاشتراك أو وثيقة", n_en:"A surprise expiry",
+   sym:"ينتهي اشتراك أو وثيقة دون تذكير، فيدفع العميل غرامة أو تتوقف خدمة يعتمد عليها.",
+   sym_en:"A subscription or document expires without a reminder, and the customer pays a fine or loses a service they rely on.",
    sig:"نسبة التجديد بعد الموعد، وعدد الغرامات المرتبطة بالتأخر في التجديد.",
    sig_en:"Share of late renewals, and fines linked to late renewal.",
    fix:"ذكّر العميل قبل الموعد بوقت كافٍ، وجدّد تلقائياً حين لا يتغير شيء، وقدّم الخدمة عند وقوع الحدث دون طلب.",
@@ -225,7 +225,7 @@ voc: {
  pos: ["شكرا","شكراً","أشكر","اشكر","ممتاز","ممتازة","رائع","رائعة","سريع","سريعة","سهل","سهلة","سلس","سلسة","مبدعين","متعاون","خدوم","محترم","أفضل","great","excellent","thanks","thank you","easy","quick","fast","smooth","helpful","amazing","love","perfect","polite"],
  sample: {
   ar: [
-   "قدمت طلب رخصة النشاط من شهر وللحين تحت الدراسة وما أحد يرد على الاتصال",
+   "قدمت الطلب من شهر وللحين تحت الدراسة وما أحد يرد على الاتصال",
    "طلبوا مني نفس المستندات مرتين، رفعتها في الطلب الأول وطلبوها مرة ثانية",
    "الموظف كان محترم ومتعاون وخلص طلبي بسرعة، شكراً",
    "انرفض الطلب بدون سبب واضح وما عرفت وش أصحح",
@@ -247,11 +247,11 @@ voc: {
    "أشكركم على سرعة الاستجابة وحل المشكلة من أول اتصال",
    "ألغيت الموعد ولم يصلني أي إشعار بالإلغاء",
    "كل مرة أدخل الموقع يطلب تسجيل الدخول من جديد",
-   "وصلتني غرامة لأن الرخصة انتهت وما جاني تذكير",
+   "انخصمت مني رسوم تأخير لأن الاشتراك انتهى وما جاني تذكير",
    "قيل لي أكمل الطلب في الفرع مع أني بدأته في المنصة"
   ],
   en: [
-   "I applied for the licence a month ago and it's still under review, nobody answers the phone",
+   "I submitted my request a month ago and it's still under review, nobody answers the phone",
    "They asked me for the same documents twice even though I uploaded them the first time",
    "The agent was polite and helpful and finished my request quickly, thank you",
    "My application was rejected with no reason and I don't know what to fix",
@@ -273,7 +273,7 @@ voc: {
    "Thank you for the fast response and fixing it on the first call",
    "My appointment was cancelled and I never got a notification",
    "Every time I open the website it asks me to log in again",
-   "I got a fine because my licence expired and nobody reminded me",
+   "I was charged a late fee because my subscription expired and nobody reminded me",
    "I was told to finish the request at the branch even though I started it online"
   ]
  }
@@ -288,8 +288,8 @@ messages: [
    ar:"تم استلام طلبكم وسيتم التواصل معكم.",
    en:"Your request has been received and you will be contacted." },
  { k:"good", n:"رسالة واضحة", n_en:"A clear message",
-   ar:"استلمنا طلب تجديد الرخصة رقم 482193. نراجعه خلال 3 أيام عمل، ونرسل لك رسالة بالنتيجة. تتابع حالته من الرابط: example.gov/track",
-   en:"We've received your licence renewal request 482193. We'll review it within 3 working days and text you the result. Track it here: example.gov/track" }
+   ar:"استلمنا طلب استرداد المبلغ رقم 482193. نراجعه خلال 3 أيام عمل، ونرسل لك رسالة بالنتيجة. تتابع حالته من الرابط: example.com/track",
+   en:"We've received your refund request 482193. We'll review it within 3 working days and text you the result. Track it here: example.com/track" }
 ],
 
 /* منشئ الاستبيان */

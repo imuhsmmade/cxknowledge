@@ -7,7 +7,7 @@ const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&
 const nz = s => String(s||'').toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
 const isAr = s => /[؀-ۿ]/.test(s);
 const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-const KEY='cxk-assess-v1', CKEY='cxk-assess-custom-v1';
+const KEY='cxk-assess-v2', CKEY='cxk-assess-custom-v1';
 const NEG = ["لا","لم","لن","دون","بدون","غير","ليس","ليست","عدم","ما","no","not","without","never","none","lack","missing"];
 
 const T = {
