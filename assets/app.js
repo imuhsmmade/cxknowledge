@@ -255,7 +255,7 @@ function pageNews(){
 function pageHome(){
   const CT=window.CXK_Catalog?window.CXK_Catalog(LANG):null, icon=window.CXK_Icon||(()=>''), K=window.CXK_KIT||{patterns:[],principles:[]};
   const pod=window.CXK_PatternOfDay?window.CXK_PatternOfDay(LANG):null, en=LANG==='en', li=en?1:0;
-  const needs=['tool','voc','msg','prio','survey','sim','calc','maturity'];
+  const needs=['tool','assess','voc','msg','prio','survey','sim','maturity'];
   const ov=(LENS?items.filter(i=>i.c===LENS):items).slice(0,5), wl=lensed(LIVE.items).slice(0,6);
   const inits=['EE','SG','AE','KR','DK','SA'].map(c=>P[c]&&P[c].initiatives&&P[c].initiatives[0]?{...P[c].initiatives[0],c}:null).filter(Boolean).slice(0,3);
   const outlets=(LIVE.stats||{}).outlets_14d||new Set(LIVE.items.map(x=>x.s)).size;
@@ -263,7 +263,7 @@ function pageHome(){
     <section class="hero">
       <div class="hcopy"><span class="kicker">${S.homeK}</span><h1>${S.homeT}</h1><p>${S.homeP}</p>
         <div class="acts2"><a class="btn pri" href="${href('tools/tool')}">${S.homeCta1}</a><a class="btn" href="${href('tools')}">${S.homeCta2}</a></div>
-        <dl class="hstats"><div><dt>${S.hs1}</dt><dd>8</dd></div><div><dt>${S.hs5}</dt><dd>${(window.CXK_REF||{articles:[]}).articles.length}</dd></div><div><dt>${S.hs6}</dt><dd>${(window.CXK_REF||{metrics:[]}).metrics.length}</dd></div><div><dt>${S.hs2}</dt><dd>${K.patterns.length}</dd></div><div><dt>${S.hs3}</dt><dd>193</dd></div></dl></div>
+        <dl class="hstats"><div><dt>${S.hs1}</dt><dd>${CT?CT.tools.groups.reduce((n,g)=>n+g[1].length,0):''}</dd></div><div><dt>${S.hs5}</dt><dd>${(window.CXK_REF||{articles:[]}).articles.length}</dd></div><div><dt>${S.hs6}</dt><dd>${(window.CXK_REF||{metrics:[]}).metrics.length}</dd></div><div><dt>${S.hs2}</dt><dd>${K.patterns.length}</dd></div><div><dt>${S.hs3}</dt><dd>193</dd></div></dl></div>
       <figure class="hfig"><figcaption><b>${S.miniT}</b><span>${S.miniCap}</span></figcaption>${window.CXK_LabMini?window.CXK_LabMini(LANG):''}<a class="srcl" href="${href('tools/tool')}">${S.miniTry}</a></figure>
     </section>
   </div>
@@ -273,6 +273,7 @@ function pageHome(){
     ${pod?`<article class="pod"><span class="kicker">${S.podT}</span><span class="stg">${esc((K.stages[pod.st]||[])[li]||'')}</span><h2>${esc(en?pod.n_en:pod.n)}</h2><p>${esc(en?pod.sym_en:pod.sym)}</p><div class="pfix"><b>${S.podFix}</b><p>${esc(en?pod.fix_en:pod.fix)}</p></div><a class="srcl" href="${href('learn/patterns/'+pod.id)}">${S.podMore}</a></article>`:''}
     <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['path','encyclopedia','metrics','patterns','standards'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
   </div></section>
+  ${(window.CXK_Cases&&window.CXK_CaseCard)?`<section class="blk wrap"><div class="sh"><h2>${S.casesT}</h2><p>${S.casesSub}</p><a class="more" href="${href('learn/cases')}">${S.allCases}</a></div><div class="cases">${window.CXK_Cases.items.filter(x=>['va-trust','estonia-family','irs-direct-file','klarna-ai','dubai-paperless','uk-register-vote'].includes(x.id)).map(x=>window.CXK_CaseCard(x,window.CXK)).join('')}</div></section>`:''}
   <section class="blk wrap"><div class="sh"><h2>${S.worldT}</h2><p>${S.worldSub}</p><a class="more" href="${href('atlas')}">${S.allCountries2}</a></div>
     <div class="inits">${inits.map(i=>iniCard(i)).join('')}</div>
     <div class="board" style="margin-top:14px">${IX.slice(0,4).map(ixCard).join('')}</div>
@@ -353,6 +354,7 @@ function pageCountry(code){
     </aside>
   </div>
   ${p&&p.metrics&&p.metrics.length?`<section class="blk" style="padding-top:28px"><div class="sh"><h2>${S.keyFigures}</h2></div><div class="mgrid">${p.metrics.map(m=>`<div class="mc"><b dir="${dirOf(L(m,'v'))}">${esc(L(m,'v'))}</b><span>${esc(L(m,'l'))}</span><small>${esc(m.d)} · <a href="${esc(m.u)}" target="_blank" rel="noopener">${esc(m.s)}</a></small></div>`).join('')}</div></section>`:''}
+  ${(()=>{ const cs=((window.CXK_Cases||{}).items||[]).filter(x=>x.c===c); return cs.length&&window.CXK_CaseCard?`<section class="blk"><div class="sh"><h2>${S.casesT}</h2><a class="more" href="${href('learn/cases')}">${S.allCases}</a></div><div class="cases">${cs.map(x=>window.CXK_CaseCard(x,window.CXK)).join('')}</div></section>`:''; })()}
   ${p&&p.initiatives&&p.initiatives.length?`<section class="blk"><div class="sh"><h2>${S.initTitle}</h2></div><div class="inits">${p.initiatives.map(i=>iniCard({...i,c},false)).join('')}</div></section>`:''}
   ${news.length?`<section class="blk"><div class="sh"><h2>${S.anTitle}</h2></div><div class="feed">${news.map(newsCard).join('')}</div></section>`:''}
   <section class="blk"><div class="sh"><h2>${S.fromWire}</h2><p>${S.fromWireSub(esc(cname(c)))}</p></div>${wire.length?`<div class="listbox">${wire.map(wireItem).join('')}</div>`:`<p class="empty">${S.noWireC(esc(cname(c)))}</p>`}</section>

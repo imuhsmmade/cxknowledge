@@ -5,21 +5,21 @@ const R = window.CXK_REF, K = window.CXK_KIT, J = window.CXK_JOURNEY;
 const $ = (s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nz = s => String(s||'').toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
-const LEARN_IDS = ['method','encyclopedia','metrics','frameworks','patterns','principles','standards','library','books','path','kit'];
+const LEARN_IDS = ['cases','method','encyclopedia','metrics','frameworks','patterns','principles','standards','library','books','path','kit'];
 
 const T = {
  ar:{ searchEnc:"ابحث في الموسوعة", noRes:"لا نتائج تطابق البحث.", why:"لماذا يهم", how:"كيف تطبّقه", measure:"كيف تقيسه", mistakes:"أخطاء شائعة", related:"اقرأ واستخدم أيضاً", sources:"المصادر", prev:"السابق", next:"التالي", back:"كل مقالات الموسوعة", copyLink:"انسخ رابط المقال", articles:n=>`${n} مقالاً`,
    allGroups:"الكل", formula:"المعادلة", scale:"المقياس", useWhen:"متى تستخدمه", pitfall:"انتبه", searchMet:"ابحث في المؤشرات", by:"المصدر", howUse:"كيف تستخدمه", open:"افتح المرجع", searchBooks:"ابحث في الكتب",
    pathIntro:"أربع مراحل تنقلك من فهم الأساسيات إلى قيادة تجربة العميل في جهة كاملة. كل خطوة رابط إلى مقال أو أداة في الموقع.", step:n=>`المرحلة ${n}`,
-   types:{art:"مقال",tool:"أداة",learn:"معرفة",pattern:"نمط انكسار",metric:"مؤشر",fw:"نموذج",std:"معيار",term:"مصطلح",book:"كتاب",country:"دولة",ini:"مبادرة",news:"قراءة",journey:"رحلة",principle:"مبدأ"},
+   types:{case:"دراسة حالة",art:"مقال",tool:"أداة",learn:"معرفة",pattern:"نمط انكسار",metric:"مؤشر",fw:"نموذج",std:"معيار",term:"مصطلح",book:"كتاب",country:"دولة",ini:"مبادرة",news:"قراءة",journey:"رحلة",principle:"مبدأ"},
    sTitle:"ابحث في الموقع", sPh:"ابحث عن مصطلح أو أداة أو مؤشر أو دولة…", sHint:"اكتب كلمتين على الأقل. اضغط Esc للإغلاق.", sNone:"لا نتائج. جرّب كلمة أخرى أو اكتبها بالإنجليزية.", sCount:n=>`${n} نتيجة`,
-   sSuggest:"جرّب:", sugg:["جهد العميل","NPS","مخطط الخدمة","الشكاوى","ISO 10002","إستونيا","اللغة الواضحة"] },
+   sSuggest:"جرّب:", sugg:["جهد العميل","إستونيا","NPS","مخطط الخدمة","الشكاوى","ISO 10002","إستونيا","اللغة الواضحة"] },
  en:{ searchEnc:"Search the encyclopedia", noRes:"No results match your search.", why:"Why it matters", how:"How to apply it", measure:"How to measure it", mistakes:"Common mistakes", related:"Read and use next", sources:"Sources", prev:"Previous", next:"Next", back:"All encyclopedia articles", copyLink:"Copy article link", articles:n=>`${n} articles`,
    allGroups:"All", formula:"Formula", scale:"Scale", useWhen:"When to use it", pitfall:"Watch out", searchMet:"Search metrics", by:"Origin", howUse:"How to use it", open:"Open reference", searchBooks:"Search books",
    pathIntro:"Four stages that take you from the basics to leading customer experience across an organisation. Each step links to an article or tool on the site.", step:n=>`Stage ${n}`,
-   types:{art:"Article",tool:"Tool",learn:"Knowledge",pattern:"Breakpoint pattern",metric:"Metric",fw:"Model",std:"Standard",term:"Term",book:"Book",country:"Country",ini:"Initiative",news:"Pick",journey:"Journey",principle:"Principle"},
+   types:{case:"Case study",art:"Article",tool:"Tool",learn:"Knowledge",pattern:"Breakpoint pattern",metric:"Metric",fw:"Model",std:"Standard",term:"Term",book:"Book",country:"Country",ini:"Initiative",news:"Pick",journey:"Journey",principle:"Principle"},
    sTitle:"Search the site", sPh:"Search for a term, tool, metric or country…", sHint:"Type at least two letters. Press Esc to close.", sNone:"No results. Try another word.", sCount:n=>`${n} results`,
-   sSuggest:"Try:", sugg:["customer effort","NPS","service blueprint","complaints","ISO 10002","Estonia","plain language"] }
+   sSuggest:"Try:", sugg:["customer effort","Estonia","NPS","service blueprint","complaints","ISO 10002","Estonia","plain language"] }
 };
 const art = id => R.articles.find(a=>a.id===id);
 
@@ -73,7 +73,7 @@ function metrics(host, X, arg){
   host.innerHTML=`<div class="filters" style="margin-top:18px"><div class="chips" id="mg"><button class="chip" type="button" data-k="all" aria-pressed="true">${t.allGroups}</button>${Object.entries(R.metricGroups).map(([k,v])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="false">${esc(v[li])}</button>`).join('')}</div><label class="field"><span class="sr">${t.searchMet}</span>${X.I.search}<input id="mq" type="search" placeholder="${t.searchMet}" autocomplete="off"></label></div><div class="mets" id="ml"></div>`;
   function render(){ const n=nz(q.trim()); $$('#mg .chip',host).forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===g));
     const l=R.metrics.filter(m=>(g==='all'||m.g===g)&&(!n||nz([m.n,m.n_en,m.a,m.d,m.d_en].join(' ')).includes(n)));
-    $('#ml',host).innerHTML=l.map(m=>`<article class="met" id="m-${m.id}"><div class="mh"><span class="stg">${esc(R.metricGroups[m.g][li])}</span><h3>${esc(en?m.n_en:m.n)}${m.a?` <span class="ab" dir="ltr">${esc(m.a)}</span>`:''}</h3></div><p>${esc(en?m.d_en:m.d)}</p>
+    $('#ml',host).innerHTML=l.map(m=>`<article class="met" id="m-${m.id}"><div class="mh"><span class="stg">${esc(R.metricGroups[m.g][li])}</span><h3>${esc(en?m.n_en:m.n)}${m.a?` <span class="mab" dir="ltr">${esc(m.a)}</span>`:''}</h3></div><p>${esc(en?m.d_en:m.d)}</p>
       <div class="fml"><small>${t.formula}</small><code>${esc(en?m.f_en:m.f)}</code><small>${t.scale}: <span dir="${/[\u0600-\u06FF]/.test(en?m.sc_en:m.sc)?'rtl':'ltr'}">${esc(en?m.sc_en:m.sc)}</span></small></div>
       <dl><div><dt>${t.useWhen}</dt><dd>${esc(en?m.u_en:m.u)}</dd></div><div class="w"><dt>${t.pitfall}</dt><dd>${esc(en?m.x_en:m.x)}</dd></div></dl></article>`).join('')||`<p class="empty">${t.noRes}</p>`; }
   $('#mg',host).onclick=e=>{ const b=e.target.closest('[data-k]'); if(b){ g=b.dataset.k; render(); } };
@@ -112,6 +112,55 @@ function pathPage(host, X){
   host.innerHTML=`<p class="csum" style="margin-top:18px">${t.pathIntro}</p><ol class="lpath">${R.path.map((s,i)=>`<li><div class="lh"><span class="kicker">${t.step(i+1)}</span><h3>${esc(en?s.n_en:s.n)}</h3><p>${esc(en?s.d_en:s.d)}</p></div><ul>${s.items.map(([p])=>{ const [n,ty]=titleFor(p,X); return `<li><a href="${X.href(p)}"><small>${ty}</small>${esc(n)}</a></li>`; }).join('')}</ul></li>`).join('')}</ol>`;
 }
 
+
+/* ---------- دراسات الحالة ---------- */
+const CS = window.CXK_CASES || {items:[],themes:{},sectors:{}};
+const CT = { ar:{ all:"الكل", allCountries:"كل الدول", search:"ابحث في دراسات الحالة", intro:n=>`${n} دراسة حالة من جهات حكومية وشركات: ما المشكلة، وما الذي تغيّر، وما النتيجة بالأرقام. كل رقم منقول من المصدر المذكور، وبعض الأرقام معلنة من الجهة نفسها.`, ctx:"السياق", prob:"المشكلة", did:"ما الذي فعلوه", res:"النتائج", less:"ما نتعلمه", src:"المصدر", back:"كل دراسات الحالة", read:"اقرأ الدراسة", note:"الأرقام كما وردت في المصدر وفي تاريخه. راجع المصدر قبل الاستشهاد بها.", more:"دراسات أخرى" },
+             en:{ all:"All", allCountries:"All countries", search:"Search case studies", intro:n=>`${n} case studies from governments and companies: the problem, what changed, and the result in numbers. Every figure comes from the cited source, and some are reported by the organisation itself.`, ctx:"Context", prob:"The problem", did:"What they did", res:"Results", less:"Lessons", src:"Source", back:"All case studies", read:"Read the case", note:"Figures are as reported in the source at its date. Check the source before citing them.", more:"More cases" } };
+function caseCard(c, X){ const en=X.LANG==='en', li=en?1:0, r=c.res[0];
+  return `<a class="case" href="${X.href('learn/cases/'+c.id)}"><div class="ch">${X.flag(c.c,'sm')}<span>${esc(X.cname(c.c))}</span><span class="stg">${esc((CS.themes[c.th]||[])[li]||'')}</span><span class="y num" dir="ltr">${esc(c.y)}</span></div><h3>${esc(en?c.t_en:c.t)}</h3><div class="big"><b dir="ltr">${esc(r[0])}</b><span>${esc(en?r[2]:r[1])}</span></div><span class="org">${esc(en?c.org:(c.org_ar||c.org))}</span></a>`; }
+function cases(host, X, arg){
+  const t=CT[X.LANG], en=X.LANG==='en', li=en?1:0;
+  if(arg && CS.items.find(c=>c.id===arg)) return casePage(host,X,arg);
+  let th='all', sec='all', cc='all', q='';
+  const ccs=[...new Set(CS.items.map(c=>c.c))].sort((a,b)=>X.cname(a).localeCompare(X.cname(b),X.LANG));
+  host.innerHTML=`<p class="csum" style="margin-top:18px">${t.intro(CS.items.length)}</p>
+   <div class="filters"><div class="chips" id="cth"><button class="chip" type="button" data-k="all">${t.all}</button>${Object.entries(CS.themes).map(([k,v])=>`<button class="chip" type="button" data-k="${k}">${esc(v[li])}</button>`).join('')}</div></div>
+   <div class="filters"><div class="chips" id="csec"><button class="chip" type="button" data-k="all">${t.all}</button>${Object.entries(CS.sectors).map(([k,v])=>`<button class="chip" type="button" data-k="${k}">${esc(v[li])}</button>`).join('')}</div>
+   <select class="sel" id="ccc" aria-label="${t.allCountries}"><option value="all">${t.allCountries}</option>${ccs.map(c=>`<option value="${c}">${esc(X.cname(c))}</option>`).join('')}</select>
+   <label class="field"><span class="sr">${t.search}</span>${X.I.search}<input id="cq" type="search" placeholder="${t.search}" autocomplete="off"></label></div>
+   <div class="cases" id="cl"></div>`;
+  function render(){ const n=nz(q.trim());
+    $$('#cth .chip',host).forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===th)); $$('#csec .chip',host).forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===sec));
+    const l=CS.items.filter(c=>(th==='all'||c.th===th)&&(sec==='all'||c.s===sec)&&(cc==='all'||c.c===cc)&&(!n||nz([c.t,c.t_en,c.org,c.org_ar,c.ctx,c.ctx_en,X.cname(c.c)].join(' ')).includes(n)));
+    $('#cl',host).innerHTML=l.map(c=>caseCard(c,X)).join('')||`<p class="empty">${T[X.LANG].noRes}</p>`; }
+  $('#cth',host).onclick=e=>{ const b=e.target.closest('[data-k]'); if(b){ th=b.dataset.k; render(); } };
+  $('#csec',host).onclick=e=>{ const b=e.target.closest('[data-k]'); if(b){ sec=b.dataset.k; render(); } };
+  $('#ccc',host).onchange=e=>{ cc=e.target.value; render(); };
+  $('#cq',host).oninput=e=>{ q=e.target.value; render(); };
+  render();
+}
+function casePage(host, X, id){
+  const t=CT[X.LANG], en=X.LANG==='en', li=en?1:0, c=CS.items.find(x=>x.id===id), rel=relLinks(c.rel||{},X);
+  const others=CS.items.filter(x=>x.id!==id&&(x.th===c.th||x.c===c.c)).slice(0,3);
+  host.innerHTML=`<article class="art cs">
+   <div class="art-head"><a class="crumb" href="${X.href('learn/cases')}">${t.back}</a>
+    <div class="ch">${X.flag(c.c,'sm')}<a href="${X.href('country/'+c.c.toLowerCase())}">${esc(X.cname(c.c))}</a><span class="stg">${esc((CS.themes[c.th]||[])[li]||'')}</span><span class="stg">${esc((CS.sectors[c.s]||[])[li]||'')}</span><span class="y num" dir="ltr">${esc(c.y)}</span></div>
+    <h2>${esc(en?c.t_en:c.t)}</h2><span class="srcl">${esc(en?c.org:(c.org_ar||c.org))}</span></div>
+   <div class="resrow">${c.res.map(r=>`<div><b dir="ltr">${esc(r[0])}</b><span>${esc(en?r[2]:r[1])}</span></div>`).join('')}</div>
+   <div class="art-body">
+    <section class="two-c"><div><h3>${t.ctx}</h3><p>${esc(en?c.ctx_en:c.ctx)}</p></div><div><h3>${t.prob}</h3><p>${esc(en?c.prob_en:c.prob)}</p></div></section>
+    <section><h3>${t.did}</h3><ol class="steps2">${(en?c.did_en:c.did).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
+    <section class="warnbox lessons"><h3>${t.less}</h3><ul>${(en?c.less_en:c.less).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
+    ${rel.length?`<section><h3>${T[X.LANG].related}</h3><div class="rels">${rel.map(([h,n,ty])=>`<a href="${h}"><small>${T[X.LANG].types[ty]}</small>${esc(n)}</a>`).join('')}</div></section>`:''}
+    <section><h3>${t.src}</h3><ul class="srcs">${c.src.map(([n,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener" dir="ltr">${esc(n)} ${X.I.ext}</a></li>`).join('')}</ul><p class="note">${t.note}</p></section>
+    ${others.length?`<section><h3>${t.more}</h3><div class="cases">${others.map(o=>caseCard(o,X)).join('')}</div></section>`:''}
+   </div></article>`;
+  document.title=(en?c.t_en:c.t)+' | CX Knowledge';
+}
+window.CXK_CaseCard = caseCard;
+window.CXK_Cases = CS;
+
 /* ---------- البحث في الموقع ---------- */
 let IDX=null, IDXLANG=null;
 function buildIndex(X){
@@ -125,6 +174,7 @@ function buildIndex(X){
   K.principles.forEach(p=>add('principle', en?p.n_en:p.n, en?p.d_en:p.d, X.href('learn/principles'), en?p.n:p.n_en));
   J.glossary.concat(R.glossary||[]).forEach(g=>add('term', en?g[1]:g[0], en?g[3]:g[2], X.href('learn/kit'), en?g[0]:g[1]));
   R.books.forEach(b=>add('book', b.t, b.a+' · '+b.y, X.href('learn/books'), b.d));
+  CS.items.forEach(c=>add('case', en?c.t_en:c.t, (en?c.org:(c.org_ar||c.org))+' · '+X.cname(c.c), X.href('learn/cases/'+c.id), (en?c.t:c.t_en)+' '+c.org+' '+X.cname(c.c)));
   (J.library||[]).forEach(x=>add('journey', en?(x.t_en||x.t):x.t, X.cname(x.c), X.href('learn/library'), x.t_en));
   const CO=window.CXK_COUNTRIES||{}; Object.entries(CO).forEach(([c,d])=>{ if(d[2]==null) return; add('country', en?d[1]:d[0], '', X.href('country/'+c.toLowerCase()), en?d[0]:d[1]); });
   const P=window.CXK_PROFILES||{}; Object.entries(P).forEach(([c,p])=>(p.initiatives||[]).forEach(i=>add('ini', X.L(i,'t'), X.cname(c), X.href('country/'+c.toLowerCase()), (i.t_en||'')+' '+(i.d||''))));
@@ -155,5 +205,5 @@ window.CXK_OpenSearch = function(){
   setTimeout(()=>inp.focus(),20);
 };
 window.CXK_Search = search;
-window.CXK_REFPAGES = { encyclopedia, metrics, frameworks, standards, books, path:pathPage };
+window.CXK_REFPAGES = { encyclopedia, metrics, frameworks, standards, books, path:pathPage, cases };
 })();

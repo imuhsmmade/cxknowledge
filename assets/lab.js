@@ -261,16 +261,19 @@ const IC={
  layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
  badge:'<circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/>',
  books:'<path d="M4 4h4v16H4zM10 4h4v16h-4z"/><path d="m16 5 3.5-1 2.5 15.5-3.5 1z"/>',
+ check:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 12 3 3 5-6"/>',
+ case:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M9 6V4h6v2M3 12h18"/>',
  route:'<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/>'
 };
 const CAT={
  ar:{
   tools:{k:"الأدوات",t:"أدوات تجربة العميل",p:"أدوات تعمل في متصفحك مباشرة: ترسم الرحلة وتكشف تعثرها، وتحلل ملاحظات العملاء، وتفحص رسائلك، وترتب أولويات التحسين، وتصمم الاستبيان وتقيس النتائج. لا تحتاج حساباً، ولا تُرسل بياناتك إلى أي خادم.",
-   groups:[["صمّم الرحلة",["tool","sim"]],["اسمع العميل",["voc","survey"]],["تواصل بوضوح",["msg"]],["قرّر ونفّذ",["prio"]],["قِس وقيّم",["calc","maturity"]]]},
+   groups:[["صمّم الرحلة وقيّمها",["tool","assess","sim"]],["اسمع العميل",["voc","survey"]],["تواصل بوضوح",["msg"]],["قرّر ونفّذ",["prio"]],["قِس وقيّم",["calc","maturity"]]]},
   learn:{k:"المعرفة",t:"مرجع تجربة العميل",p:"كل ما تحتاجه في تجربة العميل في مكان واحد: موسوعة مقالات عملية، ودليل المؤشرات بمعادلاتها، والنماذج والأطر، والمعايير الدولية والشهادات، وأنماط الانكسار، ومبادئ التصميم، ورحلات من دول رائدة، وكتب مرجعية، ومعجم مصطلحات، ومسار تعلم من الأساس إلى القيادة.",
-   groups:[["ابدأ هنا",["path","method"]],["المفاهيم والنماذج",["encyclopedia","frameworks","principles"]],["القياس",["metrics"]],["افهم التعثر",["patterns"]],["المعايير والتجارب الدولية",["standards","library"]],["مكتبتك",["books","kit"]]]},
+   groups:[["ابدأ هنا",["path","method"]],["المفاهيم والنماذج",["encyclopedia","frameworks","principles"]],["القياس",["metrics"]],["افهم التعثر",["patterns"]],["تعلّم من التجارب",["cases","library"]],["المعايير",["standards"]],["مكتبتك",["books","kit"]]]},
   items:{
    tool:["ارسم الرحلة","ارسم رحلة عميلك مرحلة مرحلة، وتحسب الأداة مؤشر التعثر وتحدد نقاط الانكسار وتقترح المعالجة.","أريد أن أرسم رحلة","map"],
+   assess:["قيّم رحلتك","أدخل الرحلة بالمراحل أو ارفع ملف PDF، واختر منهجية (منهجية الموقع، أو أبعاد المعهد البريطاني لخدمة العملاء، أو معيار التميز البريطاني، أو معيار الخدمة الحكومية، أو منهجيتك)، واحصل على درجة لكل معيار وتقرير بالفجوات.","أريد تقييم رحلة موجودة","check"],
    sim:["جرّب الرحلة كعميل","كن العميل في سيناريو واقعي، واتخذ قراراتك، وشاهد أين انكسرت الرحلة وكيف كان ينبغي تصميمها.","أريد أن أفهم شعور العميل","play"],
    voc:["حلّل ملاحظات العملاء","الصق الشكاوى أو التعليقات، وتصنّفها الأداة بالموضوع والنبرة وتربطها بأنماط الانكسار.","عندي ملاحظات وشكاوى كثيرة","chat"],
    survey:["صمّم استبياناً","اختر اللحظة والمؤشر، وتكتب الأداة الأسئلة ومقاييسها ومتى ترسله.","أريد أن أقيس رأي العملاء","list"],
@@ -288,15 +291,17 @@ const CAT={
    frameworks:["النماذج والأطر","نماذج مرجعية مثل كانو وسيرفكوال وسلسلة الخدمة والربح وقاعدة الذروة والنهاية، وكيف تستخدم كلاً منها.","","layers"],
    standards:["المعايير والشهادات","معايير ISO لإدارة الشكاوى وقياس الرضا والتميز في الخدمة ومراكز الاتصال، ومعايير الإتاحة والخدمة الحكومية، والشهادات المهنية.","","badge"],
    books:["كتب مرجعية","أهم الكتب في تجربة العميل وتصميم الخدمة، مع ما يقدمه كل كتاب.","","books"],
+   cases:["دراسات الحالة","15 دراسة حالة من حكومات وشركات: ما المشكلة، وما الذي تغيّر، والنتيجة بالأرقام مع المصدر.","أريد أمثلة حقيقية بنتائج","case"],
    path:["مسار التعلم","أربع مراحل من الأساسيات إلى القيادة، كل خطوة فيها رابط إلى مقال أو أداة.","من أين أبدأ؟","route"]
   }},
  en:{
   tools:{k:"Tools",t:"Customer experience tools",p:"Tools that run right in your browser: map a journey and find where it breaks, analyse customer comments, check your messages, rank improvements, design a survey and measure the results. No account needed, and your data isn't sent to any server.",
-   groups:[["Design the journey",["tool","sim"]],["Listen to customers",["voc","survey"]],["Communicate clearly",["msg"]],["Decide and act",["prio"]],["Measure and assess",["calc","maturity"]]]},
+   groups:[["Design and assess the journey",["tool","assess","sim"]],["Listen to customers",["voc","survey"]],["Communicate clearly",["msg"]],["Decide and act",["prio"]],["Measure and assess",["calc","maturity"]]]},
   learn:{k:"Knowledge",t:"The customer experience reference",p:"Everything you need on customer experience in one place: a practical encyclopedia, a metrics guide with formulas, models and frameworks, international standards and certifications, breakpoint patterns, design principles, journeys from leading countries, key books, a glossary, and a learning path from basics to leadership.",
-   groups:[["Start here",["path","method"]],["Concepts and models",["encyclopedia","frameworks","principles"]],["Measurement",["metrics"]],["Understand where journeys break",["patterns"]],["Standards and international practice",["standards","library"]],["Your library",["books","kit"]]]},
+   groups:[["Start here",["path","method"]],["Concepts and models",["encyclopedia","frameworks","principles"]],["Measurement",["metrics"]],["Understand where journeys break",["patterns"]],["Learn from practice",["cases","library"]],["Standards",["standards"]],["Your library",["books","kit"]]]},
   items:{
    tool:["Map a journey","Map your customer journey stage by stage; the tool calculates a friction index, finds the breakpoints and suggests fixes.","I want to map a journey","map"],
+   assess:["Assess your journey","Enter the journey stage by stage or upload a PDF, choose a methodology (this site's, the UK Institute of Customer Service dimensions, Customer Service Excellence, the GOV.UK Service Standard, or your own), and get a score per criterion and a gap report.","I want to assess an existing journey","check"],
    sim:["Live the journey","Be the customer in a realistic scenario, make choices, and see where the journey broke and how it should have been designed.","I want to feel what customers feel","play"],
    voc:["Analyse customer comments","Paste complaints or comments; the tool tags them by theme and tone and links them to breakpoint patterns.","I have lots of comments and complaints","chat"],
    survey:["Design a survey","Pick the moment and the metric; the tool writes the questions, scales and when to send it.","I want to measure what customers think","list"],
@@ -314,6 +319,7 @@ const CAT={
    frameworks:["Models & frameworks","Reference models such as Kano, SERVQUAL, the service-profit chain and the peak–end rule, and how to use each.","","layers"],
    standards:["Standards & certifications","ISO standards for complaints, satisfaction measurement, service excellence and contact centres, accessibility and government service standards, and professional certifications.","","badge"],
    books:["Key books","The essential books on customer experience and service design, and what each offers.","","books"],
+   cases:["Case studies","15 case studies from governments and companies: the problem, what changed and the result in numbers, with sources.","I want real examples with results","case"],
    path:["Learning path","Four stages from basics to leadership; every step links to an article or tool.","Where do I start?","route"]
   }}
 };
@@ -335,7 +341,7 @@ window.CXK_Lab = function(main,{group,tab,arg}){
     <nav class="jtabs" aria-label="${G.t}">${ids.map(k=>`<a href="${X.href(group+'/'+k)}" ${k===tab?'aria-current="page"':''}>${C.items[k][0]}</a>`).join('')}</nav><div id="labBody"></div></div>`;
   const b=$('#labBody');
   const run={tool:()=>tool(b,X,arg),sim:()=>sim(b,X),calc:()=>calc(b,X),maturity:()=>maturity(b,X),method:()=>method(b,X),library:()=>library(b,X),kit:()=>kit(b,X),
-    voc:()=>TL.voc&&TL.voc(b,X),msg:()=>TL.msg&&TL.msg(b,X),prio:()=>TL.prio&&TL.prio(b,X),survey:()=>TL.survey&&TL.survey(b,X),patterns:()=>TL.patterns&&TL.patterns(b,X,arg),principles:()=>TL.principles&&TL.principles(b,X)}[tab] || (()=>{ const RP=window.CXK_REFPAGES||{}; RP[tab]&&RP[tab](b,X,arg); });
+    voc:()=>TL.voc&&TL.voc(b,X),assess:()=>TL.assess&&TL.assess(b,X),msg:()=>TL.msg&&TL.msg(b,X),prio:()=>TL.prio&&TL.prio(b,X),survey:()=>TL.survey&&TL.survey(b,X),patterns:()=>TL.patterns&&TL.patterns(b,X,arg),principles:()=>TL.principles&&TL.principles(b,X)}[tab] || (()=>{ const RP=window.CXK_REFPAGES||{}; RP[tab]&&RP[tab](b,X,arg); });
   run();
 };
 window.CXK_LabMini = function(lang){
