@@ -9,13 +9,13 @@ const LEARN_IDS = ['cases','method','encyclopedia','metrics','frameworks','patte
 
 const T = {
  ar:{ searchEnc:"ابحث في الموسوعة", noRes:"لا نتائج تطابق البحث.", why:"لماذا يهم", how:"كيف تطبّقه", measure:"كيف تقيسه", mistakes:"أخطاء شائعة", related:"اقرأ واستخدم أيضاً", sources:"المصادر", prev:"السابق", next:"التالي", back:"كل مقالات الموسوعة", copyLink:"انسخ رابط المقال", articles:n=>`${n} مقالاً`,
-   allGroups:"الكل", formula:"المعادلة", scale:"المقياس", useWhen:"متى تستخدمه", pitfall:"انتبه", searchMet:"ابحث في المؤشرات", by:"المصدر", howUse:"كيف تستخدمه", open:"افتح المرجع", searchBooks:"ابحث في الكتب",
+   allGroups:"الكل", formula:"المعادلة", scale:"المقياس", useWhen:"متى تستخدمه", pitfall:"انتبه", searchMet:"ابحث في المؤشرات", mTypes:"أنواع مؤشرات تجربة العميل", mTypesD:"لا يكفي مؤشر واحد لفهم التجربة؛ فلكل نوع سؤال يجيب عنه. اضغط نوعاً لعرض مؤشراته.", mCount:"مؤشرات", mFiltered:"النوع", mClear:"اعرض الكل", mHow:"طريقة الحساب خطوة بخطوة ومثال محلول", mQ:"السؤال أو مصدر البيانات", mEx:"مثال محلول", mRead:"كيف تقرأ النتيجة", mFreq:"متى تقيسه", mCalc:"احسبه في حاسبة المؤشرات", by:"المصدر", howUse:"كيف تستخدمه", open:"افتح المرجع", searchBooks:"ابحث في الكتب",
    pathIntro:"أربع مراحل تنقلك من فهم الأساسيات إلى قيادة تجربة العميل في جهة كاملة. كل خطوة رابط إلى مقال أو أداة في الموقع.", step:n=>`المرحلة ${n}`,
    types:{case:"دراسة حالة",art:"مقال",tool:"أداة",learn:"معرفة",pattern:"نمط انكسار",metric:"مؤشر",fw:"نموذج",std:"معيار",term:"مصطلح",book:"كتاب",country:"دولة",ini:"مبادرة",news:"قراءة",journey:"رحلة",principle:"مبدأ"},
    sTitle:"ابحث في الموقع", sPh:"ابحث عن مصطلح أو أداة أو مؤشر أو دولة…", sHint:"اكتب كلمتين على الأقل. اضغط Esc للإغلاق.", sNone:"لا نتائج. جرّب كلمة أخرى أو اكتبها بالإنجليزية.", sCount:n=>`${n} نتيجة`,
    sSuggest:"جرّب:", sugg:["جهد العميل","إستونيا","NPS","مخطط الخدمة","الشكاوى","ISO 10002","إستونيا","اللغة الواضحة"] },
  en:{ searchEnc:"Search the encyclopedia", noRes:"No results match your search.", why:"Why it matters", how:"How to apply it", measure:"How to measure it", mistakes:"Common mistakes", related:"Read and use next", sources:"Sources", prev:"Previous", next:"Next", back:"All encyclopedia articles", copyLink:"Copy article link", articles:n=>`${n} articles`,
-   allGroups:"All", formula:"Formula", scale:"Scale", useWhen:"When to use it", pitfall:"Watch out", searchMet:"Search metrics", by:"Origin", howUse:"How to use it", open:"Open reference", searchBooks:"Search books",
+   allGroups:"All", formula:"Formula", scale:"Scale", useWhen:"When to use it", pitfall:"Watch out", searchMet:"Search metrics", mTypes:"Types of customer experience metrics", mTypesD:"No single metric explains the experience; each type answers its own question. Click a type to see its metrics.", mCount:"metrics", mFiltered:"Type", mClear:"Show all", mHow:"Step-by-step calculation and a worked example", mQ:"Question or data source", mEx:"Worked example", mRead:"How to read the result", mFreq:"When to measure", mCalc:"Calculate it in the metric calculators", by:"Origin", howUse:"How to use it", open:"Open reference", searchBooks:"Search books",
    pathIntro:"Four stages that take you from the basics to leading customer experience across an organisation. Each step links to an article or tool on the site.", step:n=>`Stage ${n}`,
    types:{case:"Case study",art:"Article",tool:"Tool",learn:"Knowledge",pattern:"Breakpoint pattern",metric:"Metric",fw:"Model",std:"Standard",term:"Term",book:"Book",country:"Country",ini:"Initiative",news:"Pick",journey:"Journey",principle:"Principle"},
    sTitle:"Search the site", sPh:"Search for a term, tool, metric or country…", sHint:"Type at least two letters. Press Esc to close.", sNone:"No results. Try another word.", sCount:n=>`${n} results`,
@@ -68,15 +68,32 @@ function article(host, X, id){
 }
 
 /* ---------- المؤشرات ---------- */
+/* دمج تفاصيل المؤشرات (الأنواع وخطوات الحساب والأمثلة) */
+const MX = window.CXK_METRICX || {types:[],metrics:[],indices:[]};
+(function(){ MX.metrics.forEach(d=>{ const m=R.metrics.find(x=>x.id===d.id); if(m) Object.assign(m,d); else if(d.n) R.metrics.push(d); }); })();
 function metrics(host, X, arg){
-  const t=T[X.LANG], en=X.LANG==='en', li=en?1:0; let g='all', q='';
-  host.innerHTML=`<div class="filters" style="margin-top:18px"><div class="chips" id="mg"><button class="chip" type="button" data-k="all" aria-pressed="true">${t.allGroups}</button>${Object.entries(R.metricGroups).map(([k,v])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="false">${esc(v[li])}</button>`).join('')}</div><label class="field"><span class="sr">${t.searchMet}</span>${X.I.search}<input id="mq" type="search" placeholder="${t.searchMet}" autocomplete="off"></label></div><div class="mets" id="ml"></div>`;
-  function render(){ const n=nz(q.trim()); $$('#mg .chip',host).forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===g));
-    const l=R.metrics.filter(m=>(g==='all'||m.g===g)&&(!n||nz([m.n,m.n_en,m.a,m.d,m.d_en].join(' ')).includes(n)));
-    $('#ml',host).innerHTML=l.map(m=>`<article class="met" id="m-${m.id}"><div class="mh"><span class="stg">${esc(R.metricGroups[m.g][li])}</span><h3>${esc(en?m.n_en:m.n)}${m.a?` <span class="mab" dir="ltr">${esc(m.a)}</span>`:''}</h3></div><p>${esc(en?m.d_en:m.d)}</p>
-      <div class="fml"><small>${t.formula}</small><code>${esc(en?m.f_en:m.f)}</code><small>${t.scale}: <span dir="${/[\u0600-\u06FF]/.test(en?m.sc_en:m.sc)?'rtl':'ltr'}">${esc(en?m.sc_en:m.sc)}</span></small></div>
-      <dl><div><dt>${t.useWhen}</dt><dd>${esc(en?m.u_en:m.u)}</dd></div><div class="w"><dt>${t.pitfall}</dt><dd>${esc(en?m.x_en:m.x)}</dd></div></dl></article>`).join('')||`<p class="empty">${t.noRes}</p>`; }
+  const t=T[X.LANG], en=X.LANG==='en', li=en?1:0; let g='all', q='', ty='all';
+  const L2=(o,k)=>en?(o[k+'_en']||o[k]):o[k];
+  const cats=MX.types.filter(x=>x.kind!=='lens'), lens=MX.types.filter(x=>x.kind==='lens');
+  host.innerHTML=`<section class="mtypes"><h2 class="h3">${t.mTypes}</h2><p class="note">${t.mTypesD}</p>
+    <div class="mtgrid">${cats.map(c=>`<button type="button" class="mtc" data-ty="${c.id}"><b>${esc(L2(c,'n'))}</b><span>${esc(L2(c,'d'))}</span><small>${R.metrics.filter(m=>m.type===c.id).length} ${t.mCount}</small></button>`).join('')}</div>
+    ${lens.length?`<div class="mlens">${lens.map(c=>`<div><b>${esc(L2(c,'n'))}</b><p>${esc(L2(c,'d'))}</p></div>`).join('')}</div>`:''}</section>
+    <div class="filters" style="margin-top:18px"><div class="chips" id="mg"><button class="chip" type="button" data-k="all" aria-pressed="true">${t.allGroups}</button>${Object.entries(R.metricGroups).map(([k,v])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="false">${esc(v[li])}</button>`).join('')}</div><label class="field"><span class="sr">${t.searchMet}</span>${X.I.search}<input id="mq" type="search" placeholder="${t.searchMet}" autocomplete="off"></label></div><p class="srcl" id="mtyNote"></p><div class="mets" id="ml"></div>`;
+  function render(){ const n=nz(q.trim()); $$('#mg .chip',host).forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===g)); $$('.mtc',host).forEach(b=>b.setAttribute('aria-pressed',b.dataset.ty===ty));
+    const tyO=MX.types.find(x=>x.id===ty); $('#mtyNote',host).innerHTML=tyO?`${t.mFiltered}: <b>${esc(L2(tyO,'n'))}</b> · <button type="button" class="linkbtn" id="mtyClr">${t.mClear}</button>`:'';
+    const l=R.metrics.filter(m=>(g==='all'||m.g===g)&&(ty==='all'||m.type===ty)&&(!n||nz([m.n,m.n_en,m.a,m.d,m.d_en].join(' ')).includes(n)));
+    $('#ml',host).innerHTML=l.map(m=>{ const tyN=(MX.types.find(x=>x.id===m.type)||{}); return `<article class="met" id="m-${m.id}"><div class="mh"><span class="stg">${esc(R.metricGroups[m.g]?R.metricGroups[m.g][li]:'')}${tyN.n?` · ${esc(L2(tyN,'n').split('(')[0].trim())}`:''}</span><h3>${esc(en?m.n_en:m.n)}${m.a?` <span class="mab" dir="ltr">${esc(m.a)}</span>`:''}</h3></div><p>${esc(en?m.d_en:m.d)}</p>
+      <div class="fml"><small>${t.formula}</small><code>${esc(en?m.f_en:m.f)}</code><small>${t.scale}: <span dir="${/[؀-ۿ]/.test(en?m.sc_en:m.sc)?'rtl':'ltr'}">${esc(en?m.sc_en:m.sc)}</span></small></div>
+      <dl><div><dt>${t.useWhen}</dt><dd>${esc(en?m.u_en:m.u)}</dd></div><div class="w"><dt>${t.pitfall}</dt><dd>${esc(en?m.x_en:m.x)}</dd></div></dl>
+      ${m.steps?`<details class="mdet"${arg===m.id?' open':''}><summary>${t.mHow}</summary>
+        ${m.q?`<div class="mq2"><small>${t.mQ}</small><p>${esc(L2(m,'q'))}</p></div>`:''}
+        <ol class="msteps">${(en?(m.steps_en||m.steps):m.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+        ${m.ex?`<div class="mex"><small>${t.mEx}</small><p>${esc(L2(m,'ex'))}</p></div>`:''}
+        ${m.read?`<p><b>${t.mRead}:</b> ${esc(L2(m,'read'))}</p>`:''}${m.freq?`<p class="srcl"><b>${t.mFreq}:</b> ${esc(L2(m,'freq'))}</p>`:''}
+        ${['nps','csat','ces'].includes(m.id)?`<a class="srcl" href="${X.href('tools/calc')}">${t.mCalc} ←</a>`:''}</details>`:''}</article>`; }).join('')||`<p class="empty">${t.noRes}</p>`;
+    const c=$('#mtyClr',host); if(c) c.onclick=()=>{ ty='all'; render(); }; }
   $('#mg',host).onclick=e=>{ const b=e.target.closest('[data-k]'); if(b){ g=b.dataset.k; render(); } };
+  $$('.mtc',host).forEach(b=>b.onclick=()=>{ ty=ty===b.dataset.ty?'all':b.dataset.ty; render(); $('#ml',host).scrollIntoView({behavior:'smooth',block:'start'}); });
   $('#mq',host).oninput=e=>{ q=e.target.value; render(); }; render(); focusCard(host,'m-'+arg);
 }
 function focusCard(host,id){ if(!id||/undefined$/.test(id)) return; const el=$('#'+id,host); if(el){ setTimeout(()=>{ el.scrollIntoView({block:'start'}); el.classList.add('hit'); setTimeout(()=>el.classList.remove('hit'),2400); },60); } }
@@ -172,8 +189,10 @@ function buildIndex(X){
   R.standards.forEach(s=>add('std', s.n+' — '+(en?s.t_en:s.t), en?s.d_en:s.d, X.href('learn/standards/'+s.id), en?s.t:s.t_en));
   K.patterns.forEach(p=>add('pattern', en?p.n_en:p.n, en?p.sym_en:p.sym, X.href('learn/patterns/'+p.id), en?p.n:p.n_en));
   K.principles.forEach(p=>add('principle', en?p.n_en:p.n, en?p.d_en:p.d, X.href('learn/principles'), en?p.n:p.n_en));
-  J.glossary.concat(R.glossary||[]).forEach(g=>add('term', en?g[1]:g[0], en?g[3]:g[2], X.href('learn/kit'), en?g[0]:g[1]));
-  R.books.forEach(b=>add('book', b.t, b.a+' · '+b.y, X.href('learn/books'), b.d));
+  (window.CXK_GLOSSARY?window.CXK_GLOSSARY.terms.map(g=>[g.ar,g.en,g.def,g.def_en]):J.glossary.concat(R.glossary||[])).forEach(g=>add('term', en?g[1]:g[0], en?g[3]:g[2], X.href('learn/kit'), en?g[0]:g[1]));
+  const SH=window.CXK_SHELF; if(SH){ SH.podcasts.forEach(p=>add('book', p.t, p.h, X.href('library/podcasts'), p.d)); }
+  const MD=window.CXK_MODEL; if(MD){ add('learn', en?MD.name_en:MD.name, en?MD.tag_en:MD.tag, X.href('learn/model'), 'wusool وصول نموذج'); (window.CXK_APPROACHES.items||[]).forEach(a=>add('fw', en?a.n_en:a.n, en?a.d_en:a.d, X.href('learn/approaches/'+a.id), a.n_en)); }
+  ((window.CXK_SHELF||{}).books||R.books).forEach(b=>add('book', b.t_ar&&!en?b.t_ar:b.t, b.a+(b.y?' · '+b.y:''), X.href('library/books'), b.d));
   CS.items.forEach(c=>add('case', en?c.t_en:c.t, (en?c.org:(c.org_ar||c.org))+' · '+X.cname(c.c), X.href('learn/cases/'+c.id), (en?c.t:c.t_en)+' '+c.org+' '+X.cname(c.c)));
   (J.library||[]).forEach(x=>add('journey', en?(x.t_en||x.t):x.t, X.cname(x.c), X.href('learn/library'), x.t_en));
   const CO=window.CXK_COUNTRIES||{}; Object.entries(CO).forEach(([c,d])=>{ if(d[2]==null) return; add('country', en?d[1]:d[0], '', X.href('country/'+c.toLowerCase()), en?d[0]:d[1]); });

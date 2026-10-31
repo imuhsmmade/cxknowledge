@@ -306,6 +306,7 @@ function pageAtlas(){
   const counts={all:0}; Object.values(C).forEach(d=>{ if(d[2]==null) return; counts.all++; counts[d[4]]=(counts[d[4]]||0)+1; });
   main.innerHTML = `<div class="wrap">
     <header class="pagehead"><span class="kicker">${S.atlasK}</span><h1>${S.atlasTitle}</h1><p>${S.atlasLede}</p></header>
+    <nav class="subtabs"><a href="${href('atlas')}" aria-current="page">${S.atlasK}</a><a href="${href('initiatives')}">${S.inK}</a></nav>
     <div class="regions chips" id="regs">${[['all',S.allRegions],...Object.entries(S.REG)].map(([k,l])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${k==='all'}">${k!=='all'?`<span class="dot" style="--c:var(--${k})"></span>`:''}${l} <span class="n">${counts[k]||0}</span></button>`).join('')}</div>
     <div class="frame mapbox" id="atlasMap"></div>
     <div class="filters" style="margin-top:16px"><div class="chips" id="sorts"><button class="chip" data-s="rank" aria-pressed="true" type="button">${S.sortRank}</button><button class="chip" data-s="name" aria-pressed="false" type="button">${S.sortName}</button><button class="chip" data-s="deep" aria-pressed="false" type="button">${S.sortDeep}</button><button class="chip" data-s="hot" aria-pressed="false" type="button">${S.sortHot}</button></div>${filterField('qC',S.searchCountry)}</div>
@@ -386,15 +387,23 @@ function pageAnalysis(focus){
   if(focus){ const el=document.getElementById('n-'+focus); if(el){ setTimeout(()=>{ el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}); el.classList.add('hit'); setTimeout(()=>el.classList.remove('hit'),2600); },60); } }
 }
 
+function ixMethod(x){
+  const m=((window.CXK_METRICX||{}).indices||[]).find(y=>y.id===x.id); if(!m) return '';
+  const tyN=S.IXTYPE[m.type]||'', vv=String(m.verified||''), vk=vv.startsWith('partial')?'partial':vv.startsWith('not')?'nv':vv.startsWith('mostly')?'mostly':'', ver=vk?`<p class="srcl">${S.ixVer[vk]}</p>`:'';
+  return `<details class="ixm"><summary>${S.ixHow}</summary>${tyN?`<span class="stg">${esc(tyN)}</span>`:''}<p>${esc(L(m,'how'))}</p><dl>${m.scale?`<div><dt>${S.ixScale}</dt><dd>${esc(L(m,'scale'))}</dd></div>`:''}${m.freq?`<div><dt>${S.ixFreq}</dt><dd>${esc(L(m,'freq'))}</dd></div>`:''}</dl>${ver}${m.src?`<a class="srcl" href="${esc(m.src)}" target="_blank" rel="noopener">${S.ixSrc} ${I.ext}</a>`:''}</details>`;
+}
 function pageIndices(){
   main.innerHTML = `<div class="wrap"><header class="pagehead"><span class="kicker">${S.ixK}</span><h1>${S.ixTitle}</h1><p>${S.ixLede}</p></header>
-  ${Object.entries(S.KIND).map(([k,l])=>{ const xs=IX.filter(x=>x.kind===k); return xs.length?`<section class="blk" style="padding-top:26px"><div class="sh"><h2>${l}</h2></div><div class="board">${xs.map(ixCard).join('')}</div></section>`:''; }).join('')}</div>`;
+  <nav class="subtabs"><a href="${href('indices')}" aria-current="page">${S.ixTab1}</a><a href="${href('learn/metrics')}">${S.ixTab2}</a><a href="${href('tools/calc')}">${S.ixTab3}</a></nav>
+  <section class="ixtypes">${Object.entries(S.IXTYPE).map(([k,v])=>`<div><b>${v}</b><p>${S.IXTYPED[k]}</p></div>`).join('')}</section>
+  ${Object.entries(S.KIND).map(([k,l])=>{ const xs=IX.filter(x=>x.kind===k); return xs.length?`<section class="blk" style="padding-top:26px"><div class="sh"><h2>${l}</h2></div><div class="board">${xs.map(x=>`<div class="ixw">${ixCard(x)}${ixMethod(x)}</div>`).join('')}</div></section>`:''; }).join('')}</div>`;
 }
 
 function pageInitiatives(){
   let th='all', q='';
   const cnt={all:allInits.length}; allInits.forEach(i=>cnt[i.theme]=(cnt[i.theme]||0)+1);
   main.innerHTML = `<div class="wrap"><header class="pagehead"><span class="kicker">${S.inK}</span><h1>${S.inTitle}</h1><p>${S.inLede(deepCodes.length)}</p></header>
+    <nav class="subtabs"><a href="${href('atlas')}">${S.atlasK}</a><a href="${href('initiatives')}" aria-current="page">${S.inK}</a></nav>
     <div class="filters"><div class="chips" id="th">${[['all',S.all],...Object.entries(S.THEME)].filter(([k])=>cnt[k]).map(([k,l])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${k==='all'}">${l} <span class="n">${cnt[k]}</span></button>`).join('')}</div>${filterField('iq',S.searchIn)}</div>
     <div class="inits" id="il"></div></div>`;
   const render=()=>{ const n=norm(q.trim()); const l=allInits.filter(i=>(th==='all'||i.theme===th)&&(!n||norm(L(i,'t')+' '+L(i,'d')+' '+L(i,'impact')+' '+cname(i.c)).includes(n)));
@@ -453,7 +462,7 @@ function renderChrome(){
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==='en'?'ltr':'rtl';
   $('.skip').textContent=S.skip;
   $('#brandT').textContent=S.brand; $('#brandS').textContent=S.brandSub;
-  $('#nav').innerHTML = ['home','tools','learn','atlas','indices','initiatives','news'].map(k=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${k==='news'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
+  $('#nav').innerHTML = ['home','tools','learn','indices','library','atlas','news'].map(k=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${k==='news'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
   $('#lensSel').innerHTML = `<option value="">${S.lensAll}</option>` + Object.entries(C).filter(([,d])=>d[3]).sort((a,b)=>cname(a[0]).localeCompare(cname(b[0]),LANG)).map(([c])=>`<option value="${c}" ${c===LENS?'selected':''}>${esc(cname(c))}</option>`).join('');
   $('#lensSel').setAttribute('aria-label',S.lens);
   $('#langBtn').innerHTML = `<span class="tx">${S.langSwitch}</span><span aria-hidden="true" class="ab">${LANG==='en'?'ع':'EN'}</span>`; $('#langBtn').setAttribute('aria-label',S.langLabel+': '+S.langSwitch);
@@ -462,7 +471,7 @@ function renderChrome(){
   $('#bnav').innerHTML = [['','home','<path d="M3 11 12 4l9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/>'],['tools','tools','<path d="M14.5 6.5a4 4 0 0 0-5.3 5.2L4 17v3h3l5.3-5.2a4 4 0 0 0 5.2-5.3l-2.4 2.4-2.6-.6-.6-2.6z"/>'],['learn','learn','<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'],['news','news','<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>']].map(([p,k,svg])=>`<a href="${href(p)}" data-r="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svg}</svg>${S.navShort[k]}</a>`).join('') + `<button type="button" id="bmore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>${S.navShort.more}</button>`;
   $('#bmore').addEventListener('click',()=>{ const o=$('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded',o); });
   $('#footP').textContent=S.footP;
-  $('#footLinks').innerHTML=['tools','learn','atlas','indices','initiatives','news','analysis','sources','about'].map(k=>`<a href="${href(k)}">${S.nav[k]}</a>`).join('');
+  $('#footLinks').innerHTML=['tools','learn','indices','library','atlas','initiatives','news','analysis','sources','about'].map(k=>`<a href="${href(k)}">${S.nav[k]}</a>`).join('');
   renderTicker(); footMeta(); statusBar();
 }
 function applyTheme(){
@@ -495,7 +504,7 @@ function route(keepScroll){
   const [a,b,c3] = parts;
   window._liveRefresh=null;
   document.title = LANG==='en' ? 'CX Knowledge | Customer Experience' : 'CX Knowledge | معرفة تجربة العميل';
-  const navKey = a==='country'?'atlas':(a==='item'||a==='analysis'||a==='live'||a==='sources')?'news':(a==='lab'||a==='journey')?'tools':(a||'home');
+  const navKey = (a==='learn'&&b==='books')?'library':a==='initiatives'?'atlas':a==='country'?'atlas':(a==='item'||a==='analysis'||a==='live'||a==='sources')?'news':(a==='lab'||a==='journey')?'tools':(a||'home');
   $$('#nav a, #bnav a').forEach(x=>{ if(x.dataset.r===navKey) x.setAttribute('aria-current','page'); else x.removeAttribute('aria-current'); });
   $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false'); $('#tip').hidden=true;
   main.classList.remove('fade'); void main.offsetWidth; main.classList.add('fade');
@@ -511,6 +520,7 @@ function route(keepScroll){
   else if(a==='sources') pageSources();
   else if(a==='tools'||a==='learn') { if(window.CXK_Lab) window.CXK_Lab(main,{group:a,tab:b,arg:c3}); }
   else if(a==='lab'||a==='journey') { const LG=['method','library','kit','patterns','principles']; if(window.CXK_Lab) window.CXK_Lab(main,{group:LG.includes(b)?'learn':'tools',tab:b||'tool',arg:c3}); }
+  else if(a==='library') { if(window.CXK_LibraryPage) window.CXK_LibraryPage(main, window.CXK, b); }
   else if(a==='about') pageAbout();
   else if(a.length===2 && C[a.toUpperCase()]) pageCountry(a);
   else pageHome();

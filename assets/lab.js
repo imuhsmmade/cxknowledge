@@ -12,6 +12,7 @@ ar:{ tabsNote:"", samples:{bank:"بنك: فتح حساب رقمي",flight:"طي�
   lanes:{goal:"هدف المستفيد",act:"ما يفعله المستفيد",tp:"نقاط التواصل والقنوات",sys:"الأنظمة والجهات خلف الواجهة",t:"المدة (بالساعات، مع الانتظار)",h:"مرات التحويل بين الجهات",r:"مرات تكرار البيانات",ch:"تغيير القناة",emo:"المشاعر",pain:"نقاط الألم",opp:"الفرص",kpi:"المؤشرات"},
   chYes:"نعم، ينتقل لقناة أخرى", emo:[[2,"سعيد جداً"],[1,"راضٍ"],[0,"محايد"],[-1,"منزعج"],[-2,"محبط جداً"]],
   note:"تُحفظ الرحلة تلقائياً في متصفحك فقط. «رابط للمشاركة» يضع الرحلة كاملة داخل الرابط دون رفعها لأي خادم.",
+  go:"احسب مؤشر التعثر واكشف نقاط الانكسار", goHint:"عبّئ الرحلة ثم اضغط الزر لتظهر النتيجة.", goDone:"هذه نتيجة آخر حساب.", stale:"عدّلتَ الرحلة بعد آخر حساب. اضغط الزر لتحديث النتيجة.", showRes:"اعرض النتيجة", needAll:n=>`أجب عن كل العبارات أولاً (بقي ${n}).`, calcBtn:"احسب",
   anTitle:"كاشف نقاط الانكسار", anSub:"تحسب الأداة مؤشر التعثر لكل مرحلة من الزمن والتحويلات وتكرار البيانات وتغيير القناة والمشاعر، ويحدد المراحل التي ينكسر فيها مسار المستفيد.",
   index:"مؤشر التعثر", total:"الزمن الكلي", handoffs:"التحويلات", repeats:"تكرار البيانات", switches:"تغيير القناة", bpCount:"نقاط الانكسار",
   bands:[[30,"رحلة سلسة"],[50,"رحلة مقبولة"],[70,"رحلة متعثرة"],[101,"رحلة منكسرة"]],
@@ -37,6 +38,7 @@ en:{ samples:{bank:"Banking: digital account",flight:"Airline: cancellation & re
   lanes:{goal:"Customer goal",act:"What the customer does",tp:"Touchpoints & channels",sys:"Backstage systems & teams",t:"Duration (hours, incl. waiting)",h:"Handoffs between teams",r:"Times data is repeated",ch:"Channel switch",emo:"Emotion",pain:"Pain points",opp:"Opportunities",kpi:"KPIs"},
   chYes:"Yes, moves to another channel", emo:[[2,"Delighted"],[1,"Satisfied"],[0,"Neutral"],[-1,"Annoyed"],[-2,"Frustrated"]],
   note:"Your journey is saved automatically in this browser only. \"Share link\" puts the whole journey inside the link without uploading it anywhere.",
+  go:"Calculate friction and find breakpoints", goHint:"Fill in the journey, then press the button to see the result.", goDone:"This is the result of the last calculation.", stale:"You changed the journey since the last calculation. Press the button to update.", showRes:"Show result", needAll:n=>`Answer every statement first (${n} left).`, calcBtn:"Calculate",
   anTitle:"Breakpoint detector", anSub:"The tool calculates a friction index for each stage from time, handoffs, repeated data, channel switches and emotion, and flags the stages where the customer's path breaks.",
   index:"Friction index", total:"Total time", handoffs:"Handoffs", repeats:"Repeated data", switches:"Channel switches", bpCount:"Breakpoints",
   bands:[[30,"Smooth journey"],[50,"Acceptable journey"],[70,"Struggling journey"],[101,"Broken journey"]],
@@ -91,7 +93,8 @@ function tool(host, X, arg){
     <div class="jt-meta"><label>${t.name}<input id="jtName" type="text" autocomplete="off"></label><label>${t.persona}<input id="jtPersona" type="text" autocomplete="off"></label></div>
     <div class="jt-scroll"><div class="jt" id="jtGrid"></div></div>
     <p class="jt-note">${t.note}</p>
-    <section class="fric" id="jtAn"></section>`;
+    <div class="gobar"><button class="btn pri" type="button" id="jtGo">${t.go}</button><span class="srcl" id="jtGoMsg">${t.goHint}</span></div>
+    <section class="fric" id="jtAn" hidden></section>`;
   const grid=$('#jtGrid',host), nameI=$('#jtName',host), perI=$('#jtPersona',host);
   const rtl = X.LANG!=='en';
   function curve(){ const n=st.stages.length, W=n*COLW, H=110, y=v=>H/2 - v*(H/2-16)/2, x=i=>rtl? W-(i*COLW+COLW/2) : i*COLW+COLW/2;
@@ -109,14 +112,17 @@ function tool(host, X, arg){
     h+=`<div class="lane num">${t.lanes.ch}</div>`; st.stages.forEach((s,i)=>{ h+=`<div class="cell"><label class="chk"><input type="checkbox" data-i="${i}" data-k="ch" ${+s.ch?'checked':''}> ${t.chYes}</label></div>`; });
     h+=`<div class="lane">${t.lanes.emo}</div><div class="cell" style="grid-column:2 / span ${n};padding:0;width:auto"><div style="position:relative;height:110px" id="jtCurve">${curve()}</div><div style="display:grid;grid-template-columns:repeat(${n},${COLW}px)">${st.stages.map((s,i)=>`<div class="emo"><select data-i="${i}" data-k="emo" aria-label="${t.lanes.emo} — ${esc(s.n)}">${t.emo.map(([v,l])=>`<option value="${v}" ${(+s.emo||0)===v?'selected':''}>${l}</option>`).join('')}</select></div>`).join('')}</div></div>`;
     AFTER_LANES.forEach(k=>{ h+=`<div class="lane">${t.lanes[k]}</div>`; st.stages.forEach((s,i)=>{ h+=`<div class="cell ${k}"><textarea data-i="${i}" data-k="${k}" aria-label="${t.lanes[k]} — ${esc(s.n)}">${esc(s[k])}</textarea></div>`; }); });
-    grid.innerHTML=h; analyse();
+    grid.innerHTML=h; stale();
   }
+  let ran=false;
+  function stale(){ if(!ran) return; const g=$('#jtGoMsg',host); g.textContent=t.stale; g.classList.add('warn'); $('#jtAn',host).classList.add('dim'); }
   function analyse(){
     const F=st.stages.map(friction), mean=F.reduce((a,f)=>a+f.total,0)/(F.length||1), mx=Math.max(0,...F.map(f=>f.total)), idx=Math.round(mean*.6+mx*.4);
     const band=t.bands.find(([lim])=>idx<lim)[1];
     const tot=st.stages.reduce((a,s)=>a+(+s.t||0),0), H=st.stages.reduce((a,s)=>a+(+s.h||0),0), R=st.stages.reduce((a,s)=>a+(+s.r||0),0), CH=st.stages.reduce((a,s)=>a+(+s.ch?1:0),0), B=F.filter(f=>f.bp).length;
     const bps=st.stages.map((s,i)=>({s,f:F[i],i})).filter(x=>x.f.bp).sort((a,b)=>b.f.total-a.f.total);
-    $('#jtAn',host).innerHTML = `<div class="sh" style="margin-bottom:0"><h2>${t.anTitle}</h2><p>${t.anSub}</p></div>
+    const an=$('#jtAn',host); an.hidden=false; an.classList.remove('dim'); const gm=$('#jtGoMsg',host); gm.classList.remove('warn'); gm.textContent=t.goDone;
+    an.innerHTML = `<div class="sh" style="margin-bottom:0"><h2>${t.anTitle}</h2><p>${t.anSub}</p></div>
       <div class="fhead">${gauge(idx)}<div style="display:grid;gap:10px"><div class="kicker">${t.index}</div><h3 style="font-size:24px">${band}</h3>
         <div class="fsum"><div><b>${t.hrs(tot)}</b><span>${t.total}</span></div><div><b>${H}</b><span>${t.handoffs}</span></div><div><b>${R}</b><span>${t.repeats}</span></div><div><b>${CH}</b><span>${t.switches}</span></div><div><b style="color:var(--accent)">${B}</b><span>${t.bpCount}</span></div></div></div></div>
       <div class="fbars"><h3 style="font:700 16px var(--f-body)">${t.perStage}</h3>${st.stages.map((s,i)=>`<div class="fb${F[i].bp?' bp':''}"><span class="nm">${esc(s.n)}</span><span class="tr2"><i style="width:${F[i].total}%"></i></span><span class="v">${F[i].total}</span></div>`).join('')}</div>
@@ -125,7 +131,8 @@ function tool(host, X, arg){
   }
   grid.addEventListener('input',e=>{ const el=e.target; if(el.dataset.i==null) return; const s=st.stages[+el.dataset.i], k=el.dataset.k;
     s[k] = k==='ch' ? (el.checked?1:0) : (['t','h','r','emo'].includes(k) ? (+el.value||0) : el.value); save();
-    if(['t','h','r','ch','emo'].includes(k)){ $('#jtCurve',host).innerHTML=curve(); analyse(); } });
+    if(['t','h','r','ch','emo'].includes(k)){ $('#jtCurve',host).innerHTML=curve(); stale(); } });
+  $('#jtGo',host).addEventListener('click',()=>{ ran=true; analyse(); $('#jtAn',host).scrollIntoView({behavior:'smooth',block:'start'}); });
   grid.addEventListener('click',e=>{ const b=e.target.closest('button[data-act]'); if(!b) return; const i=+b.dataset.i, a=b.dataset.act, S=st.stages;
     if(a==='del'&&S.length>1) S.splice(i,1); if(a==='prev'&&i>0) [S[i-1],S[i]]=[S[i],S[i-1]]; if(a==='next'&&i<S.length-1) [S[i+1],S[i]]=[S[i],S[i+1]]; save(); render(); });
   nameI.addEventListener('input',()=>{ st.name=nameI.value; save(); });
@@ -186,7 +193,7 @@ function sim(host, X){
 /* ---------- calculators ---------- */
 function calc(host, X){
   const c=T[X.LANG].calc, fmt=n=>isFinite(n)?Math.round(n).toLocaleString('en-US'):'—';
-  const box=(id,title,d,inputs,outId)=>`<div class="calc" id="${id}"><h3>${title}</h3><p class="d">${d}</p><div class="ins">${inputs.map(([k,l,v,extra])=>extra?`<label>${l}${extra}</label>`:`<label>${l}<input type="number" min="0" step="any" data-k="${k}" value="${v}"></label>`).join('')}</div><div class="out" id="${outId}"></div></div>`;
+  const box=(id,title,d,inputs,outId)=>`<div class="calc" id="${id}"><h3>${title}</h3><p class="d">${d}</p><div class="ins">${inputs.map(([k,l,v,extra])=>extra?`<label>${l}${extra}</label>`:`<label>${l}<input type="number" min="0" step="any" data-k="${k}" value="${v}"></label>`).join('')}</div><div class="row-btns"><button class="btn sm pri" type="button" data-calc="${id}">${T[X.LANG].calcBtn}</button></div><div class="out" id="${outId}" hidden></div></div>`;
   host.innerHTML=`<div class="calcs">
     ${box('cNps',c.nps,c.npsD,[['p',c.pro,120],['pa',c.pas,60],['d',c.det,40]],'oNps')}
     ${box('cCsat',c.csat,c.csatD,[['s',c.sat,410],['t',c.tot,500]],'oCsat')}
@@ -196,6 +203,7 @@ function calc(host, X){
     ${box('cRc',c.rc,c.rcD,[['m',c.cont,30000],['p',c.rep,22],['k',c.cost,18],['cut',c.cut,30]],'oRc')}
   </div>`;
   const v=(id,k)=>{ const el=$(`#${id} [data-k="${k}"]`,host); return el?+el.value||0:0; };
+  const done=new Set();
   function run(){
     const p=v('cNps','p'),pa=v('cNps','pa'),d=v('cNps','d'),T1=p+pa+d||1;
     $('#oNps',host).innerHTML=`<b>${Math.round((p-d)/T1*100)}</b><span>${c.npsOut(Math.round(p/T1*100),Math.round(pa/T1*100),Math.round(d/T1*100))}</span>`;
@@ -204,8 +212,11 @@ function calc(host, X){
     const N=v('cSs','N'), z=v('cSs','z')||1.96, e=(v('cSs','e')||5)/100, n0=z*z*.25/(e*e), nn=N?n0/(1+(n0-1)/N):n0; $('#oSs',host).innerHTML=`<b>${fmt(Math.ceil(nn))}</b><span>${c.ssOut}</span>`;
     $('#oRoi',host).innerHTML=`<b>${fmt(v('cRoi','n')*v('cRoi','a')*v('cRoi','r')/100)}</b><span>${c.roiOut}</span>`;
     $('#oRc',host).innerHTML=`<b>${fmt(v('cRc','m')*v('cRc','p')/100*v('cRc','cut')/100*v('cRc','k')*12)}</b><span>${c.rcOut}</span>`;
+    $$('.calc',host).forEach(cd=>{ const o=$('.out',cd); o.hidden=!done.has(cd.id); });
   }
-  host.addEventListener('input',run); host.addEventListener('change',run); run();
+  host.addEventListener('click',e=>{ const b=e.target.closest('[data-calc]'); if(!b) return; done.add(b.dataset.calc); run(); const cd=$('#'+b.dataset.calc,host); $('.out',cd).classList.remove('dim'); });
+  const dirty=e=>{ const cd=e.target.closest('.calc'); if(cd&&done.has(cd.id)) $('.out',cd).classList.add('dim'); };
+  host.addEventListener('input',dirty); host.addEventListener('change',dirty);
 }
 
 /* ---------- maturity ---------- */
@@ -213,6 +224,9 @@ function maturity(host, X){
   const t=T[X.LANG], M=LAB.maturity, en=X.LANG==='en';
   let ans={}; try{ ans=JSON.parse(localStorage.getItem(MKEY)||'{}'); }catch(e){}
   host.innerHTML=`<p class="csum" style="margin-top:18px">${t.matIntro}</p><div class="mat"><div style="display:grid;gap:12px">${M.dims.map(d=>`<section class="mq"><h3>${esc(en?d.n_en:d.n)}</h3>${d.q.map((q,qi)=>{ const id=d.k+qi; return `<div class="q"><p>${esc(en?q[1]:q[0])}</p><div class="opts" role="radiogroup">${(en?M.scale_en:M.scale).map((s,si)=>`<label><input type="radio" name="${id}" value="${si+1}" ${ans[id]==si+1?'checked':''}><span>${s}</span></label>`).join('')}</div></div>`; }).join('')}</section>`).join('')}</div><aside class="mres" id="mres"></aside></div>`;
+  const TOTAL=M.dims.reduce((a,d)=>a+d.q.length,0);
+  function prompt(){ const left=TOTAL-Object.keys(ans).length; $('#mres',host).innerHTML=`<p class="srcl">${t.matDone(Object.keys(ans).length)}</p><button class="btn pri" type="button" id="mGo">${t.showRes}</button><p class="srcl" id="mMsg">${left>0?t.needAll(left):''}</p>`;
+    $('#mGo',host).onclick=()=>{ const l=TOTAL-Object.keys(ans).length; if(l>0){ $('#mMsg',host).textContent=t.needAll(l); $('#mMsg',host).classList.add('warn'); const q=$$('.mq .q',host).find(x=>!x.querySelector('input:checked')); if(q) q.scrollIntoView({behavior:'smooth',block:'center'}); return; } res(); }; }
   function res(){
     const sc=M.dims.map(d=>{ const v=d.q.map((_,qi)=>ans[d.k+qi]).filter(Boolean); return v.length?v.reduce((a,b)=>a+b,0)/v.length:0; });
     const done=Object.keys(ans).length, valid=sc.filter(x=>x>0), avg=valid.length?valid.reduce((a,b)=>a+b,0)/valid.length:0;
@@ -222,10 +236,11 @@ function maturity(host, X){
     M.dims.forEach((d,i)=>{ const [x,y]=pt(i,5.9); g+=`<line x1="${cx}" y1="${cy}" x2="${pt(i,5)[0]}" y2="${pt(i,5)[1]}" stroke="var(--line-2)"/><text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="var(--muted)">${esc((en?d.n_en:d.n).split(' ')[0])}</text>`; });
     if(valid.length) g+=`<polygon points="${sc.map((v,i)=>pt(i,v||0).join(',')).join(' ')}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>`;
     const low=M.dims.map((d,i)=>({d,v:sc[i]})).filter(x=>x.v>0).sort((a,b)=>a.v-b.v).slice(0,2);
-    $('#mres',host).innerHTML=`<svg viewBox="0 -8 300 286" aria-hidden="true">${g}</svg><div class="lvl"><b>${lv?esc(en?lv[1]:lv[0]):'—'}</b><span>${avg?avg.toFixed(1)+' / 5':''}</span></div><p class="srcl">${t.matDone(done)}</p>${low.length?`<div><p class="kicker" style="margin-bottom:6px">${t.matRecs}</p><div class="recs">${low.map(x=>`<div><b>${esc(en?x.d.n_en:x.d.n)}:</b> ${esc(en?x.d.rec[1]:x.d.rec[0])}</div>`).join('')}</div></div>`:''}`;
+    $('#mres',host).innerHTML=`<svg viewBox="0 -8 300 286" aria-hidden="true">${g}</svg><div class="lvl"><b>${lv?esc(en?lv[1]:lv[0]):'—'}</b><span>${avg?avg.toFixed(1)+' / 5':''}</span></div><p class="srcl">${t.matDone(done)}</p>${low.length?`<div><p class="kicker" style="margin-bottom:6px">${t.matRecs}</p><div class="recs">${low.map(x=>`<div><b>${esc(en?x.d.n_en:x.d.n)}:</b> ${esc(en?x.d.rec[1]:x.d.rec[0])}</div>`).join('')}</div></div>`:''}<button class="btn sm ghost" type="button" id="mRe">${t.showRes}</button>`;
+    $('#mRe',host).onclick=res;
   }
-  host.addEventListener('change',e=>{ if(e.target.type==='radio'){ ans[e.target.name]=+e.target.value; try{ localStorage.setItem(MKEY,JSON.stringify(ans)); }catch(_){} res(); } });
-  res();
+  host.addEventListener('change',e=>{ if(e.target.type==='radio'){ ans[e.target.name]=+e.target.value; try{ localStorage.setItem(MKEY,JSON.stringify(ans)); }catch(_){} if(!$('#mGo',host)) prompt(); else { const l=TOTAL-Object.keys(ans).length; $('#mMsg',host).textContent=l>0?t.needAll(l):''; $('#mres p.srcl',host).textContent=t.matDone(Object.keys(ans).length); } } });
+  prompt();
 }
 
 /* ---------- method, library, kit ---------- */
@@ -236,10 +251,12 @@ function library(host,X){ const L=X.L;
   host.innerHTML=`<section class="blk" style="padding-top:24px"><div class="inits">${J.library.map(x=>`<article class="ini"><div class="who">${X.flag(x.c,'sm')}<a href="${X.href('country/'+x.c.toLowerCase())}">${esc(X.cname(x.c))}</a> · <span class="theme">${esc(L(x,'theme'))}</span><span class="y num" dir="ltr">${esc(x.y)}</span></div><h3>${esc(L(x,'t'))}</h3><p>${esc(L(x,'d'))}</p><a class="open" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.o)} ${X.I.ext}</a></article>`).join('')}</div></section>`; }
 function kit(host,X){ const t=T[X.LANG], L=X.L, en=X.LANG==='en';
   host.innerHTML=`<section class="blk" style="padding-top:24px"><div class="sh"><h2>${t.templates}</h2><p>${t.templatesD}</p></div><div class="tpls">${J.templates.map(x=>`<div class="tpl"><b>${esc(L(x,'t'))}</b><p>${esc(L(x,'d'))}</p><a class="btn sm" href="templates/${x.f}.${en?'en':'ar'}.csv" download>${t.download}</a></div>`).join('')}</div></section>
-  <section class="blk"><div class="sh"><h2>${t.glossary}</h2><label class="field"><span class="sr">${t.searchTerm}</span>${X.I.search}<input id="gq" type="search" placeholder="${t.searchTerm}" autocomplete="off"></label></div><div class="tablewrap"><table class="gloss"><thead><tr><th>${t.term}</th><th>${t.termEn}</th><th>${t.def}</th></tr></thead><tbody id="gl"></tbody></table></div></section>`;
+  <section class="blk"><div class="sh"><h2>${t.glossary}</h2><label class="field"><span class="sr">${t.searchTerm}</span>${X.I.search}<input id="gq" type="search" placeholder="${t.searchTerm}" autocomplete="off"></label></div>${window.CXK_GLOSSARY?`<div class="chips" id="gc"><button class="chip" type="button" data-k="" aria-pressed="true">${en?'All':'الكل'}</button>${Object.entries(window.CXK_GLOSSARY.cats).map(([k,v])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="false">${esc(v[en?1:0])}</button>`).join('')}</div>`:''}<div class="tablewrap"><table class="gloss"><thead><tr><th>${t.term}</th><th>${t.termEn}</th><th>${t.def}</th></tr></thead><tbody id="gl"></tbody></table></div></section>`;
   const norm=s=>String(s).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
-  const r=q=>{ const n=norm(q); $('#gl',host).innerHTML=J.glossary.concat((window.CXK_REF||{}).glossary||[]).filter(g=>!n||norm(g.join(' ')).includes(n)).map(g=>`<tr><td>${esc(g[0])}</td><td>${esc(g[1])}</td><td>${esc(en?g[3]:g[2])}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">${t.noTerm}</td></tr>`; };
-  r(''); $('#gq',host).addEventListener('input',e=>r(e.target.value)); }
+  let gcat='', gq='';
+  const r=q=>{ if(q!=null) gq=q; const n=norm(gq); $('#gl',host).innerHTML=(window.CXK_GLOSSARY?window.CXK_GLOSSARY.terms.map(g=>[g.ar,g.en,g.def,g.def_en,g.cat]):J.glossary.concat((window.CXK_REF||{}).glossary||[])).filter(g=>(!gcat||g[4]===gcat)&&(!n||norm(g.join(' ')).includes(n))).map(g=>`<tr><td>${esc(g[0])}</td><td>${esc(g[1])}</td><td>${esc(en?g[3]:g[2])}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">${t.noTerm}</td></tr>`; };
+  r(''); $('#gq',host).addEventListener('input',e=>r(e.target.value));
+  const gc=$('#gc',host); if(gc) gc.onclick=e=>{ const b=e.target.closest('[data-k]'); if(!b) return; gcat=b.dataset.k; $$('.chip',gc).forEach(x=>x.setAttribute('aria-pressed',x===b)); r(); }; }
 
 /* ---------- entry: الأدوات والمعرفة ---------- */
 const IC={
@@ -270,7 +287,7 @@ const CAT={
   tools:{k:"الأدوات",t:"أدوات تجربة العميل",p:"أدوات تعمل في متصفحك مباشرة: ترسم الرحلة وتكشف تعثرها، وتحلل ملاحظات العملاء، وتفحص رسائلك، وترتب أولويات التحسين، وتصمم الاستبيان وتقيس النتائج. لا تحتاج حساباً، ولا تُرسل بياناتك إلى أي خادم.",
    groups:[["صمّم الرحلة وقيّمها",["tool","assess","sim"]],["اسمع العميل",["voc","survey"]],["تواصل بوضوح",["msg"]],["قرّر ونفّذ",["prio"]],["قِس وقيّم",["calc","maturity"]]]},
   learn:{k:"المعرفة",t:"مرجع تجربة العميل",p:"كل ما تحتاجه في تجربة العميل في مكان واحد: موسوعة مقالات عملية، ودليل المؤشرات بمعادلاتها، والنماذج والأطر، والمعايير الدولية والشهادات، وأنماط الانكسار، ومبادئ التصميم، ورحلات من دول رائدة، وكتب مرجعية، ومعجم مصطلحات، ومسار تعلم من الأساس إلى القيادة.",
-   groups:[["ابدأ هنا",["path","method"]],["المفاهيم والنماذج",["encyclopedia","frameworks","principles"]],["القياس",["metrics"]],["افهم التعثر",["patterns"]],["تعلّم من التجارب",["cases","library"]],["المعايير",["standards"]],["مكتبتك",["books","kit"]]]},
+   groups:[["ابدأ هنا",["path","encyclopedia"]],["تصميم الرحلة",["model","approaches","method","principles"]],["القياس",["metrics","frameworks"]],["افهم التعثر",["patterns"]],["تعلّم من التجارب",["cases","library"]],["المعايير والمراجع",["standards","kit","books"]]]},
   items:{
    tool:["ارسم الرحلة","ارسم رحلة عميلك مرحلة مرحلة، وتحسب الأداة مؤشر التعثر وتحدد نقاط الانكسار وتقترح المعالجة.","أريد أن أرسم رحلة","map"],
    assess:["قيّم رحلتك","أدخل الرحلة بالمراحل أو ارفع ملف PDF، واختر منهجية (منهجية الموقع، أو أبعاد المعهد البريطاني لخدمة العملاء، أو معيار التميز البريطاني، أو معيار الخدمة الحكومية، أو منهجيتك)، واحصل على درجة لكل معيار وتقرير بالفجوات.","أريد تقييم رحلة موجودة","check"],
@@ -281,16 +298,18 @@ const CAT={
    prio:["رتّب أولويات التحسين","قيّم نقاط الألم بالتكرار والأثر والجهد، وتظهر لك المكاسب السريعة والمشاريع الكبرى.","عندي مشاكل كثيرة ولا أعرف أين أبدأ","grid"],
    calc:["حاسبات المؤشرات","صافي نقاط الترويج (NPS) ورضا العميل (CSAT) وجهده (CES)، وحجم العينة، وقيمة الاحتفاظ ووفورات تكرار التواصل.","أريد أن أحسب مؤشراتي","calc"],
    maturity:["قيّم نضج جهتك","12 عبارة تظهر مستوى نضج تجربة العميل في جهتك وأولويات تطويرها.","أريد أن أعرف أين تقف جهتي","radar"],
+   model:["نموذج «وُصول»","نموذج متكامل من تأليف الموقع لتصميم رحلة المستفيد وتقييمها: ثلاث طبقات، وثمانية أبعاد موزونة، ومستوى دليل لكل درجة، وسقف للانكسار، وخمس محطات عمل.","أريد منهجية متكاملة لتصميم الرحلة","route"],
+   approaches:["منهجيات تصميم الرحلة","الماسة المزدوجة، والتفكير التصميمي، ومخطط الخدمة، والمهام المطلوب إنجازها، وأحداث الحياة، وغيرها: متى تستخدم كل منهجية، وخطواتها، ومزاياها وحدودها، وأنواع خرائط الرحلة وأساليب البحث.","أيّ منهجية أختار؟","layers"],
    method:["المنهجية","ثماني خطوات لتصميم رحلة العميل، من تحديد النطاق إلى القياس بعد التطبيق.","","steps"],
    patterns:["أنماط الانكسار","16 نمطاً يتكرر فيها تعثر العملاء، ولكل نمط علامته وقياسه وعلاجه.","أريد أن أفهم لماذا تتعثر الرحلة","crack"],
    principles:["مبادئ التصميم","عشرة مبادئ تشترك فيها الجهات الرائدة، ومع كل مبدأ سؤال لفريقك.","","star"],
    library:["رحلات من الدول","رحلات حكومية صممتها دول رائدة حول أحداث الحياة، مع مصادرها.","","globe"],
-   kit:["القوالب والمصطلحات","قوالب CSV جاهزة للرحلة والشخصية والفجوات والمؤشرات، ومعجم يضم أكثر من 60 مصطلحاً.","","book"],
+   kit:["القوالب والمصطلحات","قوالب CSV جاهزة للرحلة والشخصية والفجوات والمؤشرات، ومعجم يضم أكثر من 110 مصطلحات مصنفة.","","book"],
    encyclopedia:["موسوعة تجربة العميل","مقالات عملية في خمسة محاور: الأساسيات، وفهم العميل، والتصميم، والقياس، والقيادة. لكل مقال لماذا يهم، وكيف تطبقه، وكيف تقيسه، وأخطاؤه الشائعة.","أريد أن أفهم مفهوماً","enc"],
-   metrics:["دليل المؤشرات","22 مؤشراً لتجربة العميل بمعادلاتها ومقاييسها، ومتى تستخدم كل مؤشر وما الذي ينبغي الانتباه إليه.","أريد أن أعرف كيف يُحسب مؤشر","gauge"],
+   metrics:["دليل المؤشرات وطريقة حسابها","أنواع مؤشرات تجربة العميل، و32 مؤشراً بسؤالها ومعادلتها وخطوات حسابها ومثال محلول وطريقة قراءة نتيجتها.","أريد أن أعرف كيف يُحسب مؤشر","gauge"],
    frameworks:["النماذج والأطر","نماذج مرجعية مثل كانو وسيرفكوال وسلسلة الخدمة والربح وقاعدة الذروة والنهاية، وكيف تستخدم كلاً منها.","","layers"],
    standards:["المعايير والشهادات","معايير ISO لإدارة الشكاوى وقياس الرضا والتميز في الخدمة ومراكز الاتصال، ومعايير الإتاحة والخدمة الحكومية، والشهادات المهنية.","","badge"],
-   books:["كتب مرجعية","أهم الكتب في تجربة العميل وتصميم الخدمة، مع ما يقدمه كل كتاب.","","books"],
+   books:["المكتبة: كتب وبودكاست","أهم الكتب والبرامج الصوتية في تجربة العميل وتصميم الخدمة، مصنفةً بالموضوع والمستوى.","ماذا أقرأ أو أسمع؟","books"],
    cases:["دراسات الحالة","15 دراسة حالة من حكومات وشركات: ما المشكلة، وما الذي تغيّر، والنتيجة بالأرقام مع المصدر.","أريد أمثلة حقيقية بنتائج","case"],
    path:["مسار التعلم","أربع مراحل من الأساسيات إلى القيادة، كل خطوة فيها رابط إلى مقال أو أداة.","من أين أبدأ؟","route"]
   }},
@@ -298,7 +317,7 @@ const CAT={
   tools:{k:"Tools",t:"Customer experience tools",p:"Tools that run right in your browser: map a journey and find where it breaks, analyse customer comments, check your messages, rank improvements, design a survey and measure the results. No account needed, and your data isn't sent to any server.",
    groups:[["Design and assess the journey",["tool","assess","sim"]],["Listen to customers",["voc","survey"]],["Communicate clearly",["msg"]],["Decide and act",["prio"]],["Measure and assess",["calc","maturity"]]]},
   learn:{k:"Knowledge",t:"The customer experience reference",p:"Everything you need on customer experience in one place: a practical encyclopedia, a metrics guide with formulas, models and frameworks, international standards and certifications, breakpoint patterns, design principles, journeys from leading countries, key books, a glossary, and a learning path from basics to leadership.",
-   groups:[["Start here",["path","method"]],["Concepts and models",["encyclopedia","frameworks","principles"]],["Measurement",["metrics"]],["Understand where journeys break",["patterns"]],["Learn from practice",["cases","library"]],["Standards",["standards"]],["Your library",["books","kit"]]]},
+   groups:[["Start here",["path","encyclopedia"]],["Journey design",["model","approaches","method","principles"]],["Measurement",["metrics","frameworks"]],["Understand where journeys break",["patterns"]],["Learn from practice",["cases","library"]],["Standards and references",["standards","kit","books"]]]},
   items:{
    tool:["Map a journey","Map your customer journey stage by stage; the tool calculates a friction index, finds the breakpoints and suggests fixes.","I want to map a journey","map"],
    assess:["Assess your journey","Enter the journey stage by stage or upload a PDF, choose a methodology (this site's, the UK Institute of Customer Service dimensions, Customer Service Excellence, the GOV.UK Service Standard, or your own), and get a score per criterion and a gap report.","I want to assess an existing journey","check"],
@@ -309,16 +328,18 @@ const CAT={
    prio:["Rank improvements","Rate pain points by frequency, impact and effort to see quick wins and major projects.","I have many problems and don't know where to start","grid"],
    calc:["Metric calculators","NPS, CSAT and CES, sample size, retention value and repeat-contact savings.","I want to calculate my metrics","calc"],
    maturity:["Maturity check","12 statements that show your organisation's CX maturity and what to develop first.","I want to know where my organisation stands","radar"],
+   model:["The Wusool model","An integrated model, created by this site, for designing and assessing customer journeys: three layers, eight weighted dimensions, an evidence level per score, a breakpoint cap and five work stations.","I want a complete journey design method","route"],
+   approaches:["Journey design methodologies","Double Diamond, design thinking, service blueprinting, Jobs to be Done, life events and more: when to use each, its steps, strengths and limits, plus journey map types and research methods.","Which methodology should I use?","layers"],
    method:["Method","Eight steps to design a customer journey, from scoping to measuring after launch.","","steps"],
    patterns:["Breakpoint patterns","16 patterns where customers get stuck, each with its symptom, measure and fix.","I want to understand why journeys break","crack"],
    principles:["Design principles","Ten principles shared by leading organisations, each with a question for your team.","","star"],
    library:["Journeys from other countries","Government journeys designed by leading countries around life events, with sources.","","globe"],
-   kit:["Templates & glossary","Ready CSV templates for journeys, personas, gaps and KPIs, and a glossary of 60+ terms.","","book"],
+   kit:["Templates & glossary","Ready CSV templates for journeys, personas, gaps and KPIs, and a glossary of 110+ categorised terms.","","book"],
    encyclopedia:["CX encyclopedia","Practical articles in five areas: fundamentals, understanding customers, design, measurement and leadership. Each covers why it matters, how to apply it, how to measure it and common mistakes.","I want to understand a concept","enc"],
-   metrics:["Metrics guide","22 customer experience metrics with formulas and scales, when to use each and what to watch out for.","I want to know how a metric is calculated","gauge"],
+   metrics:["Metrics guide and calculations","The types of CX metrics, and 32 metrics with their question, formula, calculation steps, a worked example and how to read the result.","I want to know how a metric is calculated","gauge"],
    frameworks:["Models & frameworks","Reference models such as Kano, SERVQUAL, the service-profit chain and the peak–end rule, and how to use each.","","layers"],
    standards:["Standards & certifications","ISO standards for complaints, satisfaction measurement, service excellence and contact centres, accessibility and government service standards, and professional certifications.","","badge"],
-   books:["Key books","The essential books on customer experience and service design, and what each offers.","","books"],
+   books:["Library: books & podcasts","The essential books and podcasts on customer experience and service design, by topic and level.","What should I read or listen to?","books"],
    cases:["Case studies","15 case studies from governments and companies: the problem, what changed and the result in numbers, with sources.","I want real examples with results","case"],
    path:["Learning path","Four stages from basics to leadership; every step links to an article or tool.","Where do I start?","route"]
   }}
@@ -330,6 +351,7 @@ window.CXK_Friction = friction;
 window.CXK_Lab = function(main,{group,tab,arg}){
   const X=window.CXK, C=CAT[X.LANG], TL=window.CXK_TOOLS||{};
   group = group||'tools'; if(tab==='journey') tab='tool';
+  if(tab==='books' && window.CXK_LibraryPage){ window.CXK_LibraryPage(main, X, 'books'); return; }
   const G=C[group], ids=G.groups.flatMap(g=>g[1]);
   if(!tab || !ids.includes(tab)){
     main.innerHTML=`<div class="wrap"><header class="pagehead"><span class="kicker">${G.k}</span><h1>${G.t}</h1><p>${G.p}</p></header>

@@ -17,7 +17,7 @@ const T = {
 ar:{
  vocIntro:"الصق ملاحظات العملاء أو الشكاوى أو تعليقات التقييم، ملاحظة في كل سطر، أو ارفع ملف CSV أو TXT. تصنّف الأداة كل ملاحظة بحسب موضوعها ونبرتها، وتربط الموضوعات بأنماط الانكسار ومعالجتها.",
  privacy:"يعمل التحليل داخل متصفحك، ولا تُرسل النصوص إلى أي خادم.",
- analyse:"حلّل", sample:"حمّل مثالاً", upload:"ارفع ملفاً", exportCsv:"نزّل النتائج CSV", clear:"امسح",
+ analyse:"حلّل", vocWait:"الصق التعليقات أو حمّل ملفاً، ثم اضغط «حلّل».", sample:"حمّل مثالاً", upload:"ارفع ملفاً", exportCsv:"نزّل النتائج CSV", clear:"امسح",
  comments:"ملاحظة", neg:"سلبية", pos:"إيجابية", neu:"محايدة", effort:"إشارات جهد", effortT:"ملاحظات تذكر تكرار البيانات أو التحويل بين الجهات أو تغيير القناة",
  themes:"الموضوعات", themesSub:"عدد الملاحظات لكل موضوع، والجزء الداكن نسبة السلبية منها. اضغط موضوعاً لعرض أمثلته.",
  quotes:"أمثلة من الملاحظات", noQuotes:"اختر موضوعاً لعرض أمثلته.", untagged:"دون موضوع واضح",
@@ -32,6 +32,7 @@ ar:{
  found:"عبارات للمراجعة", noneFound:"لا شيء",
  builder:"منشئ الرسالة الواضحة", builderSub:"املأ الحقول وتُكتب الرسالة بترتيب واضح: ما حدث، ثم ما يعنيه، ثم المطلوب وموعده، ثم كيف تتابع.",
  fWhat:"ما الذي حدث؟", fWhatPh:"قبلنا طلب استرداد المبلغ", fMean:"ماذا يعني للعميل؟ (اختياري)", fMeanPh:"يصل المبلغ إلى حسابك خلال 5 أيام عمل", fDo:"ما المطلوب منه؟", fDoPh:"لا تحتاج أن تفعل شيئاً", fWhen:"متى؟", fWhenPh:"خلال 5 أيام عمل", fRef:"الرقم المرجعي", fLink:"رابط أو رقم المتابعة", fLinkPh:"example.com/track",
+ msgWait:"الصق الرسالة ثم اضغط «افحص هذه الرسالة».", prioGo:"رتّب الأولويات", prioWait:"قيّم نقاط الألم ثم اضغط «رتّب الأولويات» لترى المصفوفة والترتيب.", prioStale:"عدّلتَ القيم بعد آخر ترتيب. اضغط «رتّب الأولويات» للتحديث.",
  refWord:"رقم الطلب", follow:"للمتابعة:", checkThis:"افحص هذه الرسالة", copyMsg:"انسخ الرسالة",
  prioIntro:"اكتب نقاط الألم أو فرص التحسين، وقيّم كل واحدة من 1 إلى 5 في تكرارها وأثرها على العميل وجهد معالجتها. ترتّب الأداة الأولويات وترسم المصفوفة.",
  pName:"نقطة الألم", pFreq:"التكرار", pImp:"الأثر على العميل", pEff:"جهد المعالجة", pScore:"الأولوية", add:"+ أضف صفاً", importJ:"استورد من رحلتك", importedN:n=>`استوردتُ ${n} نقاط من رحلتك المحفوظة`, noJourney:"لا توجد نقاط ألم في رحلتك المحفوظة. ارسم رحلة أولاً في أداة «ارسم الرحلة».", del:"احذف",
@@ -57,7 +58,7 @@ ar:{
 en:{
  vocIntro:"Paste customer comments, complaints or review text, one per line, or upload a CSV or TXT file. The tool tags each comment by theme and tone, and links themes to breakpoint patterns and their fixes.",
  privacy:"The analysis runs in your browser; no text is sent to any server.",
- analyse:"Analyse", sample:"Load an example", upload:"Upload a file", exportCsv:"Download results CSV", clear:"Clear",
+ analyse:"Analyse", vocWait:"Paste comments or upload a file, then press \"Analyse\".", sample:"Load an example", upload:"Upload a file", exportCsv:"Download results CSV", clear:"Clear",
  comments:"comments", neg:"negative", pos:"positive", neu:"neutral", effort:"effort signals", effortT:"Comments mentioning repeated data, being passed between teams or switching channel",
  themes:"Themes", themesSub:"Comments per theme; the dark part is the negative share. Click a theme to see examples.",
  quotes:"Example comments", noQuotes:"Pick a theme to see its examples.", untagged:"No clear theme",
@@ -72,6 +73,7 @@ en:{
  found:"Phrases to review", noneFound:"none",
  builder:"Clear message builder", builderSub:"Fill in the fields and the message is written in a clear order: what happened, what it means, what to do and by when, how to follow up.",
  fWhat:"What happened?", fWhatPh:"We've approved your refund", fMean:"What does it mean for the customer? (optional)", fMeanPh:"The money will reach your account within 5 working days", fDo:"What should they do?", fDoPh:"You don't need to do anything", fWhen:"By when?", fWhenPh:"within 5 working days", fRef:"Reference number", fLink:"Tracking link or contact", fLinkPh:"example.com/track",
+ msgWait:"Paste the message, then press \"Check this message\".", prioGo:"Rank priorities", prioWait:"Rate the pain points, then press \"Rank priorities\" to see the matrix and ranking.", prioStale:"You changed values since the last ranking. Press \"Rank priorities\" to update.",
  refWord:"Request number", follow:"Track it here:", checkThis:"Check this message", copyMsg:"Copy message",
  prioIntro:"List pain points or improvement ideas and rate each from 1 to 5 for how often it happens, its impact on customers and the effort to fix it. The tool ranks them and draws the matrix.",
  pName:"Pain point", pFreq:"Frequency", pImp:"Customer impact", pEff:"Effort to fix", pScore:"Priority", add:"+ Add row", importJ:"Import from your journey", importedN:n=>`Imported ${n} pain points from your saved journey`, noJourney:"Your saved journey has no pain points. Map a journey first in the \"Map a journey\" tool.", del:"Delete",
@@ -136,12 +138,12 @@ function voc(host, X){
     return l.map(r=>`<blockquote class="q ${r.tone<0?'n':r.tone>0?'p':''}" dir="auto">${esc(r.text)}</blockquote>`).join('');
   }
   $('#vocGo',host).onclick=run;
-  $('#vocSample',host).onclick=()=>{ ta.value=K.voc.sample[en?'en':'ar'].join('\n'); run(); };
+  $('#vocSample',host).onclick=()=>{ ta.value=K.voc.sample[en?'en':'ar'].join('\n'); ta.focus(); };
   $('#vocClear',host).onclick=()=>{ ta.value=''; rows=[]; render(); };
-  $('#vocFile',host).onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ const lines=String(r.result).split(/\r?\n/).map(l=>{ if(/\.csv$/i.test(f.name)){ const m=l.match(/^"((?:[^"]|"")*)"|^([^,;\t]*)/); return m?(m[1]!=null?m[1].replace(/""/g,'"'):m[2]):l; } return l; }); ta.value=lines.join('\n'); run(); }; r.readAsText(f); e.target.value=''; };
+  $('#vocFile',host).onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ const lines=String(r.result).split(/\r?\n/).map(l=>{ if(/\.csv$/i.test(f.name)){ const m=l.match(/^"((?:[^"]|"")*)"|^([^,;\t]*)/); return m?(m[1]!=null?m[1].replace(/""/g,'"'):m[2]):l; } return l; }); ta.value=lines.join('\n'); };  r.readAsText(f); e.target.value=''; };
   $('#vocCsv',host).onclick=()=>{ if(!rows.length) return; const name=k=>{ const x=TH.find(z=>z.k===k); return x?(en?x.n_en:x.n):k; };
     download('cx-comments.csv', [en?'comment,tone,themes':'الملاحظة,النبرة,الموضوعات', ...rows.map(r=>[csvCell(r.text), csvCell(r.tone<0?t.neg:r.tone>0?t.pos:t.neu), csvCell(r.th.map(name).join(' | '))].join(','))].join('\n')); };
-  ta.value=K.voc.sample[en?'en':'ar'].join('\n'); run();
+  ta.value=K.voc.sample[en?'en':'ar'].join('\n'); $('#vocOut',host).innerHTML=`<p class="srcl">${t.vocWait}</p>`;
 }
 
 /* ---------- فاحص وضوح الرسالة ---------- */
@@ -176,8 +178,9 @@ function msg(host, X){
   host.innerHTML=`<p class="csum" style="margin-top:18px">${t.msgIntro}</p>
    <div class="msgx"><div class="vin"><label class="sr" for="msgIn">${t.msgIntro}</label><textarea id="msgIn" class="ta" rows="8" dir="auto"></textarea>
      <div class="row-btns"><span class="srcl">${t.msgLoad}</span>${K.messages.map(m=>`<button class="btn sm" type="button" data-m="${m.k}">${esc(en?m.n_en:m.n)}</button>`).join('')}</div>
+     <div class="row-btns"><button class="btn pri" type="button" id="mGo">${t.checkThis}</button></div>
      <div class="mprev" id="mprev" dir="auto"></div></div>
-    <aside class="mres" id="mres"></aside></div>
+    <aside class="mres" id="mres"><p class="srcl">${t.msgWait}</p></aside></div>
    <section class="blk" style="padding-top:26px"><div class="sh"><h2>${t.builder}</h2><p>${t.builderSub}</p></div>
     <div class="bld"><div class="bf">
       <label>${t.fWhat}<input id="bWhat" type="text" placeholder="${esc(t.fWhatPh)}"></label>
@@ -197,8 +200,9 @@ function msg(host, X){
       <ul class="chk-list">${keys.map(k=>`<li class="${r.c[k]?'ok':'no'}"><span class="ic" aria-hidden="true">${r.c[k]?'✓':'✕'}</span><div><b>${t.checks[k]}</b>${r.c[k]?'':`<p>${t.tips[k]}</p>`}</div></li>`).join('')}</ul>
       <p class="srcl">${t.found}: ${r.found.length?r.found.map(f=>`<mark>${esc(f)}</mark>`).join(' '):t.noneFound}</p>`;
   }
-  ta.addEventListener('input',run);
-  $$('[data-m]',host).forEach(b=>b.onclick=()=>{ const m=K.messages.find(x=>x.k===b.dataset.m); ta.value=en?m.en:m.ar; run(); });
+  let ran=false; $('#mGo',host).onclick=()=>{ if(!ta.value.trim()){ ta.focus(); return; } ran=true; $('#mres',host).classList.remove('dim'); run(); };
+  ta.addEventListener('input',()=>{ if(ran) $('#mres',host).classList.add('dim'); });
+  $$('[data-m]',host).forEach(b=>b.onclick=()=>{ const m=K.messages.find(x=>x.k===b.dataset.m); ta.value=en?m.en:m.ar; if(ran) $('#mres',host).classList.add('dim'); ta.focus(); });
   const ids=['bWhat','bMean','bDo','bWhen','bRef','bLink'];
   function build(){ const v=Object.fromEntries(ids.map(i=>[i,$('#'+i,host).value.trim()])); const p=[];
     const dot=s=>s&&!/[.!؟?]$/.test(s)?s+'.':s;
@@ -213,9 +217,9 @@ function msg(host, X){
   // قيم مثال
   const ex=en?{bWhat:"We've approved your refund",bMean:"The money will reach your account within 5 working days",bDo:"You don't need to do anything",bWhen:"",bRef:"482193",bLink:"example.com/track"}:{bWhat:"قبلنا طلب استرداد المبلغ",bMean:"يصل المبلغ إلى حسابك خلال 5 أيام عمل خلال 5 أيام عمل",bDo:"لا تحتاج أن تفعل شيئاً",bWhen:"",bRef:"482193",bLink:"example.com/track"};
   ids.forEach(i=>$('#'+i,host).value=ex[i]); upd();
-  $('#bCheck',host).onclick=()=>{ ta.value=build(); run(); ta.scrollIntoView({behavior:'smooth',block:'center'}); };
+  $('#bCheck',host).onclick=()=>{ ta.value=build(); ran=true; $('#mres',host).classList.remove('dim'); run(); ta.scrollIntoView({behavior:'smooth',block:'center'}); };
   $('#bCopy',host).onclick=()=>X.copy(build());
-  ta.value=en?K.messages[0].en:K.messages[0].ar; run();
+  ta.value=en?K.messages[0].en:K.messages[0].ar;
 }
 
 /* ---------- مصفوفة الأولويات ---------- */
@@ -230,7 +234,8 @@ function prio(host, X){
   host.innerHTML=`<p class="csum" style="margin-top:18px">${t.prioIntro}</p>
    <div class="row-btns"><button class="btn sm" type="button" id="pAdd">${t.add}</button><button class="btn sm" type="button" id="pImp">${t.importJ}</button><button class="btn sm" type="button" id="pCsv">${t.csv}</button></div>
    <div class="tablewrap"><table class="ptab"><thead><tr><th>#</th><th>${t.pName}</th><th>${t.pFreq}</th><th>${t.pImp}</th><th>${t.pEff}</th><th>${t.pScore}</th><th></th></tr></thead><tbody id="pBody"></tbody></table></div>
-   <div class="pgrid"><figure class="pmat" id="pMat"></figure><section><h3 class="h3">${t.ranked}</h3><ol class="prank" id="pRank"></ol><p class="note">${t.prioNote}</p></section></div>`;
+   <div class="gobar"><button class="btn pri" type="button" id="pGo">${t.prioGo}</button><span class="srcl" id="pGoMsg">${t.prioWait}</span></div>
+   <div class="pgrid" id="pRes" hidden><figure class="pmat" id="pMat"></figure><section><h3 class="h3">${t.ranked}</h3><ol class="prank" id="pRank"></ol><p class="note">${t.prioNote}</p></section></div>`;
   const opt=v=>[1,2,3,4,5].map(n=>`<option value="${n}" ${+v===n?'selected':''}>${n}</option>`).join('');
   function table(){ $('#pBody',host).innerHTML=rows.map((r,i)=>`<tr><td class="num">${i+1}</td><td><input type="text" data-i="${i}" data-k="n" value="${esc(r.n)}" aria-label="${t.pName} ${i+1}"></td>${['f','i','e'].map(k=>`<td><select data-i="${i}" data-k="${k}" aria-label="${k}">${opt(r[k])}</select></td>`).join('')}<td class="num"><b>${sc(r).toFixed(1)}</b></td><td><button type="button" class="x" data-del="${i}" aria-label="${t.del}">×</button></td></tr>`).join(''); }
   function chart(){
@@ -249,8 +254,10 @@ function prio(host, X){
     const order=rows.map((r,i)=>({r,i})).sort((a,b)=>sc(b.r)-sc(a.r));
     $('#pRank',host).innerHTML=order.map(({r,i})=>`<li><span class="no num">${i+1}</span><div><b>${esc(r.n||'—')}</b><span class="qchip ${quad(r)}">${t.quad[quad(r)]}</span><p>${t.quadD[quad(r)]}</p></div><span class="num sc">${sc(r).toFixed(1)}</span></li>`).join('');
   }
-  const all=()=>{ table(); chart(); };
-  host.addEventListener('input',e=>{ const el=e.target; if(el.dataset.i==null) return; const r=rows[+el.dataset.i]; r[el.dataset.k]= el.dataset.k==='n'?el.value:+el.value; save(); if(el.dataset.k!=='n'){ $$('#pBody tr',host)[+el.dataset.i].querySelector('b').textContent=sc(r).toFixed(1); } chart(); });
+  let ran=false; const pend=()=>{ if(ran){ $('#pRes',host).classList.add('dim'); const g=$('#pGoMsg',host); g.textContent=t.prioStale; g.classList.add('warn'); } };
+  const all=()=>{ table(); pend(); };
+  $('#pGo',host).onclick=()=>{ ran=true; const r=$('#pRes',host); r.hidden=false; r.classList.remove('dim'); const g=$('#pGoMsg',host); g.textContent=''; g.classList.remove('warn'); chart(); r.scrollIntoView({behavior:'smooth',block:'start'}); };
+  host.addEventListener('input',e=>{ const el=e.target; if(el.dataset.i==null) return; const r=rows[+el.dataset.i]; r[el.dataset.k]= el.dataset.k==='n'?el.value:+el.value; save(); if(el.dataset.k!=='n'){ $$('#pBody tr',host)[+el.dataset.i].querySelector('b').textContent=sc(r).toFixed(1); } pend(); });
   host.addEventListener('change',e=>{ if(e.target.tagName==='SELECT') host.dispatchEvent(new Event('input')); });
   $('#pBody',host).addEventListener('click',e=>{ const b=e.target.closest('[data-del]'); if(!b) return; rows.splice(+b.dataset.del,1); save(); all(); });
   $('#pAdd',host).onclick=()=>{ rows.push({n:'',f:3,i:3,e:3}); save(); all(); const ins=$$('#pBody input',host); ins[ins.length-1].focus(); };
