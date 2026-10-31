@@ -1,4 +1,4 @@
-/* CX Knowledge — المرصد: ثنائي اللغة، ليلي ونهاري، بث مباشر وخريطة وأطلس وتحليلات ومؤشرات ومبادرات ومصادر */
+/* CX Knowledge — معرفة تجربة العميل: ثنائي اللغة، ليلي ونهاري، أدوات ومعرفة ومؤشرات ودول وأخبار */
 (function(){
 "use strict";
 const C = window.CXK_COUNTRIES || {}, P = window.CXK_PROFILES || {}, N = window.CXK_NEWS || {items:[]}, IX = window.CXK_INDICES || [], SRC = window.CXK_SOURCES || [], I18N = window.CXK_I18N;
@@ -271,10 +271,10 @@ function pageHome(){
     <div class="needs">${CT?needs.map(id=>{ const it=CT.items[id]; return `<a class="need" href="${href('tools/'+id)}"><span class="ti">${icon(it[3])}</span><b>${esc(it[2])}</b><span>${esc(it[0])}</span></a>`; }).join(''):''}</div></section>
   <section class="blk wrap"><div class="pod-row">
     ${pod?`<article class="pod"><span class="kicker">${S.podT}</span><span class="stg">${esc((K.stages[pod.st]||[])[li]||'')}</span><h2>${esc(en?pod.n_en:pod.n)}</h2><p>${esc(en?pod.sym_en:pod.sym)}</p><div class="pfix"><b>${S.podFix}</b><p>${esc(en?pod.fix_en:pod.fix)}</p></div><a class="srcl" href="${href('learn/patterns/'+pod.id)}">${S.podMore}</a></article>`:''}
-    <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['path','encyclopedia','metrics','patterns','standards'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
+    <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['lessons','path','encyclopedia','metrics','patterns'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
   </div></section>
   ${(window.CXK_Cases&&window.CXK_CaseCard)?`<section class="blk wrap"><div class="sh"><h2>${S.casesT}</h2><p>${S.casesSub}</p><a class="more" href="${href('learn/cases')}">${S.allCases}</a></div><div class="cases">${window.CXK_Cases.items.filter(x=>['va-trust','estonia-family','irs-direct-file','klarna-ai','dubai-paperless','uk-register-vote'].includes(x.id)).map(x=>window.CXK_CaseCard(x,window.CXK)).join('')}</div></section>`:''}
-  <section class="blk wrap"><div class="sh"><h2>${S.worldT}</h2><p>${S.worldSub}</p><a class="more" href="${href('atlas')}">${S.allCountries2}</a></div>
+  <section class="blk wrap"><div class="sh"><h2>${S.worldT}</h2><p>${S.worldSub}</p><a class="more" href="${href('countries')}">${S.allCountries2}</a></div>
     <div class="inits">${inits.map(i=>iniCard(i)).join('')}</div>
     <div class="board" style="margin-top:14px">${IX.slice(0,4).map(ixCard).join('')}</div>
     <p class="morelinks"><a href="${href('initiatives')}">${S.allInits}</a><a href="${href('indices')}">${S.allIndices}</a></p></section>
@@ -306,7 +306,7 @@ function pageAtlas(){
   const counts={all:0}; Object.values(C).forEach(d=>{ if(d[2]==null) return; counts.all++; counts[d[4]]=(counts[d[4]]||0)+1; });
   main.innerHTML = `<div class="wrap">
     <header class="pagehead"><span class="kicker">${S.atlasK}</span><h1>${S.atlasTitle}</h1><p>${S.atlasLede}</p></header>
-    <nav class="subtabs"><a href="${href('atlas')}" aria-current="page">${S.atlasK}</a><a href="${href('initiatives')}">${S.inK}</a></nav>
+    <nav class="subtabs"><a href="${href('countries')}" aria-current="page">${S.atlasK}</a><a href="${href('initiatives')}">${S.inK}</a></nav>
     <div class="regions chips" id="regs">${[['all',S.allRegions],...Object.entries(S.REG)].map(([k,l])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${k==='all'}">${k!=='all'?`<span class="dot" style="--c:var(--${k})"></span>`:''}${l} <span class="n">${counts[k]||0}</span></button>`).join('')}</div>
     <div class="frame mapbox" id="atlasMap"></div>
     <div class="filters" style="margin-top:16px"><div class="chips" id="sorts"><button class="chip" data-s="rank" aria-pressed="true" type="button">${S.sortRank}</button><button class="chip" data-s="name" aria-pressed="false" type="button">${S.sortName}</button><button class="chip" data-s="deep" aria-pressed="false" type="button">${S.sortDeep}</button><button class="chip" data-s="hot" aria-pressed="false" type="button">${S.sortHot}</button></div>${filterField('qC',S.searchCountry)}</div>
@@ -326,7 +326,7 @@ function pageAtlas(){
 
 function pageCountry(code){
   const c=code.toUpperCase(), d=C[c];
-  if(!d){ main.innerHTML=`<div class="wrap"><header class="pagehead"><h1>${S.notFound}</h1><p><a href="${href('atlas')}">${S.backAtlas}</a></p></header></div>`; return; }
+  if(!d){ main.innerHTML=`<div class="wrap"><header class="pagehead"><h1>${S.notFound}</h1><p><a href="${href('countries')}">${S.backAtlas}</a></p></header></div>`; return; }
   const p=P[c], news=items.filter(i=>i.c===c), wire=LIVE.items.filter(x=>x.c===c&&x.f!=='editorial').slice(0,30);
   const reg = Object.values(C).filter(x=>x[4]===d[4]&&x[2]!=null), regAvg = reg.reduce((a,x)=>a+x[2],0)/(reg.length||1);
   const all = Object.values(C).filter(x=>x[2]!=null), wAvg = all.reduce((a,x)=>a+x[2],0)/all.length;
@@ -338,7 +338,7 @@ function pageCountry(code){
   main.innerHTML = `<div class="wrap">
   <div class="chero">
     <div>
-      <div class="crumbs"><a href="${href('atlas')}">${S.nav.atlas}</a><span>›</span><span>${R}</span></div>
+      <div class="crumbs"><a href="${href('countries')}">${S.nav.atlas}</a><span>›</span><span>${R}</span></div>
       <div class="ctitle" style="margin-top:10px">${flag(c,'lg')}<div><h1>${esc(cname(c))}</h1><div class="en">${esc(LANG==='en'?d[0]:d[1])}</div></div></div>
       ${p?`<p class="csum">${esc(L(p,'summary'))}</p>`:`<div class="pending" style="margin-top:16px"><b>${S.pendingT}</b><span>${S.pendingP}</span></div>`}
       ${p&&p.bodies&&p.bodies.length?`<div class="bodies" style="margin-top:16px">${p.bodies.map(b=>`<a href="${esc(b.u)}" target="_blank" rel="noopener">${esc(L(b,'n'))} ${I.ext.replace('<svg','<svg width="13" height="13"')}</a>`).join('')}</div>`:''}
@@ -403,7 +403,7 @@ function pageInitiatives(){
   let th='all', q='';
   const cnt={all:allInits.length}; allInits.forEach(i=>cnt[i.theme]=(cnt[i.theme]||0)+1);
   main.innerHTML = `<div class="wrap"><header class="pagehead"><span class="kicker">${S.inK}</span><h1>${S.inTitle}</h1><p>${S.inLede(deepCodes.length)}</p></header>
-    <nav class="subtabs"><a href="${href('atlas')}">${S.atlasK}</a><a href="${href('initiatives')}" aria-current="page">${S.inK}</a></nav>
+    <nav class="subtabs"><a href="${href('countries')}">${S.atlasK}</a><a href="${href('initiatives')}" aria-current="page">${S.inK}</a></nav>
     <div class="filters"><div class="chips" id="th">${[['all',S.all],...Object.entries(S.THEME)].filter(([k])=>cnt[k]).map(([k,l])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${k==='all'}">${l} <span class="n">${cnt[k]}</span></button>`).join('')}</div>${filterField('iq',S.searchIn)}</div>
     <div class="inits" id="il"></div></div>`;
   const render=()=>{ const n=norm(q.trim()); const l=allInits.filter(i=>(th==='all'||i.theme===th)&&(!n||norm(L(i,'t')+' '+L(i,'d')+' '+L(i,'impact')+' '+cname(i.c)).includes(n)));
@@ -462,7 +462,7 @@ function renderChrome(){
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==='en'?'ltr':'rtl';
   $('.skip').textContent=S.skip;
   $('#brandT').textContent=S.brand; $('#brandS').textContent=S.brandSub;
-  $('#nav').innerHTML = ['home','tools','learn','indices','library','atlas','news'].map(k=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${k==='news'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
+  $('#nav').innerHTML = ['home','tools','learn','indices','library','atlas','news'].map(k=>`<a href="${href(k==='home'?'':k==='atlas'?'countries':k)}" data-r="${k}">${k==='news'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
   $('#lensSel').innerHTML = `<option value="">${S.lensAll}</option>` + Object.entries(C).filter(([,d])=>d[3]).sort((a,b)=>cname(a[0]).localeCompare(cname(b[0]),LANG)).map(([c])=>`<option value="${c}" ${c===LENS?'selected':''}>${esc(cname(c))}</option>`).join('');
   $('#lensSel').setAttribute('aria-label',S.lens);
   $('#langBtn').innerHTML = `<span class="tx">${S.langSwitch}</span><span aria-hidden="true" class="ab">${LANG==='en'?'ع':'EN'}</span>`; $('#langBtn').setAttribute('aria-label',S.langLabel+': '+S.langSwitch);
@@ -471,7 +471,7 @@ function renderChrome(){
   $('#bnav').innerHTML = [['','home','<path d="M3 11 12 4l9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/>'],['tools','tools','<path d="M14.5 6.5a4 4 0 0 0-5.3 5.2L4 17v3h3l5.3-5.2a4 4 0 0 0 5.2-5.3l-2.4 2.4-2.6-.6-.6-2.6z"/>'],['learn','learn','<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'],['news','news','<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>']].map(([p,k,svg])=>`<a href="${href(p)}" data-r="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svg}</svg>${S.navShort[k]}</a>`).join('') + `<button type="button" id="bmore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>${S.navShort.more}</button>`;
   $('#bmore').addEventListener('click',()=>{ const o=$('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded',o); });
   $('#footP').textContent=S.footP;
-  $('#footLinks').innerHTML=['tools','learn','indices','library','atlas','initiatives','news','analysis','sources','about'].map(k=>`<a href="${href(k)}">${S.nav[k]}</a>`).join('');
+  $('#footLinks').innerHTML=['tools','learn','indices','library','atlas','initiatives','news','analysis','sources','about'].map(k=>`<a href="${href(k==='atlas'?'countries':k)}">${S.nav[k]}</a>`).join('');
   renderTicker(); footMeta(); statusBar();
 }
 function applyTheme(){
@@ -504,14 +504,14 @@ function route(keepScroll){
   const [a,b,c3] = parts;
   window._liveRefresh=null;
   document.title = LANG==='en' ? 'CX Knowledge | Customer Experience' : 'CX Knowledge | معرفة تجربة العميل';
-  const navKey = (a==='learn'&&b==='books')?'library':a==='initiatives'?'atlas':a==='country'?'atlas':(a==='item'||a==='analysis'||a==='live'||a==='sources')?'news':(a==='lab'||a==='journey')?'tools':(a||'home');
+  const navKey = (a==='learn'&&b==='books')?'library':(a==='initiatives'||a==='country'||a==='countries')?'atlas':(a==='item'||a==='analysis'||a==='live'||a==='sources')?'news':(a==='lab'||a==='journey')?'tools':(a||'home');
   $$('#nav a, #bnav a').forEach(x=>{ if(x.dataset.r===navKey) x.setAttribute('aria-current','page'); else x.removeAttribute('aria-current'); });
   $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false'); $('#tip').hidden=true;
   main.classList.remove('fade'); void main.offsetWidth; main.classList.add('fade');
   if(!a) pageHome();
   else if(a==='news') pageNews();
   else if(a==='live') pageLive();
-  else if(a==='atlas') pageAtlas();
+  else if(a==='countries'||a==='atlas') pageAtlas();
   else if(a==='country' && b) pageCountry(b);
   else if(a==='analysis') pageAnalysis();
   else if(a==='item' && b) pageAnalysis(b);

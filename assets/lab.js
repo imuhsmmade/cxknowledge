@@ -1,4 +1,4 @@
-/* مختبر رحلة العميل — ارسم واكشف نقاط الانكسار، عِش الرحلة، الحاسبات، تقييم النضج، المنهجية، المكتبة، القوالب */
+/* أدوات رحلة العميل — ارسم واكشف نقاط الانكسار، عِش الرحلة، الحاسبات، تقييم النضج، المنهجية، المكتبة، القوالب */
 (function(){
 "use strict";
 const J = window.CXK_JOURNEY, LAB = window.CXK_LAB;
@@ -287,7 +287,7 @@ const CAT={
   tools:{k:"الأدوات",t:"أدوات تجربة العميل",p:"أدوات تعمل في متصفحك مباشرة: ترسم الرحلة وتكشف تعثرها، وتحلل ملاحظات العملاء، وتفحص رسائلك، وترتب أولويات التحسين، وتصمم الاستبيان وتقيس النتائج. لا تحتاج حساباً، ولا تُرسل بياناتك إلى أي خادم.",
    groups:[["صمّم الرحلة وقيّمها",["tool","assess","sim"]],["اسمع العميل",["voc","survey"]],["تواصل بوضوح",["msg"]],["قرّر ونفّذ",["prio"]],["قِس وقيّم",["calc","maturity"]]]},
   learn:{k:"المعرفة",t:"مرجع تجربة العميل",p:"كل ما تحتاجه في تجربة العميل في مكان واحد: موسوعة مقالات عملية، ودليل المؤشرات بمعادلاتها، والنماذج والأطر، والمعايير الدولية والشهادات، وأنماط الانكسار، ومبادئ التصميم، ورحلات من دول رائدة، وكتب مرجعية، ومعجم مصطلحات، ومسار تعلم من الأساس إلى القيادة.",
-   groups:[["ابدأ هنا",["path","encyclopedia"]],["تصميم الرحلة",["model","approaches","method","principles"]],["القياس",["metrics","frameworks"]],["افهم التعثر",["patterns"]],["تعلّم من التجارب",["cases","library"]],["المعايير والمراجع",["standards","kit","books"]]]},
+   groups:[["ابدأ هنا",["path","lessons","encyclopedia"]],["تصميم الرحلة",["model","approaches","method","principles"]],["القياس",["metrics","frameworks"]],["افهم التعثر",["patterns"]],["تعلّم من التجارب",["cases","library"]],["المعايير والمراجع",["standards","kit","books"]]]},
   items:{
    tool:["ارسم الرحلة","ارسم رحلة عميلك مرحلة مرحلة، وتحسب الأداة مؤشر التعثر وتحدد نقاط الانكسار وتقترح المعالجة.","أريد أن أرسم رحلة","map"],
    assess:["قيّم رحلتك","أدخل الرحلة بالمراحل أو ارفع ملف PDF، واختر منهجية (منهجية الموقع، أو أبعاد المعهد البريطاني لخدمة العملاء، أو معيار التميز البريطاني، أو معيار الخدمة الحكومية، أو منهجيتك)، واحصل على درجة لكل معيار وتقرير بالفجوات.","أريد تقييم رحلة موجودة","check"],
@@ -311,13 +311,14 @@ const CAT={
    standards:["المعايير والشهادات","معايير ISO لإدارة الشكاوى وقياس الرضا والتميز في الخدمة ومراكز الاتصال، ومعايير الإتاحة والخدمة الحكومية، والشهادات المهنية.","","badge"],
    books:["المكتبة: كتب وبودكاست","أهم الكتب والبرامج الصوتية في تجربة العميل وتصميم الخدمة، مصنفةً بالموضوع والمستوى.","ماذا أقرأ أو أسمع؟","books"],
    cases:["دراسات الحالة","15 دراسة حالة من حكومات وشركات: ما المشكلة، وما الذي تغيّر، والنتيجة بالأرقام مع المصدر.","أريد أمثلة حقيقية بنتائج","case"],
+   lessons:["الدروس العملية","14 درساً تطبيقياً في القياس وتصميم الرحلة وصوت العميل والتحسين، بأمثلة محلولة وحاسبات.","كيف أطبّق؟","steps"],
    path:["مسار التعلم","أربع مراحل من الأساسيات إلى القيادة، كل خطوة فيها رابط إلى مقال أو أداة.","من أين أبدأ؟","route"]
   }},
  en:{
   tools:{k:"Tools",t:"Customer experience tools",p:"Tools that run right in your browser: map a journey and find where it breaks, analyse customer comments, check your messages, rank improvements, design a survey and measure the results. No account needed, and your data isn't sent to any server.",
    groups:[["Design and assess the journey",["tool","assess","sim"]],["Listen to customers",["voc","survey"]],["Communicate clearly",["msg"]],["Decide and act",["prio"]],["Measure and assess",["calc","maturity"]]]},
   learn:{k:"Knowledge",t:"The customer experience reference",p:"Everything you need on customer experience in one place: a practical encyclopedia, a metrics guide with formulas, models and frameworks, international standards and certifications, breakpoint patterns, design principles, journeys from leading countries, key books, a glossary, and a learning path from basics to leadership.",
-   groups:[["Start here",["path","encyclopedia"]],["Journey design",["model","approaches","method","principles"]],["Measurement",["metrics","frameworks"]],["Understand where journeys break",["patterns"]],["Learn from practice",["cases","library"]],["Standards and references",["standards","kit","books"]]]},
+   groups:[["Start here",["path","lessons","encyclopedia"]],["Journey design",["model","approaches","method","principles"]],["Measurement",["metrics","frameworks"]],["Understand where journeys break",["patterns"]],["Learn from practice",["cases","library"]],["Standards and references",["standards","kit","books"]]]},
   items:{
    tool:["Map a journey","Map your customer journey stage by stage; the tool calculates a friction index, finds the breakpoints and suggests fixes.","I want to map a journey","map"],
    assess:["Assess your journey","Enter the journey stage by stage or upload a PDF, choose a methodology (this site's, the UK Institute of Customer Service dimensions, Customer Service Excellence, the GOV.UK Service Standard, or your own), and get a score per criterion and a gap report.","I want to assess an existing journey","check"],
@@ -341,6 +342,7 @@ const CAT={
    standards:["Standards & certifications","ISO standards for complaints, satisfaction measurement, service excellence and contact centres, accessibility and government service standards, and professional certifications.","","badge"],
    books:["Library: books & podcasts","The essential books and podcasts on customer experience and service design, by topic and level.","What should I read or listen to?","books"],
    cases:["Case studies","15 case studies from governments and companies: the problem, what changed and the result in numbers, with sources.","I want real examples with results","case"],
+   lessons:["Practical lessons","14 hands-on lessons in measurement, journey design, customer voice and improvement, with worked examples and calculators.","How do I apply it?","steps"],
    path:["Learning path","Four stages from basics to leadership; every step links to an article or tool.","Where do I start?","route"]
   }}
 };

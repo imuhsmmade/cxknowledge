@@ -10,13 +10,13 @@ window.CXK_INDICES=[
   "unit": "",
   "fmt": "0.0000",
   "period": "2024 · كل سنتين",
-  "note": "تتصدّره الدنمارك، والمملكة سادسة عالمياً بـ0.9602. يغطي 193 دولة ويُعرض على خريطة الأطلس.",
+  "note": "تتصدّره الدنمارك، والمملكة سادسة عالمياً بـ0.9602. يغطي 193 دولة ويُعرض على خريطة صفحة الدول.",
   "url": "https://publicadministration.un.org/egovkb/en-us/data-center",
   "lead": "DK",
   "name_en": "E-Government Development Index (EGDI)",
   "publisher_en": "United Nations",
   "period_en": "2024 · biennial",
-  "note_en": "Led by Denmark; Saudi Arabia ranks 6th globally at 0.9602. Covers 193 countries and is mapped in the Atlas."
+  "note_en": "Led by Denmark; Saudi Arabia ranks 6th globally at 0.9602. Covers 193 countries and is shown on the Countries map."
  },
  {
   "id": "dx-maturity",
