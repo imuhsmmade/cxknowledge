@@ -16,6 +16,11 @@
 | `data/profiles.js` | الملفات المعمقة للدول (الجهات، الأرقام، المبادرات) |
 | `data/countries.js` | أسماء الدول ودرجات EGDI 2024 والإقليم |
 | `data/library.js` | المنهجية، مكتبة الرحلات، المصطلحات، النماذج |
+| `data/model.js` | نموذج «وُصول» لتصميم الرحلة وتقييمها، ومنهجيات تصميم الرحلة |
+| `data/metricx.js` | أنواع المؤشرات، وخطوات الحساب، والأمثلة المحلولة، ومنهجيات المؤشرات الدولية |
+| `data/shelf.js` | المكتبة: الكتب والبودكاست |
+| `data/glossary.js` | معجم المصطلحات المصنف |
+| `assets/model.js` | صفحات النموذج والمنهجيات والمكتبة |
 | `data/world.json` | حدود الدول (TopoJSON مبسّط من world-atlas) |
 | `templates/*.csv` | قوالب قابلة للتنزيل |
 | `scripts/validate.js` | فحص البيانات قبل النشر |
@@ -24,7 +29,8 @@
 
 - `#/` الرئيسية · `#/atlas` الأطلس · `#/country/sa` ملف دولة (رمز ISO من حرفين)
 - `#/news` المستجدات · `#/item/<id>` مادة محددة
-- `#/indices` · `#/initiatives` · `#/journey/method|tool|library|kit` · `#/about`
+- `#/indices` · `#/initiatives` · `#/library` (`/books`، `/podcasts`) · `#/learn/model` · `#/learn/approaches` · `#/learn/metrics` · `#/about`
+- أدوات التقييم كلها لا تعرض النتيجة إلا بعد ضغط زر التقييم.
 
 ## قواعد المحتوى
 
