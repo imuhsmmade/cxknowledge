@@ -42,7 +42,9 @@ jobs:
           git config user.name "cxk-live-bot"
           git config user.email "cxk-live-bot@users.noreply.github.com"
           git add data/live.json data/feeds-status.json
-          git diff --cached --quiet || (git commit -m "تحديث البث المباشر" && git pull --rebase && git push)
+          git diff --cached --quiet || git commit -m "تحديث البث المباشر"
+          # الملفان مولّدان آلياً: عند التعارض تُعتمد نسخة هذه الدورة لأنها الأحدث
+          for i in 1 2 3; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
