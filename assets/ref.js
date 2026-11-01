@@ -5,19 +5,19 @@ const R = window.CXK_REF, K = window.CXK_KIT, J = window.CXK_JOURNEY;
 const $ = (s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nz = s => String(s||'').toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
-const LEARN_IDS = ['cases','method','encyclopedia','metrics','frameworks','patterns','principles','standards','library','books','path','kit'];
+const LEARN_IDS = ['lessons','model','approaches','cases','method','encyclopedia','metrics','frameworks','patterns','principles','standards','library','books','path','kit'];
 
 const T = {
  ar:{ searchEnc:"ابحث في الموسوعة", noRes:"لا نتائج تطابق البحث.", why:"لماذا يهم", how:"كيف تطبّقه", measure:"كيف تقيسه", mistakes:"أخطاء شائعة", related:"اقرأ واستخدم أيضاً", sources:"المصادر", prev:"السابق", next:"التالي", back:"كل مقالات الموسوعة", copyLink:"انسخ رابط المقال", articles:n=>`${n} مقالاً`,
    allGroups:"الكل", formula:"المعادلة", scale:"المقياس", useWhen:"متى تستخدمه", pitfall:"انتبه", searchMet:"ابحث في المؤشرات", mTypes:"أنواع مؤشرات تجربة العميل", mTypesD:"لا يكفي مؤشر واحد لفهم التجربة؛ فلكل نوع سؤال يجيب عنه. اضغط نوعاً لعرض مؤشراته.", mCount:"مؤشرات", mFiltered:"النوع", mClear:"اعرض الكل", mHow:"طريقة الحساب خطوة بخطوة ومثال محلول", mQ:"السؤال أو مصدر البيانات", mEx:"مثال محلول", mRead:"كيف تقرأ النتيجة", mFreq:"متى تقيسه", mCalc:"احسبه في حاسبة المؤشرات", by:"المصدر", howUse:"كيف تستخدمه", open:"افتح المرجع", searchBooks:"ابحث في الكتب",
    pathIntro:"أربع مراحل تنقلك من فهم الأساسيات إلى قيادة تجربة العميل في جهة كاملة. كل خطوة رابط إلى مقال أو أداة في الموقع.", step:n=>`المرحلة ${n}`,
-   types:{case:"دراسة حالة",art:"مقال",tool:"أداة",learn:"معرفة",pattern:"نمط انكسار",metric:"مؤشر",fw:"نموذج",std:"معيار",term:"مصطلح",book:"كتاب",country:"دولة",ini:"مبادرة",news:"قراءة",journey:"رحلة",principle:"مبدأ"},
+   types:{lesson:"درس عملي",case:"دراسة حالة",art:"مقال",tool:"أداة",learn:"معرفة",pattern:"نمط انكسار",metric:"مؤشر",fw:"نموذج",std:"معيار",term:"مصطلح",book:"كتاب",country:"دولة",ini:"مبادرة",news:"قراءة",journey:"رحلة",principle:"مبدأ"},
    sTitle:"ابحث في الموقع", sPh:"ابحث عن مصطلح أو أداة أو مؤشر أو دولة…", sHint:"اكتب كلمتين على الأقل. اضغط Esc للإغلاق.", sNone:"لا نتائج. جرّب كلمة أخرى أو اكتبها بالإنجليزية.", sCount:n=>`${n} نتيجة`,
    sSuggest:"جرّب:", sugg:["جهد العميل","إستونيا","NPS","مخطط الخدمة","الشكاوى","ISO 10002","إستونيا","اللغة الواضحة"] },
  en:{ searchEnc:"Search the encyclopedia", noRes:"No results match your search.", why:"Why it matters", how:"How to apply it", measure:"How to measure it", mistakes:"Common mistakes", related:"Read and use next", sources:"Sources", prev:"Previous", next:"Next", back:"All encyclopedia articles", copyLink:"Copy article link", articles:n=>`${n} articles`,
    allGroups:"All", formula:"Formula", scale:"Scale", useWhen:"When to use it", pitfall:"Watch out", searchMet:"Search metrics", mTypes:"Types of customer experience metrics", mTypesD:"No single metric explains the experience; each type answers its own question. Click a type to see its metrics.", mCount:"metrics", mFiltered:"Type", mClear:"Show all", mHow:"Step-by-step calculation and a worked example", mQ:"Question or data source", mEx:"Worked example", mRead:"How to read the result", mFreq:"When to measure", mCalc:"Calculate it in the metric calculators", by:"Origin", howUse:"How to use it", open:"Open reference", searchBooks:"Search books",
    pathIntro:"Four stages that take you from the basics to leading customer experience across an organisation. Each step links to an article or tool on the site.", step:n=>`Stage ${n}`,
-   types:{case:"Case study",art:"Article",tool:"Tool",learn:"Knowledge",pattern:"Breakpoint pattern",metric:"Metric",fw:"Model",std:"Standard",term:"Term",book:"Book",country:"Country",ini:"Initiative",news:"Pick",journey:"Journey",principle:"Principle"},
+   types:{lesson:"Lesson",case:"Case study",art:"Article",tool:"Tool",learn:"Knowledge",pattern:"Breakpoint pattern",metric:"Metric",fw:"Model",std:"Standard",term:"Term",book:"Book",country:"Country",ini:"Initiative",news:"Pick",journey:"Journey",principle:"Principle"},
    sTitle:"Search the site", sPh:"Search for a term, tool, metric or country…", sHint:"Type at least two letters. Press Esc to close.", sNone:"No results. Try another word.", sCount:n=>`${n} results`,
    sSuggest:"Try:", sugg:["customer effort","Estonia","NPS","service blueprint","complaints","ISO 10002","Estonia","plain language"] }
 };
@@ -183,6 +183,7 @@ let IDX=null, IDXLANG=null;
 function buildIndex(X){
   const en=X.LANG==='en', C=window.CXK_Catalog(X.LANG), out=[], add=(ty,title,sub,href,extra,ab)=>out.push({ty,title,sub:sub||'',href,ab:ab?nz(ab):'',k:nz([title,sub,extra||''].join(' '))});
   Object.entries(C.items).forEach(([id,it])=>add(LEARN_IDS.includes(id)?'learn':'tool', it[0], it[1], X.href((LEARN_IDS.includes(id)?'learn/':'tools/')+id), it[2]));
+  ((window.CXK_LESSONS||{}).items||[]).forEach(l=>add('lesson', en?l.t_en:l.t, en?l.sum_en:l.sum, X.href('learn/lessons/'+l.id), (en?l.t:l.t_en)+' '+(en?l.goal_en:l.goal)));
   R.articles.forEach(a=>add('art', en?a.t_en:a.t, en?a.s_en:a.s, X.href('learn/encyclopedia/'+a.id), (en?a.t:a.t_en)+' '+(en?a.why_en:a.why)));
   R.metrics.forEach(m=>add('metric', (en?m.n_en:m.n)+(m.a?` (${m.a})`:''), en?m.d_en:m.d, X.href('learn/metrics/'+m.id), (en?m.n:m.n_en), m.a));
   R.frameworks.forEach(f=>add('fw', en?f.n_en:f.n, en?f.d_en:f.d, X.href('learn/frameworks/'+f.id), (en?f.n:f.n_en)+' '+f.by_en));
@@ -204,7 +205,7 @@ function search(q, X){
   if(!IDX||IDXLANG!==X.LANG){ IDX=buildIndex(X); IDXLANG=X.LANG; }
   const n=nz(q.trim()); if(n.length<2) return [];
   const words=n.split(/\s+/).filter(Boolean);
-  return IDX.map(r=>{ const tn=nz(r.title); let s=({tool:6,art:8,metric:7,learn:5,fw:4,std:4,pattern:4,principle:3,term:-4}[r.ty]||0); if(r.ab&&r.ab===n) s+=150; if(tn===n) s+=100; if(tn.startsWith(n)) s+=40; if(tn.includes(n)) s+=25; if(words.every(w=>r.k.includes(w))) s+=10; else return null; return {...r,s}; }).filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,40);
+  return IDX.map(r=>{ const tn=nz(r.title); let s=({lesson:9,tool:6,art:8,metric:7,learn:5,fw:4,std:4,pattern:4,principle:3,term:-4}[r.ty]||0); if(r.ab&&r.ab===n) s+=150; if(tn===n) s+=100; if(tn.startsWith(n)) s+=40; if(tn.includes(n)) s+=25; if(words.every(w=>r.k.includes(w))) s+=10; else return null; return {...r,s}; }).filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,40);
 }
 window.CXK_OpenSearch = function(){
   const X=window.CXK, t=T[X.LANG];

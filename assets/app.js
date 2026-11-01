@@ -253,34 +253,35 @@ function pageNews(){
 }
 
 function pageHome(){
-  const CT=window.CXK_Catalog?window.CXK_Catalog(LANG):null, icon=window.CXK_Icon||(()=>''), K=window.CXK_KIT||{patterns:[],principles:[]};
-  const pod=window.CXK_PatternOfDay?window.CXK_PatternOfDay(LANG):null, en=LANG==='en', li=en?1:0;
-  const needs=['tool','assess','voc','msg','prio','survey','sim','maturity'];
-  const ov=(LENS?items.filter(i=>i.c===LENS):items).slice(0,5), wl=lensed(LIVE.items).slice(0,6);
-  const inits=['EE','SG','AE','KR','DK','SA'].map(c=>P[c]&&P[c].initiatives&&P[c].initiatives[0]?{...P[c].initiatives[0],c}:null).filter(Boolean).slice(0,3);
-  const outlets=(LIVE.stats||{}).outlets_14d||new Set(LIVE.items.map(x=>x.s)).size;
+  const STN=window.CXK_STATIONS, en=LANG==='en', li=en?1:0, K=window.CXK_KIT||{patterns:[],stages:{}};
+  if(!STN){ main.innerHTML=''; return; }
+  const pod=window.CXK_PatternOfDay?window.CXK_PatternOfDay(LANG):null;
+  const LSN=(window.CXK_LESSONS||{items:[]}).items, day=Math.floor(Date.now()/864e5), lod=LSN.length?LSN[day%LSN.length]:null;
+  const lodSt=lod?STN.list.find(s=>s.tracks.includes(lod.tr)):null, podSt=STN.list[0], CT=window.CXK_Catalog?window.CXK_Catalog(LANG):{items:{}};
+  const ov=(LENS?items.filter(i=>i.c===LENS):items).slice(0,4);
+  const H=en?{k:"CX KNOWLEDGE · THE CUSTOMER EXPERIENCE REFERENCE",t:"Everything you need in customer experience, organised the way you work",p:"Understand your customer, design the journey, measure it, then improve it. Each station gathers its practical lessons, tools and references, with real cases from around the world.",
+      srch:"Search lessons, tools, metrics…",ls:"lessons",tl:"tools",ar:"articles",go:"Enter",lod:"Lesson of the day",pod:"Breakpoint of the day",tool:"Tool",wk:"WORLD",wt:"What countries and organisations are doing",wp:n=>`193 countries, ${IX.length} international indices, initiatives with results, and news refreshed about every 15 minutes.`,wl:[["countries","Countries"],["indices","Indices"],["initiatives","Initiatives"],["news","All news"]],more:"Open the world station"}
+    :{k:"معرفة تجربة العميل · مرجع عربي",t:"كل ما تحتاجه في تجربة العميل، مرتّباً كما تعمل",p:"افهم عميلك، ثم صمّم رحلته، ثم قِسها، ثم حسّنها. في كل محطة دروسها العملية وأدواتها ومراجعها، وتجارب حقيقية من حول العالم.",
+      srch:"ابحث عن درس أو أداة أو مؤشر…",ls:"دروس",tl:"أدوات",ar:"مقالات",go:"ادخل المحطة",lod:"درس اليوم",pod:"نمط تعثر اليوم",tool:"أداة",wk:"العالم",wt:"ما تفعله الدول والجهات في تجربة العميل",wp:n=>`193 دولة، و${IX.length} مؤشراً دولياً، ومبادرات بنتائجها، وأخبار تُحدَّث كل 15 دقيقة تقريباً.`,wl:[["countries","الدول"],["indices","المؤشرات الدولية"],["initiatives","المبادرات"],["news","كل الأخبار"]],more:"ادخل محطة العالم"};
+  const asIt=CT.items&&CT.items.assess;
+  const AW={ls:["درس","درسان","دروس","درساً"],tl:["أداة","أداتان","أدوات","أداة"],ar:["مقال","مقالان","مقالات","مقالاً"]}, EW={ls:["lesson","lessons"],tl:["tool","tools"],ar:["article","articles"]};
+  const cnt=(n,k)=>{ if(!n) return ''; if(en) return `<span><b>${n}</b> ${EW[k][n===1?0:1]}</span>`; const w=AW[k]; return n===1?`<span>${w[0]}</span>`:n===2?`<span>${w[1]}</span>`:`<span><b>${n}</b> ${n<=10?w[2]:w[3]}</span>`; };
   main.innerHTML = `<div class="wrap">
-    <section class="hero">
-      <div class="hcopy"><span class="kicker">${S.homeK}</span><h1>${S.homeT}</h1><p>${S.homeP}</p>
-        <div class="acts2"><a class="btn pri" href="${href('tools/tool')}">${S.homeCta1}</a><a class="btn" href="${href('tools')}">${S.homeCta2}</a></div>
-        <dl class="hstats"><div><dt>${S.hs1}</dt><dd>${CT?CT.tools.groups.reduce((n,g)=>n+g[1].length,0):''}</dd></div><div><dt>${S.hs5}</dt><dd>${(window.CXK_REF||{articles:[]}).articles.length}</dd></div><div><dt>${S.hs6}</dt><dd>${(window.CXK_REF||{metrics:[]}).metrics.length}</dd></div><div><dt>${S.hs2}</dt><dd>${K.patterns.length}</dd></div><div><dt>${S.hs3}</dt><dd>193</dd></div></dl></div>
-      <figure class="hfig"><figcaption><b>${S.miniT}</b><span>${S.miniCap}</span></figcaption>${window.CXK_LabMini?window.CXK_LabMini(LANG):''}<a class="srcl" href="${href('tools/tool')}">${S.miniTry}</a></figure>
+    <section class="bhero"><span class="kicker">${H.k}</span><h1>${H.t}</h1><p>${H.p}</p>
+      <button type="button" class="bsearch" id="bsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>${H.srch}</span><kbd>/</kbd></button></section>
+    <ol class="brail">${STN.list.map(s=>{ const c=STN.counts(s); return `<li><a class="bst" href="${href(s.id)}"><span class="bsn">${s.n}</span><span class="bsc"><b>${esc(en?s.t_en:s.t)}</b><span class="bq">${esc(en?s.q_en:s.q)}</span><span class="bct">${cnt(c.lessons,"ls")}${cnt(c.tools,"tl")}${cnt(c.arts,"ar")}</span><span class="bgo">${H.go}</span></span></a></li>`; }).join('')}</ol>
+    <section class="btoday">
+      ${lod?`<a class="bday" href="${href('learn/lessons/'+lod.id)}"><span class="bk">${H.lod} · ${esc(lodSt?(en?lodSt.s_en:lodSt.s):'')} · ${en?lod.min+' min':lod.min+' دقيقة'}</span><b>${esc(en?lod.t_en:lod.t)}</b><span>${esc(en?lod.sum_en:lod.sum)}</span></a>`:''}
+      ${pod?`<a class="bday" href="${href('learn/patterns/'+pod.id)}"><span class="bk">${H.pod} · ${esc(en?podSt.s_en:podSt.s)}</span><b>${esc(en?pod.n_en:pod.n)}</b><span>${esc(en?pod.sym_en:pod.sym)}</span></a>`:''}
+      ${asIt?`<a class="bday" href="${href('tools/assess')}"><span class="bk">${H.tool} · ${en?'Design':'صمّم'}</span><b>${esc(asIt[0])}</b><span>${esc(asIt[1])}</span></a>`:''}
     </section>
   </div>
-  <section class="blk wrap"><div class="sh"><h2>${S.needT}</h2><p>${S.needSub}</p><a class="more" href="${href('tools')}">${S.allTools}</a></div>
-    <div class="needs">${CT?needs.map(id=>{ const it=CT.items[id]; return `<a class="need" href="${href('tools/'+id)}"><span class="ti">${icon(it[3])}</span><b>${esc(it[2])}</b><span>${esc(it[0])}</span></a>`; }).join(''):''}</div></section>
-  <section class="blk wrap"><div class="pod-row">
-    ${pod?`<article class="pod"><span class="kicker">${S.podT}</span><span class="stg">${esc((K.stages[pod.st]||[])[li]||'')}</span><h2>${esc(en?pod.n_en:pod.n)}</h2><p>${esc(en?pod.sym_en:pod.sym)}</p><div class="pfix"><b>${S.podFix}</b><p>${esc(en?pod.fix_en:pod.fix)}</p></div><a class="srcl" href="${href('learn/patterns/'+pod.id)}">${S.podMore}</a></article>`:''}
-    <div class="lrn"><h2>${S.learnT}</h2><p class="sub">${S.learnSub}</p>${CT?['lessons','path','encyclopedia','metrics','patterns'].map(id=>{ const it=CT.items[id]; return `<a href="${href('learn/'+id)}"><span class="ti">${icon(it[3])}</span><span><b>${esc(it[0])}</b><span>${esc(it[1])}</span></span></a>`; }).join(''):''}</div>
-  </div></section>
   ${(window.CXK_Cases&&window.CXK_CaseCard)?`<section class="blk wrap"><div class="sh"><h2>${S.casesT}</h2><p>${S.casesSub}</p><a class="more" href="${href('learn/cases')}">${S.allCases}</a></div><div class="cases">${window.CXK_Cases.items.filter(x=>['va-trust','estonia-family','irs-direct-file','klarna-ai','dubai-paperless','uk-register-vote'].includes(x.id)).map(x=>window.CXK_CaseCard(x,window.CXK)).join('')}</div></section>`:''}
-  <section class="blk wrap"><div class="sh"><h2>${S.worldT}</h2><p>${S.worldSub}</p><a class="more" href="${href('countries')}">${S.allCountries2}</a></div>
-    <div class="inits">${inits.map(i=>iniCard(i)).join('')}</div>
-    <div class="board" style="margin-top:14px">${IX.slice(0,4).map(ixCard).join('')}</div>
-    <p class="morelinks"><a href="${href('initiatives')}">${S.allInits}</a><a href="${href('indices')}">${S.allIndices}</a></p></section>
-  <section class="blk wrap"><div class="sh"><h2>${S.newsT}</h2><p>${S.newsSub(outlets)}</p><a class="more" href="${href('news')}">${S.allNews}</a></div>
-    <div class="two"><div class="panel"><h3>${S.nav.analysis}</h3><div class="ovw one">${ov.map((i,n)=>`<a class="ov" href="${href('item/'+i.id)}"><span class="i">${String(n+1).padStart(2,'0')}</span><span><h3>${esc(L(i,'title'))}</h3><span class="mt"><span>${esc(i.source)}</span>${i.c&&i.c!=='WW'?`<span class="ctry">${flag(i.c,'sm')}${esc(cname(i.c))}</span>`:`<span>${S.world}</span>`}<span class="num">${dLabel(i.date)}</span></span></span></a>`).join('')}</div></div>
-      <div class="panel"><h3>${S.wireTitle}</h3><div class="wire" style="max-height:none">${wl.map(wireItem).join('')||`<p class="wnote">${S.noWire}</p>`}</div></div></div></section>`;
+  <section class="blk wrap"><div class="bworld">
+    <div class="bwi"><span class="kicker">${H.wk}</span><h2>${H.wt}</h2><p>${H.wp()}</p><p class="bwl">${H.wl.map(([r,l])=>`<a href="${href(r)}">${l}</a>`).join('')}</p><a class="btn" href="${href('world')}">${H.more}</a></div>
+    <ol class="bwn">${ov.map(i=>`<li><a href="${href('item/'+i.id)}"><b>${esc(L(i,'title'))}</b><span>${esc(i.source)} · <time datetime="${i.date}">${dLabel(i.date)}</time></span></a></li>`).join('')}</ol>
+  </div></section>`;
+  const bs=$('#bsearch'); if(bs) bs.onclick=()=>{ if(window.CXK_OpenSearch) window.CXK_OpenSearch(); };
   window._liveRefresh=null;
 }
 
@@ -462,16 +463,17 @@ function renderChrome(){
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==='en'?'ltr':'rtl';
   $('.skip').textContent=S.skip;
   $('#brandT').textContent=S.brand; $('#brandS').textContent=S.brandSub;
-  $('#nav').innerHTML = ['home','tools','learn','indices','library','atlas','news'].map(k=>`<a href="${href(k==='home'?'':k==='atlas'?'countries':k)}" data-r="${k}">${k==='news'?'<span class="ld" aria-hidden="true"></span>':''}${S.nav[k]}</a>`).join('');
+  const STN=window.CXK_STATIONS?window.CXK_STATIONS.list:[];
+  $('#nav').innerHTML = STN.map((x,n)=>`<a href="${href(x.id)}" data-r="${x.id}" class="stn"><span class="nn">${x.n}</span>${esc(LANG==='en'?x.s_en:x.s)}</a>${n<STN.length-1?'<span class="chev" aria-hidden="true"></span>':''}`).join('') + `<span class="nsep" aria-hidden="true"></span><a href="${href('world')}" data-r="world">${LANG==='en'?'World':'العالم'}</a><a href="${href('news')}" data-r="news" class="nnews"><span class="ld" aria-hidden="true"></span>${S.nav.news}</a>`;
   $('#lensSel').innerHTML = `<option value="">${S.lensAll}</option>` + Object.entries(C).filter(([,d])=>d[3]).sort((a,b)=>cname(a[0]).localeCompare(cname(b[0]),LANG)).map(([c])=>`<option value="${c}" ${c===LENS?'selected':''}>${esc(cname(c))}</option>`).join('');
   $('#lensSel').setAttribute('aria-label',S.lens);
   $('#langBtn').innerHTML = `<span class="tx">${S.langSwitch}</span><span aria-hidden="true" class="ab">${LANG==='en'?'ع':'EN'}</span>`; $('#langBtn').setAttribute('aria-label',S.langLabel+': '+S.langSwitch);
   $('#themeBtn').innerHTML = I[THEMEPREF==='light'?'sun':THEMEPREF==='dark'?'moon':'auto'] + `<span class="tx">${S.theme[THEMEPREF]}</span>`; $('#themeBtn').setAttribute('aria-label',S.themeLabel+': '+S.theme[THEMEPREF]);
   $('#shareBtn').setAttribute('aria-label',S.shareSite); $('#searchBtn').setAttribute('aria-label',S.searchSite); $('#searchTx').textContent=S.searchShort; $('#menuBtn').setAttribute('aria-label',S.menu);
-  $('#bnav').innerHTML = [['','home','<path d="M3 11 12 4l9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/>'],['tools','tools','<path d="M14.5 6.5a4 4 0 0 0-5.3 5.2L4 17v3h3l5.3-5.2a4 4 0 0 0 5.2-5.3l-2.4 2.4-2.6-.6-.6-2.6z"/>'],['learn','learn','<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2"/><path d="M20 4v14h-6"/>'],['news','news','<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>']].map(([p,k,svg])=>`<a href="${href(p)}" data-r="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svg}</svg>${S.navShort[k]}</a>`).join('') + `<button type="button" id="bmore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>${S.navShort.more}</button>`;
-  $('#bmore').addEventListener('click',()=>{ const o=$('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded',o); });
+  $('#bnav').innerHTML = STN.map(x=>`<a href="${href(x.id)}" data-r="${x.id}"><span class="bn">${x.n}</span><span>${esc(LANG==='en'?x.s_en:x.s)}</span></a>`).join('') + `<a href="${href('world')}" data-r="world"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-3 3.5-3 14.5 0 18M12 3c3 3.5 3 14.5 0 18"/></svg><span>${LANG==='en'?'World':'العالم'}</span></a>`;
+  $('#bnav').classList.add('rail5');
   $('#footP').textContent=S.footP;
-  $('#footLinks').innerHTML=['tools','learn','indices','library','atlas','initiatives','news','analysis','sources','about'].map(k=>`<a href="${href(k==='atlas'?'countries':k)}">${S.nav[k]}</a>`).join('');
+  $('#footLinks').innerHTML=(STN.map(x=>`<a href="${href(x.id)}">${esc(LANG==='en'?x.t_en:x.t)}</a>`).join(''))+['learn/lessons','tools','learn','indices','atlas','library','news','sources','about'].map(k=>`<a href="${href(k==='atlas'?'countries':k)}">${k==='learn/lessons'?(LANG==='en'?'Practical lessons':'الدروس العملية'):S.nav[k]}</a>`).join('');
   renderTicker(); footMeta(); statusBar();
 }
 function applyTheme(){
@@ -504,7 +506,7 @@ function route(keepScroll){
   const [a,b,c3] = parts;
   window._liveRefresh=null;
   document.title = LANG==='en' ? 'CX Knowledge | Customer Experience' : 'CX Knowledge | معرفة تجربة العميل';
-  const navKey = (a==='learn'&&b==='books')?'library':(a==='initiatives'||a==='country'||a==='countries')?'atlas':(a==='item'||a==='analysis'||a==='live'||a==='sources')?'news':(a==='lab'||a==='journey')?'tools':(a||'home');
+  const navKey = window.CXK_STATIONS ? (window.CXK_STATIONS.stationOf(a,b,c3)||(a?'':'home')) : (a||'home');
   $$('#nav a, #bnav a').forEach(x=>{ if(x.dataset.r===navKey) x.setAttribute('aria-current','page'); else x.removeAttribute('aria-current'); });
   $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false'); $('#tip').hidden=true;
   main.classList.remove('fade'); void main.offsetWidth; main.classList.add('fade');
@@ -522,6 +524,7 @@ function route(keepScroll){
   else if(a==='lab'||a==='journey') { const LG=['method','library','kit','patterns','principles']; if(window.CXK_Lab) window.CXK_Lab(main,{group:LG.includes(b)?'learn':'tools',tab:b||'tool',arg:c3}); }
   else if(a==='library') { if(window.CXK_LibraryPage) window.CXK_LibraryPage(main, window.CXK, b); }
   else if(a==='about') pageAbout();
+  else if(window.CXK_STATIONS && (a==='world'||window.CXK_STATIONS.list.some(x=>x.id===a))) window.CXK_STATIONS.page(main, window.CXK, a);
   else if(a.length===2 && C[a.toUpperCase()]) pageCountry(a);
   else pageHome();
   if(a!=='item' && !keepScroll) window.scrollTo(0,0);
