@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T08:25:40.821Z",
+ "updated": "2026-11-02T08:30:40.001Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -122,7 +122,7 @@
    "name": "بحث: خدمة العملاء",
    "type": "gnews",
    "ok": true,
-   "n": 12
+   "n": 13
   },
   {
    "id": "gn-ar-csat",
@@ -185,7 +185,7 @@
    "name": "أخبار Google LB · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 37
+   "n": 44
   },
   {
    "id": "gn-ar-ed-ma",
@@ -206,7 +206,7 @@
    "name": "أخبار Google SA · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 44
+   "n": 36
   },
   {
    "id": "gn-ar-gs",
@@ -234,14 +234,14 @@
    "name": "Google News AU · CX",
    "type": "gnews",
    "ok": true,
-   "n": 71
+   "n": 47
   },
   {
    "id": "gn-ed-au-gov",
    "name": "Google News AU · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 21
+   "n": 28
   },
   {
    "id": "gn-ed-bh-cx",
@@ -269,7 +269,7 @@
    "name": "Google News CA · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 21
+   "n": 28
   },
   {
    "id": "gn-ed-eg-cx",
@@ -297,7 +297,7 @@
    "name": "Google News GB · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 29
+   "n": 21
   },
   {
    "id": "gn-ed-gh-cx",
@@ -339,14 +339,14 @@
    "name": "Google News IE · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 30
+   "n": 29
   },
   {
    "id": "gn-ed-in-cx",
    "name": "Google News IN · CX",
    "type": "gnews",
    "ok": true,
-   "n": 72
+   "n": 70
   },
   {
    "id": "gn-ed-in-gov",
@@ -374,7 +374,7 @@
    "name": "Google News KE · CX",
    "type": "gnews",
    "ok": true,
-   "n": 71
+   "n": 47
   },
   {
    "id": "gn-ed-ke-gov",
@@ -402,7 +402,7 @@
    "name": "Google News MY · CX",
    "type": "gnews",
    "ok": true,
-   "n": 73
+   "n": 47
   },
   {
    "id": "gn-ed-my-gov",
@@ -430,7 +430,7 @@
    "name": "Google News NZ · CX",
    "type": "gnews",
    "ok": true,
-   "n": 73
+   "n": 71
   },
   {
    "id": "gn-ed-nz-gov",
@@ -458,7 +458,7 @@
    "name": "Google News PH · CX",
    "type": "gnews",
    "ok": true,
-   "n": 47
+   "n": 71
   },
   {
    "id": "gn-ed-ph-gov",
@@ -472,14 +472,14 @@
    "name": "Google News PK · CX",
    "type": "gnews",
    "ok": true,
-   "n": 70
+   "n": 47
   },
   {
    "id": "gn-ed-pk-gov",
    "name": "Google News PK · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 30
+   "n": 20
   },
   {
    "id": "gn-ed-qa-cx",
@@ -549,7 +549,7 @@
    "name": "Google News ZA · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 20
+   "n": 28
   },
   {
    "id": "gn-en-acsi",
@@ -563,7 +563,7 @@
    "name": "Search: CX UAE",
    "type": "gnews",
    "ok": true,
-   "n": 39
+   "n": 83
   },
   {
    "id": "gn-en-cc",
@@ -640,7 +640,7 @@
    "name": "Search: CX Singapore",
    "type": "gnews",
    "ok": true,
-   "n": 45
+   "n": 43
   },
   {
    "id": "gn-en-ukcsi",
