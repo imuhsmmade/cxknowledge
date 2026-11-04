@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T22:49:57.751Z",
+ "updated": "2026-11-04T22:54:59.546Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -41,8 +41,9 @@
    "id": "gdelt-cc",
    "name": "GDELT · contact center",
    "type": "gdelt",
-   "ok": true,
-   "n": 8
+   "ok": false,
+   "n": 0,
+   "err": "HTTP 429"
   },
   {
    "id": "gdelt-cs",
@@ -64,9 +65,8 @@
    "id": "gdelt-cx",
    "name": "GDELT · customer experience",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 9
   },
   {
    "id": "gdelt-gov",
@@ -131,7 +131,7 @@
    "name": "بحث: رضا العملاء",
    "type": "gnews",
    "ok": true,
-   "n": 8
+   "n": 9
   },
   {
    "id": "gn-ar-cx",
@@ -159,7 +159,7 @@
    "name": "أخبار Google AE · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 61
+   "n": 63
   },
   {
    "id": "gn-ar-ed-eg",
@@ -460,7 +460,7 @@
    "name": "Google News PH · CX",
    "type": "gnews",
    "ok": true,
-   "n": 87
+   "n": 89
   },
   {
    "id": "gn-ed-ph-gov",
@@ -572,7 +572,7 @@
    "name": "Search: contact center AI",
    "type": "gnews",
    "ok": true,
-   "n": 16
+   "n": 17
   },
   {
    "id": "gn-en-consult",
@@ -586,7 +586,7 @@
    "name": "Search: customer satisfaction",
    "type": "gnews",
    "ok": true,
-   "n": 13
+   "n": 12
   },
   {
    "id": "gn-en-cx",
@@ -614,7 +614,7 @@
    "name": "Search: Gartner customer service",
    "type": "gnews",
    "ok": true,
-   "n": 7
+   "n": 8
   },
   {
    "id": "gn-en-gov",
