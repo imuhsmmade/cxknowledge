@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T21:57:33.915Z",
+ "updated": "2026-11-04T22:14:38.966Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -41,9 +41,8 @@
    "id": "gdelt-cc",
    "name": "GDELT · contact center",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 8
   },
   {
    "id": "gdelt-cs",
@@ -51,30 +50,29 @@
    "type": "gdelt",
    "ok": false,
    "n": 0,
-   "err": "fetch failed"
+   "err": "HTTP 429"
   },
   {
    "id": "gdelt-csat",
    "name": "GDELT · customer satisfaction",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 1
   },
   {
    "id": "gdelt-cx",
    "name": "GDELT · customer experience",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 9
   },
   {
    "id": "gdelt-gov",
    "name": "GDELT · digital government",
    "type": "gdelt",
-   "ok": true,
-   "n": 48
+   "ok": false,
+   "n": 0,
+   "err": "HTTP 429"
   },
   {
    "id": "gds",
@@ -159,7 +157,7 @@
    "name": "أخبار Google AE · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 62
+   "n": 61
   },
   {
    "id": "gn-ar-ed-eg",
@@ -187,7 +185,7 @@
    "name": "أخبار Google LB · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 60
+   "n": 61
   },
   {
    "id": "gn-ar-ed-ma",
@@ -229,14 +227,14 @@
    "name": "Google News AE · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-au-cx",
    "name": "Google News AU · CX",
    "type": "gnews",
    "ok": true,
-   "n": 85
+   "n": 84
   },
   {
    "id": "gn-ed-au-gov",
@@ -257,14 +255,14 @@
    "name": "Google News BH · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-ca-cx",
    "name": "Google News CA · CX",
    "type": "gnews",
    "ok": true,
-   "n": 86
+   "n": 87
   },
   {
    "id": "gn-ed-ca-gov",
@@ -285,7 +283,7 @@
    "name": "Google News EG · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-gb-cx",
@@ -306,7 +304,7 @@
    "name": "Google News GH · CX",
    "type": "gnews",
    "ok": true,
-   "n": 86
+   "n": 87
   },
   {
    "id": "gn-ed-gh-gov",
@@ -327,7 +325,7 @@
    "name": "Google News HK · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-ie-cx",
@@ -348,7 +346,7 @@
    "name": "Google News IN · CX",
    "type": "gnews",
    "ok": true,
-   "n": 86
+   "n": 87
   },
   {
    "id": "gn-ed-in-gov",
@@ -369,7 +367,7 @@
    "name": "Google News JO · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-ke-cx",
@@ -397,7 +395,7 @@
    "name": "Google News KW · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-my-cx",
@@ -453,7 +451,7 @@
    "name": "Google News OM · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-ph-cx",
@@ -495,7 +493,7 @@
    "name": "Google News QA · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-sa-cx",
@@ -509,7 +507,7 @@
    "name": "Google News SA · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-ed-sg-cx",
@@ -530,7 +528,7 @@
    "name": "Google News US · CX",
    "type": "gnews",
    "ok": true,
-   "n": 86
+   "n": 87
   },
   {
    "id": "gn-ed-us-gov",
@@ -551,7 +549,7 @@
    "name": "Google News ZA · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 16
+   "n": 17
   },
   {
    "id": "gn-en-acsi",
@@ -565,14 +563,14 @@
    "name": "Search: CX UAE",
    "type": "gnews",
    "ok": true,
-   "n": 50
+   "n": 49
   },
   {
    "id": "gn-en-cc",
    "name": "Search: contact center AI",
    "type": "gnews",
    "ok": true,
-   "n": 17
+   "n": 16
   },
   {
    "id": "gn-en-consult",
@@ -586,7 +584,7 @@
    "name": "Search: customer satisfaction",
    "type": "gnews",
    "ok": true,
-   "n": 12
+   "n": 13
   },
   {
    "id": "gn-en-cx",
@@ -600,7 +598,7 @@
    "name": "Search: service design",
    "type": "gnews",
    "ok": true,
-   "n": 2
+   "n": 3
   },
   {
    "id": "gn-en-forrester",
@@ -614,7 +612,7 @@
    "name": "Search: Gartner customer service",
    "type": "gnews",
    "ok": true,
-   "n": 7
+   "n": 6
   },
   {
    "id": "gn-en-gov",
