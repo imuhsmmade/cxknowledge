@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T09:21:52.422Z",
+ "updated": "2026-11-05T09:38:15.472Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -40,9 +40,8 @@
    "id": "gdelt-cc",
    "name": "GDELT · contact center",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "fetch failed"
+   "ok": true,
+   "n": 8
   },
   {
    "id": "gdelt-cs",
@@ -56,9 +55,8 @@
    "id": "gdelt-csat",
    "name": "GDELT · customer satisfaction",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 1
   },
   {
    "id": "gdelt-cx",
@@ -72,9 +70,8 @@
    "id": "gdelt-gov",
    "name": "GDELT · digital government",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 48
   },
   {
    "id": "gds",
@@ -96,7 +93,7 @@
    "name": "بحث: تجربة المتعاملين (الإمارات)",
    "type": "gnews",
    "ok": true,
-   "n": 8
+   "n": 7
   },
   {
    "id": "gn-ar-bsat",
@@ -131,7 +128,7 @@
    "name": "بحث: رضا العملاء",
    "type": "gnews",
    "ok": true,
-   "n": 8
+   "n": 7
   },
   {
    "id": "gn-ar-cx",
@@ -145,7 +142,7 @@
    "name": "بحث: الحكومة الرقمية",
    "type": "gnews",
    "ok": true,
-   "n": 3
+   "n": 2
   },
   {
    "id": "gn-ar-dx",
@@ -187,7 +184,7 @@
    "name": "أخبار Google LB · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 61
+   "n": 60
   },
   {
    "id": "gn-ar-ed-ma",
@@ -236,7 +233,7 @@
    "name": "Google News AU · CX",
    "type": "gnews",
    "ok": true,
-   "n": 83
+   "n": 82
   },
   {
    "id": "gn-ed-au-gov",
@@ -292,7 +289,7 @@
    "name": "Google News GB · CX",
    "type": "gnews",
    "ok": true,
-   "n": 84
+   "n": 83
   },
   {
    "id": "gn-ed-gb-gov",
