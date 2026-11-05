@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T06:58:16.964Z",
+ "updated": "2026-11-05T07:16:38.227Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -41,8 +41,9 @@
    "id": "gdelt-cc",
    "name": "GDELT · contact center",
    "type": "gdelt",
-   "ok": true,
-   "n": 8
+   "ok": false,
+   "n": 0,
+   "err": "fetch failed"
   },
   {
    "id": "gdelt-cs",
@@ -72,9 +73,8 @@
    "id": "gdelt-gov",
    "name": "GDELT · digital government",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 48
   },
   {
    "id": "gds",
@@ -215,7 +215,7 @@
    "name": "بحث: الخدمات الحكومية الرقمية",
    "type": "gnews",
    "ok": true,
-   "n": 22
+   "n": 23
   },
   {
    "id": "gn-ed-ae-cx",
@@ -292,7 +292,7 @@
    "name": "Google News GB · CX",
    "type": "gnews",
    "ok": true,
-   "n": 86
+   "n": 85
   },
   {
    "id": "gn-ed-gb-gov",
@@ -334,7 +334,7 @@
    "name": "Google News IE · CX",
    "type": "gnews",
    "ok": true,
-   "n": 88
+   "n": 87
   },
   {
    "id": "gn-ed-ie-gov",
@@ -474,7 +474,7 @@
    "name": "Google News PK · CX",
    "type": "gnews",
    "ok": true,
-   "n": 86
+   "n": 85
   },
   {
    "id": "gn-ed-pk-gov",
@@ -523,7 +523,7 @@
    "name": "Google News SG · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 16
+   "n": 17
   },
   {
    "id": "gn-ed-us-cx",
@@ -565,7 +565,7 @@
    "name": "Search: CX UAE",
    "type": "gnews",
    "ok": true,
-   "n": 48
+   "n": 47
   },
   {
    "id": "gn-en-cc",
@@ -579,7 +579,7 @@
    "name": "Search: consulting studies",
    "type": "gnews",
    "ok": true,
-   "n": 4
+   "n": 3
   },
   {
    "id": "gn-en-csat",
@@ -593,7 +593,7 @@
    "name": "Search: customer experience",
    "type": "gnews",
    "ok": true,
-   "n": 45
+   "n": 46
   },
   {
    "id": "gn-en-design",
@@ -628,7 +628,7 @@
    "name": "Search: CX metrics",
    "type": "gnews",
    "ok": true,
-   "n": 10
+   "n": 9
   },
   {
    "id": "gn-en-sa",
@@ -642,7 +642,7 @@
    "name": "Search: CX Singapore",
    "type": "gnews",
    "ok": true,
-   "n": 41
+   "n": 42
   },
   {
    "id": "gn-en-ukcsi",
