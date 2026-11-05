@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T11:47:37.042Z",
+ "updated": "2026-11-05T12:05:10.207Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -20,7 +20,7 @@
    "name": "CX Today",
    "type": "gnews",
    "ok": true,
-   "n": 16
+   "n": 17
   },
   {
    "id": "fedscoop",
@@ -35,29 +35,30 @@
    "type": "gdelt",
    "ok": false,
    "n": 0,
-   "err": "fetch failed"
+   "err": "HTTP 429"
   },
   {
    "id": "gdelt-cc",
    "name": "GDELT · contact center",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 8
   },
   {
    "id": "gdelt-cs",
    "name": "GDELT · customer service",
    "type": "gdelt",
-   "ok": true,
-   "n": 7
+   "ok": false,
+   "n": 0,
+   "err": "fetch failed"
   },
   {
    "id": "gdelt-csat",
    "name": "GDELT · customer satisfaction",
    "type": "gdelt",
-   "ok": true,
-   "n": 1
+   "ok": false,
+   "n": 0,
+   "err": "fetch failed"
   },
   {
    "id": "gdelt-cx",
@@ -65,7 +66,7 @@
    "type": "gdelt",
    "ok": false,
    "n": 0,
-   "err": "HTTP 429"
+   "err": "fetch failed"
   },
   {
    "id": "gdelt-gov",
@@ -73,7 +74,7 @@
    "type": "gdelt",
    "ok": false,
    "n": 0,
-   "err": "HTTP 429"
+   "err": "fetch failed"
   },
   {
    "id": "gds",
@@ -86,9 +87,8 @@
    "id": "ggf",
    "name": "Global Government Forum",
    "type": "rss",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 520"
+   "ok": true,
+   "n": 0
   },
   {
    "id": "gn-ar-ae",
@@ -101,9 +101,8 @@
    "id": "gn-ar-bsat",
    "name": "بحث: رضا المستفيدين",
    "type": "gnews",
-   "ok": false,
-   "n": 0,
-   "err": "fetch failed"
+   "ok": true,
+   "n": 4
   },
   {
    "id": "gn-ar-bx",
@@ -166,7 +165,7 @@
    "name": "أخبار Google EG · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 58
+   "n": 57
   },
   {
    "id": "gn-ar-ed-jo",
@@ -187,7 +186,7 @@
    "name": "أخبار Google LB · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 61
+   "n": 60
   },
   {
    "id": "gn-ar-ed-ma",
@@ -208,14 +207,14 @@
    "name": "أخبار Google SA · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 60
+   "n": 59
   },
   {
    "id": "gn-ar-gs",
    "name": "بحث: الخدمات الحكومية الرقمية",
    "type": "gnews",
    "ok": true,
-   "n": 23
+   "n": 22
   },
   {
    "id": "gn-ed-ae-cx",
@@ -236,7 +235,7 @@
    "name": "Google News AU · CX",
    "type": "gnews",
    "ok": true,
-   "n": 81
+   "n": 80
   },
   {
    "id": "gn-ed-au-gov",
@@ -292,21 +291,21 @@
    "name": "Google News GB · CX",
    "type": "gnews",
    "ok": true,
-   "n": 82
+   "n": 83
   },
   {
    "id": "gn-ed-gb-gov",
    "name": "Google News GB · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 19
+   "n": 20
   },
   {
    "id": "gn-ed-gh-cx",
    "name": "Google News GH · CX",
    "type": "gnews",
    "ok": true,
-   "n": 82
+   "n": 83
   },
   {
    "id": "gn-ed-gh-gov",
@@ -404,7 +403,7 @@
    "name": "Google News MY · CX",
    "type": "gnews",
    "ok": true,
-   "n": 83
+   "n": 82
   },
   {
    "id": "gn-ed-my-gov",
@@ -551,7 +550,7 @@
    "name": "Google News ZA · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 18
+   "n": 19
   },
   {
    "id": "gn-en-acsi",
@@ -586,14 +585,14 @@
    "name": "Search: customer satisfaction",
    "type": "gnews",
    "ok": true,
-   "n": 12
+   "n": 11
   },
   {
    "id": "gn-en-cx",
    "name": "Search: customer experience",
    "type": "gnews",
    "ok": true,
-   "n": 47
+   "n": 50
   },
   {
    "id": "gn-en-design",
@@ -614,7 +613,7 @@
    "name": "Search: Gartner customer service",
    "type": "gnews",
    "ok": true,
-   "n": 9
+   "n": 8
   },
   {
    "id": "gn-en-gov",
