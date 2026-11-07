@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-07T07:09:33.276Z",
+ "updated": "2026-11-07T07:26:17.189Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -42,7 +42,7 @@
    "name": "GDELT · contact center",
    "type": "gdelt",
    "ok": true,
-   "n": 47
+   "n": 51
   },
   {
    "id": "gdelt-cs",
@@ -55,24 +55,23 @@
    "id": "gdelt-csat",
    "name": "GDELT · customer satisfaction",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 17
   },
   {
    "id": "gdelt-cx",
    "name": "GDELT · customer experience",
    "type": "gdelt",
-   "ok": true,
-   "n": 79
+   "ok": false,
+   "n": 0,
+   "err": "HTTP 429"
   },
   {
    "id": "gdelt-gov",
    "name": "GDELT · digital government",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 249
   },
   {
    "id": "gds",
@@ -85,9 +84,8 @@
    "id": "ggf",
    "name": "Global Government Forum",
    "type": "rss",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 520"
+   "ok": true,
+   "n": 0
   },
   {
    "id": "gn-ar-ae",
@@ -108,7 +106,7 @@
    "name": "بحث: تجربة المستفيد",
    "type": "gnews",
    "ok": true,
-   "n": 7
+   "n": 6
   },
   {
    "id": "gn-ar-cc",
@@ -157,7 +155,7 @@
    "name": "أخبار Google AE · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 68
+   "n": 69
   },
   {
    "id": "gn-ar-ed-eg",
@@ -213,7 +211,7 @@
    "name": "بحث: الخدمات الحكومية الرقمية",
    "type": "gnews",
    "ok": true,
-   "n": 14
+   "n": 15
   },
   {
    "id": "gn-ed-ae-cx",
@@ -234,14 +232,14 @@
    "name": "Google News AU · CX",
    "type": "gnews",
    "ok": true,
-   "n": 92
+   "n": 89
   },
   {
    "id": "gn-ed-au-gov",
    "name": "Google News AU · Satisfaction & e-gov",
    "type": "gnews",
    "ok": true,
-   "n": 21
+   "n": 20
   },
   {
    "id": "gn-ed-bh-cx",
@@ -262,7 +260,7 @@
    "name": "Google News CA · CX",
    "type": "gnews",
    "ok": true,
-   "n": 90
+   "n": 86
   },
   {
    "id": "gn-ed-ca-gov",
@@ -290,7 +288,7 @@
    "name": "Google News GB · CX",
    "type": "gnews",
    "ok": true,
-   "n": 91
+   "n": 90
   },
   {
    "id": "gn-ed-gb-gov",
@@ -304,7 +302,7 @@
    "name": "Google News GH · CX",
    "type": "gnews",
    "ok": true,
-   "n": 90
+   "n": 87
   },
   {
    "id": "gn-ed-gh-gov",
@@ -332,7 +330,7 @@
    "name": "Google News IE · CX",
    "type": "gnews",
    "ok": true,
-   "n": 90
+   "n": 88
   },
   {
    "id": "gn-ed-ie-gov",
@@ -346,7 +344,7 @@
    "name": "Google News IN · CX",
    "type": "gnews",
    "ok": true,
-   "n": 85
+   "n": 84
   },
   {
    "id": "gn-ed-in-gov",
@@ -374,7 +372,7 @@
    "name": "Google News KE · CX",
    "type": "gnews",
    "ok": true,
-   "n": 88
+   "n": 87
   },
   {
    "id": "gn-ed-ke-gov",
@@ -402,7 +400,7 @@
    "name": "Google News MY · CX",
    "type": "gnews",
    "ok": true,
-   "n": 88
+   "n": 86
   },
   {
    "id": "gn-ed-my-gov",
@@ -416,7 +414,7 @@
    "name": "Google News NG · CX",
    "type": "gnews",
    "ok": true,
-   "n": 90
+   "n": 89
   },
   {
    "id": "gn-ed-ng-gov",
@@ -430,7 +428,7 @@
    "name": "Google News NZ · CX",
    "type": "gnews",
    "ok": true,
-   "n": 89
+   "n": 88
   },
   {
    "id": "gn-ed-nz-gov",
@@ -458,7 +456,7 @@
    "name": "Google News PH · CX",
    "type": "gnews",
    "ok": true,
-   "n": 87
+   "n": 86
   },
   {
    "id": "gn-ed-ph-gov",
@@ -472,7 +470,7 @@
    "name": "Google News PK · CX",
    "type": "gnews",
    "ok": true,
-   "n": 87
+   "n": 85
   },
   {
    "id": "gn-ed-pk-gov",
@@ -514,7 +512,7 @@
    "name": "Google News SG · CX",
    "type": "gnews",
    "ok": true,
-   "n": 89
+   "n": 87
   },
   {
    "id": "gn-ed-sg-gov",
@@ -542,7 +540,7 @@
    "name": "Google News ZA · CX",
    "type": "gnews",
    "ok": true,
-   "n": 89
+   "n": 88
   },
   {
    "id": "gn-ed-za-gov",
@@ -563,7 +561,7 @@
    "name": "Search: CX UAE",
    "type": "gnews",
    "ok": true,
-   "n": 50
+   "n": 48
   },
   {
    "id": "gn-en-cc",
@@ -626,7 +624,7 @@
    "name": "Search: CX metrics",
    "type": "gnews",
    "ok": true,
-   "n": 6
+   "n": 7
   },
   {
    "id": "gn-en-sa",
