@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-07T08:20:08.456Z",
+ "updated": "2026-11-07T08:36:23.844Z",
  "feeds": [
   {
    "id": "cxdive",
@@ -33,17 +33,15 @@
    "id": "gdelt-ar",
    "name": "GDELT · customer experience",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 0
   },
   {
    "id": "gdelt-cc",
    "name": "GDELT · contact center",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 52
   },
   {
    "id": "gdelt-cs",
@@ -57,9 +55,8 @@
    "id": "gdelt-csat",
    "name": "GDELT · customer satisfaction",
    "type": "gdelt",
-   "ok": false,
-   "n": 0,
-   "err": "HTTP 429"
+   "ok": true,
+   "n": 17
   },
   {
    "id": "gdelt-cx",
@@ -110,7 +107,7 @@
    "name": "بحث: تجربة المستفيد",
    "type": "gnews",
    "ok": true,
-   "n": 6
+   "n": 7
   },
   {
    "id": "gn-ar-cc",
@@ -124,7 +121,7 @@
    "name": "بحث: خدمة العملاء",
    "type": "gnews",
    "ok": true,
-   "n": 24
+   "n": 25
   },
   {
    "id": "gn-ar-csat",
@@ -152,35 +149,35 @@
    "name": "بحث: التجربة الرقمية",
    "type": "gnews",
    "ok": true,
-   "n": 6
+   "n": 7
   },
   {
    "id": "gn-ar-ed-ae",
    "name": "أخبار Google AE · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 69
+   "n": 68
   },
   {
    "id": "gn-ar-ed-eg",
    "name": "أخبار Google EG · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 67
+   "n": 68
   },
   {
    "id": "gn-ar-ed-jo",
    "name": "أخبار Google JO · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 67
+   "n": 68
   },
   {
    "id": "gn-ar-ed-kw",
    "name": "أخبار Google KW · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 67
+   "n": 68
   },
   {
    "id": "gn-ar-ed-lb",
@@ -194,14 +191,14 @@
    "name": "أخبار Google MA · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 67
+   "n": 68
   },
   {
    "id": "gn-ar-ed-qa",
    "name": "أخبار Google QA · تجربة العميل",
    "type": "gnews",
    "ok": true,
-   "n": 67
+   "n": 68
   },
   {
    "id": "gn-ar-ed-sa",
@@ -264,7 +261,7 @@
    "name": "Google News CA · CX",
    "type": "gnews",
    "ok": true,
-   "n": 87
+   "n": 86
   },
   {
    "id": "gn-ed-ca-gov",
@@ -334,7 +331,7 @@
    "name": "Google News IE · CX",
    "type": "gnews",
    "ok": true,
-   "n": 85
+   "n": 86
   },
   {
    "id": "gn-ed-ie-gov",
@@ -348,7 +345,7 @@
    "name": "Google News IN · CX",
    "type": "gnews",
    "ok": true,
-   "n": 83
+   "n": 81
   },
   {
    "id": "gn-ed-in-gov",
@@ -376,7 +373,7 @@
    "name": "Google News KE · CX",
    "type": "gnews",
    "ok": true,
-   "n": 82
+   "n": 84
   },
   {
    "id": "gn-ed-ke-gov",
@@ -418,7 +415,7 @@
    "name": "Google News NG · CX",
    "type": "gnews",
    "ok": true,
-   "n": 84
+   "n": 86
   },
   {
    "id": "gn-ed-ng-gov",
@@ -516,7 +513,7 @@
    "name": "Google News SG · CX",
    "type": "gnews",
    "ok": true,
-   "n": 84
+   "n": 85
   },
   {
    "id": "gn-ed-sg-gov",
@@ -593,7 +590,7 @@
    "name": "Search: customer experience",
    "type": "gnews",
    "ok": true,
-   "n": 42
+   "n": 43
   },
   {
    "id": "gn-en-design",
