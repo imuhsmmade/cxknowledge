@@ -267,4 +267,5 @@ function assess(host, X){
   input(); meth();
 }
 window.CXK_TOOLS = Object.assign(window.CXK_TOOLS||{}, { assess });
+window.CXK_AssessLib = { pdfLines, fixArabic, corpus, sentences, stats, suggest, methods, download, csvCell, hl, M };
 })();

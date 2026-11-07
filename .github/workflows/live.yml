@@ -1,76 +1,30 @@
-name: البث المباشر والنشر
-
+name: نشر الموقع
 on:
-  schedule:
-    - cron: "3,18,33,48 * * * *"   # كل 15 دقيقة (جدولة GitHub تقريبية وقد تتأخر)
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
-  actions: write
+  contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  update:
+  deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    # تحديث ونشر واحد في الوقت نفسه، دون أن يعطله انتظار السلسلة
-    concurrency:
-      group: live-and-pages
-      cancel-in-progress: false
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: جلب العناوين من الخلاصات
-        if: github.event_name != 'push'
-        run: node scripts/fetch-live.mjs
-        env:
-          NEWSCATCHER_API_KEY: ${{ secrets.NEWSCATCHER_API_KEY }}
-      - name: فحص البيانات
-        run: node scripts/validate.js
-      - name: حفظ البث في المستودع
-        if: github.event_name != 'push'
-        run: |
-          git config user.name "cxk-live-bot"
-          git config user.email "cxk-live-bot@users.noreply.github.com"
-          git add data/live.json data/feeds-status.json
-          git diff --cached --quiet || git commit -m "تحديث البث المباشر"
-          # الملفان مولّدان آلياً: عند التعارض تُعتمد نسخة هذه الدورة لأنها الأحدث
-          for i in 1 2 3; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - id: deploy
         uses: actions/deploy-pages@v4
-
-  # جدولة GitHub تتأخر أو تُسقط تشغيلات كثيرة، فتستدعي كل دورة الدورة التالية بنفسها بعد 12 دقيقة.
-  # المهمة منفصلة عن النشر حتى لا يتأخر نشر أي تعديل، وتبقى سلسلة واحدة فقط (أحدثها يلغي الأقدم).
-  # لإيقاف السلسلة: أنشئ الملف .github/no-chain أو عطّل سير العمل من صفحة Actions.
-  chain:
-    needs: update
-    if: always() && github.event_name != 'push'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    concurrency:
-      group: live-chain
-      cancel-in-progress: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github
-      - name: جدولة الدورة التالية
-        run: |
-          if [ -f .github/no-chain ]; then echo "chain disabled"; exit 0; fi
-          sleep 720
-          gh workflow run live.yml --ref main
-        env:
-          GH_TOKEN: ${{ github.token }}

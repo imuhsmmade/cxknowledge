@@ -20,7 +20,7 @@ const deepCodes = Object.keys(P);
 const allInits = deepCodes.flatMap(c=>(P[c].initiatives||[]).map(i=>({...i,c})));
 const norm = s => String(s).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[ً-ْ]/g,'');
 let LIVE = {updated:null, stats:{}, items:[]};
-let LENS = ''; try{ LENS = localStorage.getItem('cxk-lens')||''; }catch(e){}
+let LENS = '';
 let THEMEPREF = 'auto'; try{ THEMEPREF = localStorage.getItem('cxk-theme2')||'auto'; }catch(e){}
 const href = p => '#/' + (LANG==='en' ? 'en/' : '') + String(p||'').replace(/^\/+/,'');
 
@@ -441,7 +441,7 @@ function pageSources(){
   $('#tr').addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(!b) return; tier=b.dataset.k; $$('#tr .chip').forEach(x=>x.setAttribute('aria-pressed',x===b)); render();});
   $('#sq').addEventListener('input',e=>{q=e.target.value; render();});
   fetch('data/feeds.json').then(r=>r.ok?r.json():null).then(j=>{ if(!j) return; const gn=j.feeds.filter(f=>f.type==='gnews').length; $('#gnTxt').textContent=S.aggGn(gn); if(!st.feeds_total) $('#nFeeds').textContent=j.feeds.length; }).catch(()=>{});
-  fetch('data/feeds-status.json?v='+Math.floor(Date.now()/3e5)).then(r=>r.ok?r.json():null).then(j=>{ $('#fs').innerHTML = j&&j.feeds ? j.feeds.map(f=>`<div><span>${esc(f.name)}</span><span class="${f.ok?'ok':'no'} num">${f.ok?f.n+' '+S.headlines:(/optional|API key/.test(f.err||'')?S.optional:S.stopped)}</span></div>`).join('') : `<p class="srcl">${S.afterFirst}</p>`; }).catch(()=>{ $('#fs').innerHTML=`<p class="srcl">${S.afterFirst}</p>`; });
+  Promise.resolve(null).then(j=>{ $('#fs').innerHTML = j&&j.feeds ? j.feeds.map(f=>`<div><span>${esc(f.name)}</span><span class="${f.ok?'ok':'no'} num">${f.ok?f.n+' '+S.headlines:(/optional|API key/.test(f.err||'')?S.optional:S.stopped)}</span></div>`).join('') : `<p class="srcl">${S.afterFirst}</p>`; }).catch(()=>{ $('#fs').innerHTML=`<p class="srcl">${S.afterFirst}</p>`; });
 }
 
 function pageAbout(){
@@ -463,25 +463,25 @@ function renderChrome(){
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==='en'?'ltr':'rtl';
   $('.skip').textContent=S.skip;
   $('#brandT').textContent=S.brand; $('#brandS').textContent=S.brandSub;
-  const STN=window.CXK_STATIONS?window.CXK_STATIONS.list:[];
-  $('#nav').innerHTML = STN.map((x,n)=>`<a href="${href(x.id)}" data-r="${x.id}" class="stn"><span class="nn">${x.n}</span>${esc(LANG==='en'?x.s_en:x.s)}</a>${n<STN.length-1?'<span class="chev" aria-hidden="true"></span>':''}`).join('') + `<span class="nsep" aria-hidden="true"></span><a href="${href('world')}" data-r="world">${LANG==='en'?'World':'العالم'}</a><a href="${href('news')}" data-r="news" class="nnews"><span class="ld" aria-hidden="true"></span>${S.nav.news}</a>`;
-  $('#lensSel').innerHTML = `<option value="">${S.lensAll}</option>` + Object.entries(C).filter(([,d])=>d[3]).sort((a,b)=>cname(a[0]).localeCompare(cname(b[0]),LANG)).map(([c])=>`<option value="${c}" ${c===LENS?'selected':''}>${esc(cname(c))}</option>`).join('');
-  $('#lensSel').setAttribute('aria-label',S.lens);
+  const NAV=LANG==='en'?[['home','Journey'],['workshop','Workshop'],['library','Library'],['world','World']]:[['home','الرحلة'],['workshop','الورشة'],['library','المكتبة'],['world','العالم']];
+  const NI={home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 17c4-1 5-9 9-9s5 7 9 6"/><circle cx="19" cy="7" r="2.2"/></svg>',workshop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 20h16M6 20V9l6-5 6 5v11M10 20v-5h4v5"/></svg>',library:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 4h5v16H4zM9 4h5v16H9zM15 5l4-1 2 15-4 1z"/></svg>',world:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-3 3.5-3 14.5 0 18M12 3c3 3.5 3 14.5 0 18"/></svg>'};
+  $('#nav').innerHTML = NAV.map(([k,l])=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${l}</a>`).join('');
   $('#langBtn').innerHTML = `<span class="tx">${S.langSwitch}</span><span aria-hidden="true" class="ab">${LANG==='en'?'ع':'EN'}</span>`; $('#langBtn').setAttribute('aria-label',S.langLabel+': '+S.langSwitch);
   $('#themeBtn').innerHTML = I[THEMEPREF==='light'?'sun':THEMEPREF==='dark'?'moon':'auto'] + `<span class="tx">${S.theme[THEMEPREF]}</span>`; $('#themeBtn').setAttribute('aria-label',S.themeLabel+': '+S.theme[THEMEPREF]);
   $('#shareBtn').setAttribute('aria-label',S.shareSite); $('#searchBtn').setAttribute('aria-label',S.searchSite); $('#searchTx').textContent=S.searchShort; $('#menuBtn').setAttribute('aria-label',S.menu);
-  $('#bnav').innerHTML = STN.map(x=>`<a href="${href(x.id)}" data-r="${x.id}"><span class="bn">${x.n}</span><span>${esc(LANG==='en'?x.s_en:x.s)}</span></a>`).join('') + `<a href="${href('world')}" data-r="world"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-3 3.5-3 14.5 0 18M12 3c3 3.5 3 14.5 0 18"/></svg><span>${LANG==='en'?'World':'العالم'}</span></a>`;
-  $('#bnav').classList.add('rail5');
+  $('#bnav').innerHTML = NAV.map(([k,l])=>`<a href="${href(k==='home'?'':k)}" data-r="${k}">${NI[k]}<span>${l}</span></a>`).join('')+`<button type="button" id="bsrch">${I.search}<span>${S.searchShort}</span></button>`;
+  $('#bsrch').onclick=()=>window.CXK_OpenSearch&&window.CXK_OpenSearch();
   $('#footP').textContent=S.footP;
-  $('#footLinks').innerHTML=(STN.map(x=>`<a href="${href(x.id)}">${esc(LANG==='en'?x.t_en:x.t)}</a>`).join(''))+['learn/lessons','tools','learn','indices','atlas','library','news','sources','about'].map(k=>`<a href="${href(k==='atlas'?'countries':k)}">${k==='learn/lessons'?(LANG==='en'?'Practical lessons':'الدروس العملية'):S.nav[k]}</a>`).join('');
-  renderTicker(); footMeta(); statusBar();
+  const ST7=window.CXK_STAGES?window.CXK_STAGES.list:[];
+  $('#footLinks').innerHTML=ST7.map(x=>`<a href="${href('stage/'+x.id)}">${x.n}. ${esc(LANG==='en'?x.t_en:x.t)}</a>`).join('')+[['workshop/study',LANG==='en'?'Journey study':'دراسة الرحلة'],['tools/tool',LANG==='en'?'Map the journey':'ارسم الرحلة'],['library',LANG==='en'?'Library':'المكتبة'],['learn/lessons',LANG==='en'?'Practical lessons':'الدروس العملية'],['learn/metrics',LANG==='en'?'Metrics':'المؤشرات'],['world',LANG==='en'?'World':'العالم'],['news',S.nav.news],['indices',S.nav.indices],['sources',S.nav.sources],['about',S.nav.about]].map(([k,l])=>`<a href="${href(k)}">${l}</a>`).join('');
+  footMeta();
 }
 function applyTheme(){
   const r=document.documentElement; if(THEMEPREF==='auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme',THEMEPREF);
-  const dark = THEMEPREF==='dark' || (THEMEPREF==='auto' && !matchMedia('(prefers-color-scheme: light)').matches);
-  const mt=$('meta[name="theme-color"]'); if(mt) mt.setAttribute('content', dark?'#000000':'#FAFAF7');
+  const dark = THEMEPREF!=='light';
+  const mt=$('meta[name="theme-color"]'); if(mt) mt.setAttribute('content', dark?'#0A0D14':'#F7F6F2');
 }
-function renderTicker(){
+function renderTicker(){ return;
   const l = lensed(LIVE.items).slice(0,20);
   $('.ticker .tg').textContent=S.live;
   if(!l.length){ $('#tickTrack').innerHTML=''; return; }
@@ -489,14 +489,14 @@ function renderTicker(){
   $('#tickTrack').innerHTML = tk+tk;
 }
 function nextFetch(){ const d=new Date(), m=d.getUTCMinutes(), s=d.getUTCSeconds(); let best=null; for(const t of [3,18,33,48]){ let diff=(t-m)*60-s; if(diff<=0) diff+=3600; if(best==null||diff<best) best=diff; } return best; }
-function statusBar(){
+function statusBar(){ return;
   const nf=nextFetch(), mm=String(Math.floor(nf/60)).padStart(2,'0'), ss=String(nf%60).padStart(2,'0');
   const rt=new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Riyadh',hour12:false}), ut=new Date().toLocaleTimeString('en-GB',{timeZone:'UTC',hour12:false});
   $('#status').innerHTML = `<span class="lv">${S.live}</span><span class="hide-s">${S.lastFetch}: <b>${LIVE.updated?agoLong(LIVE.updated):'—'}</b></span><span>${S.nextFetch}: <b dir="ltr">${mm}:${ss}</b></span><span class="sp"></span>${LENS?`<span class="lensChip">${S.lensOn}: ${esc(cname(LENS))}<button type="button" id="clearLens" aria-label="${S.clearLens}">✕</button></span>`:''}<span class="hide-s">${S.utc} <b dir="ltr">${ut}</b></span><span>${S.riyadh} <b dir="ltr">${rt}</b></span>`;
   const cl=$('#clearLens'); if(cl) cl.onclick=()=>setLens('');
 }
-function footMeta(){ $('#fmeta').innerHTML = `${S.footFetch}: ${LIVE.updated?agoLong(LIVE.updated):'—'}<br>${S.footAn}: ${N.updated?fmtD().format(new Date(N.updated)):'—'}<br>${S.footCounts(items.length,LIVE.items.length,SRC.length)}`; }
-function setLens(c){ LENS=c||''; try{ localStorage.setItem('cxk-lens',LENS); }catch(e){} $('#lensSel').value=LENS; renderTicker(); statusBar(); route(true); }
+function footMeta(){ $('#fmeta').innerHTML = `${S.footAn}: ${N.updated?fmtD().format(new Date(N.updated)):'—'}<br>${items.length} ${LANG==='en'?'analyses':'تحليلاً'} · ${Object.keys(P).length} ${LANG==='en'?'country profiles':'ملفاً للدول'}`; }
+function setLens(c){ LENS=''; route(true); }
 
 /* ---------- router ---------- */
 function route(keepScroll){
@@ -506,34 +506,39 @@ function route(keepScroll){
   const [a,b,c3] = parts;
   window._liveRefresh=null;
   document.title = LANG==='en' ? 'CX Knowledge | Customer Experience' : 'CX Knowledge | معرفة تجربة العميل';
-  const navKey = window.CXK_STATIONS ? (window.CXK_STATIONS.stationOf(a,b,c3)||(a?'':'home')) : (a||'home');
+  if(window.CXK_V7) window.CXK_V7.leave();
+  const V7=window.CXK_V7, STK={understand:'discover',design:'apply',measure:'trust',improve:'receive'};
+  const WORLD=['world','countries','atlas','country','initiatives','indices','news','live','analysis','item','sources'];
+  const navKey = !a||a==='stage'?'home':(a==='workshop'||a==='tools'||a==='lab'||a==='journey')?'workshop':(a==='library'||a==='learn')?'library':WORLD.includes(a)||(a.length===2&&C[a.toUpperCase()])?'world':'';
   $$('#nav a, #bnav a').forEach(x=>{ if(x.dataset.r===navKey) x.setAttribute('aria-current','page'); else x.removeAttribute('aria-current'); });
   $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false'); $('#tip').hidden=true;
   main.classList.remove('fade'); void main.offsetWidth; main.classList.add('fade');
-  if(!a) pageHome();
-  else if(a==='news') pageNews();
-  else if(a==='live') pageLive();
-  else if(a==='countries'||a==='atlas') pageAtlas();
-  else if(a==='country' && b) pageCountry(b);
+  if(!a) V7.home(main);
+  else if(a==='stage' && b){ if(!V7.stage(main,b)) V7.home(main); }
+  else if(STK[a]) { location.replace('#/'+(LANG==='en'?'en/':'')+'stage/'+STK[a]); return; }
+  else if(a==='workshop'){ if(b==='study' && window.CXK_Study) window.CXK_Study(main, window.CXK); else V7.workshop(main); }
+  else if(a==='news'||a==='live') pageAnalysis();
+  else if(a==='world') V7.world(main,b,c3);
+  else if(a==='countries'||a==='atlas') V7.world(main);
+  else if(a==='country' && b) V7.world(main,b);
+  else if(a==='initiatives') V7.world(main,'timeline');
   else if(a==='analysis') pageAnalysis();
   else if(a==='item' && b) pageAnalysis(b);
   else if(a==='indices') pageIndices();
-  else if(a==='initiatives') pageInitiatives();
   else if(a==='sources') pageSources();
-  else if(a==='tools'||a==='learn') { if(window.CXK_Lab) window.CXK_Lab(main,{group:a,tab:b,arg:c3}); }
+  else if(a==='tools'||a==='learn') { if(b==='books'&&a==='learn'){ V7.library(main); } else if(window.CXK_Lab) window.CXK_Lab(main,{group:a,tab:b,arg:c3}); }
   else if(a==='lab'||a==='journey') { const LG=['method','library','kit','patterns','principles']; if(window.CXK_Lab) window.CXK_Lab(main,{group:LG.includes(b)?'learn':'tools',tab:b||'tool',arg:c3}); }
-  else if(a==='library') { if(window.CXK_LibraryPage) window.CXK_LibraryPage(main, window.CXK, b); }
+  else if(a==='library') V7.library(main,b,c3);
   else if(a==='about') pageAbout();
-  else if(window.CXK_STATIONS && (a==='world'||window.CXK_STATIONS.list.some(x=>x.id===a))) window.CXK_STATIONS.page(main, window.CXK, a);
-  else if(a.length===2 && C[a.toUpperCase()]) pageCountry(a);
-  else pageHome();
+  else if(a.length===2 && C[a.toUpperCase()]) V7.world(main,a);
+  else V7.home(main);
   if(a!=='item' && !keepScroll) window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',()=>route());
 
 /* ---------- live data ---------- */
 async function loadLive(first){
-  try{
+  return; try{
     const r = await fetch('data/live.json?v='+Math.floor(Date.now()/12e4)); if(!r.ok) throw 0;
     const j = await r.json(); const changed = j.updated !== LIVE.updated;
     LIVE = j; LIVE.items = (j.items||[]).sort((a,b)=>Date.parse(b.d)-Date.parse(a.d));
@@ -548,8 +553,7 @@ document.addEventListener('click',e=>{
 });
 $('#menuBtn').addEventListener('click',()=>{ const o=$('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded',o); });
 $('#langBtn').addEventListener('click',()=>{ const h=location.hash.replace(/^#\/?/,'').split('/').filter(Boolean); if(h[0]==='en') h.shift(); else h.unshift('en'); location.hash='#/'+h.join('/'); });
-$('#themeBtn').addEventListener('click',()=>{ THEMEPREF = THEMEPREF==='auto'?'light':THEMEPREF==='light'?'dark':'auto'; try{ localStorage.setItem('cxk-theme2',THEMEPREF); }catch(e){} applyTheme(); renderChrome(); $$('.mapbox').forEach(box=>{ box.dataset.drawn=''; drawMap(box,{mode:box.dataset.mode||'live',region:box.dataset.region||''}); }); });
-$('#lensSel').addEventListener('change',e=>setLens(e.target.value));
+$('#themeBtn').addEventListener('click',()=>{ THEMEPREF = THEMEPREF==='auto'?'light':THEMEPREF==='light'?'dark':'auto'; try{ localStorage.setItem('cxk-theme2',THEMEPREF); }catch(e){} applyTheme(); renderChrome(); route(true); });
 $('#searchBtn').addEventListener('click',()=>window.CXK_OpenSearch&&window.CXK_OpenSearch());
 document.addEventListener('keydown',e=>{ const tg=e.target, typing=tg&&(/INPUT|TEXTAREA|SELECT/.test(tg.tagName)||tg.isContentEditable); if(((e.key==='k'||e.key==='K')&&(e.metaKey||e.ctrlKey)) || (e.key==='/'&&!typing)){ e.preventDefault(); window.CXK_OpenSearch&&window.CXK_OpenSearch(); } });
 let pop=null;
@@ -567,8 +571,5 @@ matchMedia('(prefers-color-scheme: light)').addEventListener('change',()=>{ if(T
 window.CXK = {esc, flag, toast, copy, I, href:p=>href(p), cname:c=>cname(c), L:(o,f)=>L(o,f), get LANG(){return LANG;}, get S(){return S;}};
 applyTheme();
 if(!location.hash){ let pref=''; try{ pref=localStorage.getItem('cxk-lang')||''; }catch(e){} if(pref==='en') history.replaceState(null,'','#/en/'); }
-setInterval(statusBar,1000);
-loadLive(true).then(()=>route());
-setInterval(()=>loadLive(false), 5*60*1000);
-setInterval(footMeta, 60000);
+route();
 })();

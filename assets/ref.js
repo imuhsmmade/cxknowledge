@@ -191,9 +191,9 @@ function buildIndex(X){
   K.patterns.forEach(p=>add('pattern', en?p.n_en:p.n, en?p.sym_en:p.sym, X.href('learn/patterns/'+p.id), en?p.n:p.n_en));
   K.principles.forEach(p=>add('principle', en?p.n_en:p.n, en?p.d_en:p.d, X.href('learn/principles'), en?p.n:p.n_en));
   (window.CXK_GLOSSARY?window.CXK_GLOSSARY.terms.map(g=>[g.ar,g.en,g.def,g.def_en]):J.glossary.concat(R.glossary||[])).forEach(g=>add('term', en?g[1]:g[0], en?g[3]:g[2], X.href('learn/kit'), en?g[0]:g[1]));
-  const SH=window.CXK_SHELF; if(SH){ SH.podcasts.forEach(p=>add('book', p.t, p.h, X.href('library/podcasts'), p.d)); }
+  const SH=window.CXK_SHELF; if(SH){ SH.podcasts.forEach((p,i)=>add('book', p.t, p.h, X.href('library/podcast/p'+i), p.d)); }
   const MD=window.CXK_MODEL; if(MD){ add('learn', en?MD.name_en:MD.name, en?MD.tag_en:MD.tag, X.href('learn/model'), 'wusool وصول نموذج'); (window.CXK_APPROACHES.items||[]).forEach(a=>add('fw', en?a.n_en:a.n, en?a.d_en:a.d, X.href('learn/approaches/'+a.id), a.n_en)); }
-  ((window.CXK_SHELF||{}).books||R.books).forEach(b=>add('book', b.t_ar&&!en?b.t_ar:b.t, b.a+(b.y?' · '+b.y:''), X.href('library/books'), b.d));
+  ((window.CXK_SHELF||{}).books||R.books).forEach((b,i)=>add('book', b.t_ar&&!en?b.t_ar:b.t, b.a+(b.y?' · '+b.y:''), X.href('library/book/b'+i), b.d));
   CS.items.forEach(c=>add('case', en?c.t_en:c.t, (en?c.org:(c.org_ar||c.org))+' · '+X.cname(c.c), X.href('learn/cases/'+c.id), (en?c.t:c.t_en)+' '+c.org+' '+X.cname(c.c)));
   (J.library||[]).forEach(x=>add('journey', en?(x.t_en||x.t):x.t, X.cname(x.c), X.href('learn/library'), x.t_en));
   const CO=window.CXK_COUNTRIES||{}; Object.entries(CO).forEach(([c,d])=>{ if(d[2]==null) return; add('country', en?d[1]:d[0], '', X.href('country/'+c.toLowerCase()), en?d[0]:d[1]); });
