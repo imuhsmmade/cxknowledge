@@ -1,7 +1,70 @@
 /* المستجدات المحررة — CX Knowledge. حقول _en للنسخة الإنجليزية. c = رمز الدولة ISO أو WW للعالمي */
 window.CXK_NEWS={
- "updated": "2026-10-31T19:48:13+03:00",
+ "updated": "2026-11-11T19:45:39+03:00",
  "items": [
+  {
+   "id": "gartner-agent-headcount-ai-2026-11",
+   "type": "study",
+   "region": "global",
+   "c": "WW",
+   "date": "2026-11-05",
+   "topic": "الذكاء الاصطناعي والقوى العاملة",
+   "title": "غارتنر: 21% فقط من قادة خدمة العملاء خفّضوا عدد الموظفين بسبب الذكاء الاصطناعي",
+   "title_en": "Gartner: only 21% of service leaders have cut agent headcount because of AI",
+   "summary": "استطلعت غارتنر (Gartner) آراء 275 من قادة خدمة العملاء والدعم في يوليو وأغسطس 2026، فأفاد 21% منهم بأن مؤسساتهم قلّصت عدد موظفي الخدمة بسبب الذكاء الاصطناعي، بمتوسط تخفيض بلغ 16.7% خلال 18 شهراً. ويعمل 71% من القادة على نقل الموظفين إلى أدوار مختلفة داخل الخدمة بدلاً من الاستغناء عنهم، فيما أعاد 7% توظيف موظفين بعد تخفيضات سابقة ويخطط 11% لإعادة التوظيف خلال 18 شهراً.",
+   "summary_en": "A Gartner survey of 275 service and support leaders, run in July and August 2026, found 21% had reduced human agent headcount because of AI, with an average cut of 16.7% over 18 months. 71% are moving agents into different roles within service rather than removing them; 7% have already rehired after earlier cuts and 11% plan to rehire within 18 months.",
+   "stat": {
+    "v": "21%",
+    "l": "من القادة خفّضوا عدد الموظفين بسبب الذكاء الاصطناعي",
+    "v_en": "21%",
+    "l_en": "of leaders cut agent headcount due to AI"
+   },
+   "source": "Gartner",
+   "url": "https://www.gartner.com/en/newsroom/press-releases/2026-11-05-gartner-survey-finds-21-percent-of-service-and-support-leaders-have-reduced-human-agent-headcount-because-of-ai",
+   "lang": "en"
+  },
+  {
+   "id": "uae-global-star-rating-cycle6-2026",
+   "type": "index",
+   "region": "gulf",
+   "c": "AE",
+   "date": "2026-11-04",
+   "topic": "تصنيف الخدمات",
+   "title": "الإمارات تعتمد نتائج الدورة السادسة لنظام النجوم العالمي لتصنيف الخدمات الحكومية",
+   "title_en": "UAE approves results of the sixth Global Star Rating cycle for government services",
+   "summary": "اعتمد الشيخ محمد بن راشد آل مكتوم نتائج الدورة السادسة من نظام النجوم العالمي لتصنيف الخدمات الحكومية (Global Star Rating System)، التي قيّمت 179 قناة خدمية في 27 جهة اتحادية استناداً إلى تجربة المتعاملين. وتصدّر مركز خدمات المرور والترخيص في الفجيرة التابع لوزارة الداخلية النتائج بتصنيف 7 نجوم.",
+   "summary_en": "Sheikh Mohammed bin Rashid approved the sixth cycle of the UAE's Global Star Rating System for government services, which assessed 179 service channels across 27 federal entities based on customer experience. The Ministry of Interior's traffic and licensing service centre in Fujairah topped the results with a seven-star rating.",
+   "stat": {
+    "v": "179",
+    "l": "قناة خدمية في 27 جهة",
+    "v_en": "179",
+    "l_en": "service channels across 27 entities"
+   },
+   "source": "الخليج",
+   "url": "https://www.alkhaleej.ae/2026-11-04/%D8%A7%D9%84%D8%A5%D9%85%D8%A7%D8%B1%D8%A7%D8%AA/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D8%AF%D8%A7%D8%B1/%D9%85%D8%B1%D9%88%D8%B1-%D9%88%D8%AA%D8%B1%D8%AE%D9%8A%D8%B5-%D8%A7%D9%84%D9%81%D8%AC%D9%8A%D8%B1%D8%A9-%D9%8A%D8%AA%D8%B5%D8%AF%D8%B1-%D8%AA%D8%B5%D9%86%D9%8A%D9%81-%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9-%D8%A87-%D9%86%D8%AC%D9%88%D9%85",
+   "lang": "ar"
+  },
+  {
+   "id": "airbnb-ai-support-cost-q3-2026",
+   "type": "news",
+   "region": "global",
+   "c": "US",
+   "date": "2026-11-10",
+   "topic": "خدمة العملاء بالذكاء الاصطناعي",
+   "title": "إير بي إن بي تخفض تكلفة الدعم لكل حجز بأكثر من 17% بفضل مساعدها الذكي",
+   "title_en": "Airbnb cuts support cost per booking by more than 17% with its AI assistant",
+   "summary": "أعلنت إير بي إن بي (Airbnb) في نتائج الربع الثالث من 2026 أن تكلفة دعم العملاء لكل حجز انخفضت بأكثر من 17% على أساس سنوي، وعزت ذلك أساساً إلى تحسينات مساعدها بالذكاء الاصطناعي. وأوضحت الشركة أن نحو 40% من جميع طلبات الدعم باتت تُحل دون تدخل موظف بشري، وأنها توسّع المساعد ليشمل الدعم الصوتي في الولايات المتحدة.",
+   "summary_en": "Airbnb reported in its Q3 2026 results that support cost per booking fell more than 17% year over year, largely thanks to improvements in its AI assistant. About 40% of all support issues are now resolved without a human agent, and the company is extending the assistant to voice support in the US.",
+   "stat": {
+    "v": "40%",
+    "l": "من طلبات الدعم تُحل دون موظف بشري",
+    "v_en": "40%",
+    "l_en": "of support issues resolved without a human"
+   },
+   "source": "Customer Experience Dive",
+   "url": "https://www.customerexperiencedive.com/news/airbnb-reduces-customer-support-cost-per-booking-17/874307/",
+   "lang": "en"
+  },
   {
    "id": "gcc-dga-award-2026-sa",
    "type": "event",
